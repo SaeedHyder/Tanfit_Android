@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/x20"
+    android:paddingEnd="@dimen/x20">
+      <com.ingic.tanfit.ui.views.SwipeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="0.8"
+          android:orientation="vertical">
+
+         <com.ingic.tanfit.ui.views.SwipeDeck
+             android:id="@+id/swipe_deck"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             swipedeck:card_spacing="@dimen/x10"
+             android:padding="@dimen/x15"
+             swipedeck:max_visible="3"
+             swipedeck:render_above="true"
+             swipedeck:rotation_degrees="15" />
+
+       <!--  <Button
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom"
+             android:text="Button" />-->
+
+      </com.ingic.tanfit.ui.views.SwipeFrameLayout>
+
+      <!--<com.daimajia.slider.library.SliderLayout
+          android:id="@+id/imageSlider"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_above="@+id/btn_next"
+          android:layout_alignParentStart="true"
+          android:layout_marginTop="@dimen/x15"
+          android:layout_marginBottom="@dimen/x30"
+          android:background="@color/white"
+          custom:auto_cycle="true"
+          custom:indicator_visibility="visible"
+          custom:pager_animation="Accordion"
+          custom:pager_animation_span="1100" />
+
+      <com.daimajia.slider.library.Indicators.PagerIndicator
+          android:id="@+id/custom_indicator"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:gravity="center"
+          />-->
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.1">
+   <Button
+       android:id="@+id/btn_next"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Next"
+       android:layout_gravity="center_vertical"
+       android:textColor="@color/white"
+       android:textAllCaps="false"
+       android:background="@color/app_blue"
+        />
+</FrameLayout>
+</LinearLayout>
