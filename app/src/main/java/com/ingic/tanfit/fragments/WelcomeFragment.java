@@ -141,7 +141,7 @@ public class WelcomeFragment extends BaseFragment {
 
                     getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
                 } else {
-                   
+                    swipeDeck.discardTop(2);
                 }
                 break;
         }
