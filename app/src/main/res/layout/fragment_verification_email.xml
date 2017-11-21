@@ -10,7 +10,7 @@
         android:layout_width="@dimen/x160"
         android:layout_height="@dimen/x160"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/x60"
+        android:layout_marginTop="@dimen/x15"
         android:background="@drawable/circle">
 
         <ImageView
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/x60"
         android:layout_marginEnd="@dimen/x60"
-        android:text="Enter the 4  digit code we send you via email to continue"
+        android:text="@string/enter_the_4_digit_code_we_send_you_via_email_to_continue"
         android:textColor="@color/dark_grey"
         android:gravity="center_horizontal"
         android:textSize="@dimen/x15"
@@ -47,36 +47,59 @@
     <com.ingic.tanfit.ui.views.PinEntryEditText
         android:id="@+id/txt_pin_entry"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/x60"
         android:layout_marginStart="@dimen/x30"
         android:layout_marginEnd="@dimen/x30"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
         android:background="@null"
         android:cursorVisible="false"
         android:digits="1234567890"
         android:inputType="number"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_grey"
         android:maxLength="4"
-        android:padding="10dp"
-        android:layout_marginTop="@dimen/x20"
-        android:layout_marginBottom="@dimen/x20"
+        android:layout_marginTop="@dimen/x10"
+        android:layout_marginBottom="@dimen/x10"
+        app:pinCharacterSpacing="@dimen/x1"
         android:imeOptions="actionDone"
         android:textIsSelectable="false"
         android:textSize="20sp"
         android:visibility="visible"
-        app:pinLineColors="@color/button_color" />
+        app:pinBackgroundDrawable="@drawable/box"
+        app:pinTextBottomPadding="@dimen/x20"
+        app:pinLineColors="@color/transparent"
+       />
 
-    <com.ingic.tanfit.ui.views.AnyTextView
-        android:id="@+id/tv_counter"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="03:45"
-        android:textColor="@color/red"
-        android:textSize="@dimen/x14"
-        app:typeface="Roboto-Regular.ttf"
-        android:layout_marginRight="@dimen/x2"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/x15"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/code_expires_in"
+            android:textColor="@color/dark_grey"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/x15"
+            app:typeface="OpenSans-Regular.ttf"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/tv_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x3"
+            android:gravity="center_vertical"
+            android:text="03:45"
+            android:textColor="@color/timer_red"
+            android:textSize="@dimen/x15"
+            app:typeface="@string/font_normal"
+            android:layout_marginEnd="@dimen/x2"/>
+
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/btn_submit"
@@ -85,12 +108,13 @@
         android:layout_marginStart="@dimen/x30"
         android:layout_marginEnd="@dimen/x30"
         android:background="@color/app_blue"
-        android:text="Submit"
+        android:text="@string/submit"
         android:textAllCaps="false"
         android:textColor="@color/white"
         />
 
     <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/txt_resened_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x15"

@@ -1,6 +1,6 @@
 package com.ingic.tanfit.fragments;
 
-import android.graphics.Typeface;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.PinEntryEditText;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -29,10 +31,13 @@ public class VerificationEmailFragment extends BaseFragment {
     PinEntryEditText txtPinEntry;
     @BindView(R.id.tv_counter)
     AnyTextView tvCounter;
-    @BindView(R.id.btn_submit)
-    Button btnSubmit;
+    @BindView(R.id.txt_resened_code)
+    AnyTextView txtResenedCode;
     Unbinder unbinder;
     CountDownTimer timer;
+    @BindView(R.id.btn_submit)
+    Button btnSubmit;
+
 
     public static VerificationEmailFragment newInstance() {
         Bundle args = new Bundle();
@@ -62,6 +67,7 @@ public class VerificationEmailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         counter();
+        txtResenedCode.setPaintFlags(txtResenedCode.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
     }
 
@@ -76,7 +82,7 @@ public class VerificationEmailFragment extends BaseFragment {
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60);
                 if (tvCounter != null) {
                     tvCounter.setText(text + "");
-                    tvCounter.setTypeface(Typeface.DEFAULT_BOLD);
+
                 }
             }
 
@@ -85,20 +91,37 @@ public class VerificationEmailFragment extends BaseFragment {
                     tvCounter.setText("0");
             }
         }.start();
-    }
 
+    }
 
 
     @Override
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
-        titleBar.setSubHeading("");
+        titleBar.showBackButton();
+        titleBar.setSubHeading(getString(R.string.verify_email));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+
+
+    @OnClick({R.id.btn_submit, R.id.txt_resened_code})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_submit:
+                getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                break;
+            case R.id.txt_resened_code:
+                timer.cancel();
+                counter();
+                UIHelper.showShortToastInCenter(getDockActivity(),"Resend Code");
+                break;
+        }
     }
 }
