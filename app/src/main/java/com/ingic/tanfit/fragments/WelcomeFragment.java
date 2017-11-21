@@ -139,7 +139,7 @@ public class WelcomeFragment extends BaseFragment {
             case R.id.btn_next:
                 if (swipeDeck.getCurrIndex() == testData.size() - 1) {
 
-                    getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                    getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(), "HomeFragment");
                 } else {
                     swipeDeck.discardTop(2);
                 }

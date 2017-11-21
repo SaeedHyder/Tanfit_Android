@@ -102,4 +102,6 @@
     <string name="next">Next</string>
     <string name="email">Email</string>
     <string name="signup">SIGNUP</string>
+    <string name="enter_the_4_digit_code">Enter the 4 digit code</string>
+    <string name="resend_code">Resend Code</string>
 </resources>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background_blue_white">
+
+    <RelativeLayout
+        android:layout_width="@dimen/x160"
+        android:layout_height="@dimen/x160"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x60"
+        android:background="@drawable/circle">
+
+        <ImageView
+            android:layout_width="@dimen/x80"
+            android:layout_height="@dimen/x80"
+            android:layout_centerInParent="true"
+            android:src="@drawable/mail_icon"
+          />
+
+    </RelativeLayout>
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_the_4_digit_code"
+        android:textColor="@color/app_blue"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/x20"
+        android:layout_marginTop="@dimen/x5"
+        app:typeface="OpenSans-Regular.ttf"/>
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x60"
+        android:layout_marginEnd="@dimen/x60"
+        android:text="Enter the 4  digit code we send you via email to continue"
+        android:textColor="@color/dark_grey"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/x15"
+        android:layout_marginTop="@dimen/x5"
+        app:typeface="OpenSans-Regular.ttf"/>
+
+    <com.ingic.tanfit.ui.views.PinEntryEditText
+        android:id="@+id/txt_pin_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x30"
+        android:layout_marginEnd="@dimen/x30"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:maxLength="4"
+        android:padding="10dp"
+        android:layout_marginTop="@dimen/x20"
+        android:layout_marginBottom="@dimen/x20"
+        android:imeOptions="actionDone"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:pinLineColors="@color/button_color" />
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/tv_counter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="03:45"
+        android:textColor="@color/red"
+        android:textSize="@dimen/x14"
+        app:typeface="Roboto-Regular.ttf"
+        android:layout_marginRight="@dimen/x2"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x30"
+        android:layout_marginEnd="@dimen/x30"
+        android:background="@color/app_blue"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        />
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x15"
+        android:text="@string/resend_code"
+        android:textColor="@color/app_blue"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/x16"
+        android:textStyle=""
+        app:typeface="OpenSans-Regular.ttf"/>
+
+
+
+</LinearLayout>
