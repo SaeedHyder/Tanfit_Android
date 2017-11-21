@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/app_background_blue_white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="@dimen/x160"
+        android:layout_height="@dimen/x160"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x60"
+        android:background="@drawable/circle">
+
+        <ImageView
+            android:layout_width="@dimen/x80"
+            android:layout_height="@dimen/x80"
+            android:layout_centerInParent="true"
+            android:src="@drawable/mail_icon"
+            />
+
+    </RelativeLayout>
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x5"
+        android:gravity="center_horizontal"
+        android:text="@string/forgot_password_email_send_heading"
+        android:textColor="@color/app_blue"
+        android:textSize="@dimen/x20"
+        app:typeface="@string/font_normal"/>
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginTop="@dimen/x5"
+        android:gravity="center"
+        android:text="@string/forgot_password_email_send_message"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x15"
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginTop="@dimen/x5"
+        android:gravity="center"
+        android:text="@string/forgot_password_email_send_message_query"
+        android:textColor="@color/app_font_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+
+    <Button
+        android:id="@+id/btn_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/x30"
+        android:layout_marginStart="@dimen/x30"
+        android:background="@color/app_blue"
+        android:text="@string/sample_email"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        />
+</LinearLayout>
