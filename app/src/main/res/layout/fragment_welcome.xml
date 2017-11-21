@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="@dimen/x20"
     android:paddingEnd="@dimen/x20">
-      <com.ingic.tanfit.ui.views.SwipeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     <!-- <com.ingic.tanfit.ui.views.SwipeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
           android:layout_width="match_parent"
           android:layout_height="0dp"
@@ -23,13 +24,25 @@
              swipedeck:render_above="true"
              swipedeck:rotation_degrees="15" />
 
-       <!--  <Button
+       &lt;!&ndash;  <Button
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_gravity="bottom"
-             android:text="Button" />-->
+             android:text="Button" />&ndash;&gt;
 
-      </com.ingic.tanfit.ui.views.SwipeFrameLayout>
+      </com.ingic.tanfit.ui.views.SwipeFrameLayout>-->
+    <com.wenchao.cardstack.CardStack
+        android:id="@+id/swipe_deck"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:paddingTop="@dimen/x15"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center"
+        app:card_gravity="bottom"
+        app:card_margin="@dimen/x10"
+        />
 
       <!--<com.daimajia.slider.library.SliderLayout
           android:id="@+id/imageSlider"

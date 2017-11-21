@@ -1,4 +1,4 @@
-package com.ingic.tanfit.ui.viewbinders.abstracts;
+package com.ingic.tanfit.ui.binders;
 
 import android.app.Activity;
 import android.support.v4.view.ViewPager;
@@ -11,6 +11,7 @@ import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
+import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.BindView;

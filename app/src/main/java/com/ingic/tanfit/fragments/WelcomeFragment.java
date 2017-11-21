@@ -1,24 +1,19 @@
 package com.ingic.tanfit.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
-import com.ingic.tanfit.ui.adapters.SwipeDeckAdapter;
-import com.ingic.tanfit.ui.viewbinders.abstracts.WelcomeItemBinder;
-import com.ingic.tanfit.ui.views.SwipeDeck;
+import com.ingic.tanfit.ui.adapters.CardArrayAdapter;
+import com.ingic.tanfit.ui.binders.WelcomeItemBinder;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.wenchao.cardstack.CardStack;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,13 +26,14 @@ import butterknife.Unbinder;
 public class WelcomeFragment extends BaseFragment {
 
     @BindView(R.id.swipe_deck)
-    SwipeDeck swipeDeck;
+    CardStack swipeDeck;
     @BindView(R.id.btn_next)
     Button btnNext;
     Unbinder unbinder;
     private int previousPosition = 0;
-    private SwipeDeckAdapter<String> adapter;
-    private ArrayList<String> userCollection;
+    private CardArrayAdapter<String> adapter;
+    final ArrayList<String> testData = new ArrayList<>();
+
 
     public static WelcomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -73,51 +69,53 @@ public class WelcomeFragment extends BaseFragment {
     }
 
     private void swapCard() {
-        final ArrayList<String> testData = new ArrayList<>();
+
+        testData.clear();
         testData.add("0");
         testData.add("1");
         testData.add("2");
         testData.add("3");
         testData.add("4");
+        adapter = new CardArrayAdapter<String>(getDockActivity(), R.layout.row_item_card,
+                new WelcomeItemBinder(getDockActivity(), prefHelper), testData);
+     /*   final ArrayListAdapter<String> adapter = new ArrayListAdapter<String>(testData, getDockActivity(),
+                new WelcomeItemBinder(getDockActivity(),prefHelper));*/
+        swipeDeck.setContentResource(R.layout.row_item_card);
 
-        final SwipeDeckAdapter<String> adapter = new SwipeDeckAdapter<String>(testData, getDockActivity(),
-                new WelcomeItemBinder(getDockActivity(),prefHelper));
         swipeDeck.setAdapter(adapter);
-
-
-        swipeDeck.setEventCallback(new SwipeDeck.SwipeEventCallback() {
+        final int count = 0;
+        swipeDeck.setListener(new CardStack.CardEventListener() {
             @Override
-            public void cardSwipedLeft(int position) {
-                Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
-                if(position==4){
-                    return;
+            public boolean swipeEnd(int i, float v) {
+                return v > 300;
+            }
+
+            @Override
+            public boolean swipeStart(int i, float v) {
+                return false;
+            }
+
+            @Override
+            public boolean swipeContinue(int i, float v, float v1) {
+                return false;
+            }
+
+            @Override
+            public void discarded(int i, int i1) {
+                if (swipeDeck.getCurrIndex() == testData.size() - 1) {
+                    swipeDeck.setCanSwipe(false);
+                    btnNext.setText(R.string.finish);
+                    getMainActivity().titleBar.hideButtons();
                 }
             }
 
             @Override
-            public void cardSwipedRight(int position) {
-                Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
-                if(position==4){
-                    return;
-                }
-            }
-
-            @Override
-            public void cardsDepleted() {
-
-                Log.i("MainActivity", "no more cards");
-            }
-
-            @Override
-            public void cardActionDown() {
-
-            }
-
-            @Override
-            public void cardActionUp() {
+            public void topCardTapped() {
 
             }
         });
+
+
     }
 
     @Override
@@ -139,7 +137,12 @@ public class WelcomeFragment extends BaseFragment {
             case R.id.swipe_deck:
                 break;
             case R.id.btn_next:
-                swipeDeck.swipeTopCardLeft(1);
+                if (swipeDeck.getCurrIndex() == testData.size() - 1) {
+
+                    getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                } else {
+                   
+                }
                 break;
         }
     }
