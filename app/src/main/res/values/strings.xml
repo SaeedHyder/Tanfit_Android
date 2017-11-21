@@ -122,5 +122,6 @@
     <string name="code_expires_in">code expires in:</string>
     <string name="submit">Submit</string>
     <string name="verify_email">Verify Email</string>
+    <string name="correct_verification_code">Please insert correct verification code.</string>
 
 </resources>

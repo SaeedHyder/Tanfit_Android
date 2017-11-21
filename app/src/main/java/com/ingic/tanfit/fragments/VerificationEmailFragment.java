@@ -115,7 +115,15 @@ public class VerificationEmailFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_submit:
-                getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                if (timer != null) {
+                    timer.cancel();
+                }
+                if (txtPinEntry.getText().toString().length() < 4) {
+                    UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.correct_verification_code));
+                } else {
+                    getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                }
+
                 break;
             case R.id.txt_resened_code:
                 timer.cancel();

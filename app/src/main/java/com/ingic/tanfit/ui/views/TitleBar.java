@@ -81,6 +81,7 @@ public class TitleBar extends RelativeLayout {
 
 	public void showBackButton() {
 		btnLeft.setVisibility(View.VISIBLE);
+		btnLeft.setImageResource(R.drawable.back_btn);
 		btnLeft.setOnClickListener(backButtonListener);
 
 	}
@@ -97,9 +98,10 @@ public class TitleBar extends RelativeLayout {
 
 	}
 
-	public void showSkipText( ) {
+	public void showSkipText(OnClickListener skip) {
 		txtEnd.setVisibility(View.VISIBLE);
 		txtEnd.setText(R.string.skip);
+		txtEnd.setOnClickListener(skip);
 
 	}
 

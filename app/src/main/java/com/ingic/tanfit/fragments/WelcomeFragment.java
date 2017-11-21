@@ -52,12 +52,6 @@ public class WelcomeFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void setTitleBar(TitleBar titleBar) {
-        super.setTitleBar(titleBar);
-        titleBar.hideButtons();
-        titleBar.showSkipText();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,6 +124,20 @@ public class WelcomeFragment extends BaseFragment {
 
 
     }
+
+
+    @Override
+    public void setTitleBar(TitleBar titleBar) {
+        super.setTitleBar(titleBar);
+        titleBar.hideButtons();
+        titleBar.showSkipText(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+            }
+        });
+    }
+
 
 
     @OnClick({R.id.swipe_deck, R.id.btn_next})

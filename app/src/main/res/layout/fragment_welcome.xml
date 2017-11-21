@@ -34,15 +34,14 @@
     <com.wenchao.cardstack.CardStack
         android:id="@+id/swipe_deck"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/x10"
         android:layout_height="0dp"
         android:layout_weight="0.9"
-        android:paddingTop="@dimen/x15"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center"
         app:card_gravity="bottom"
-        android:padding="@dimen/x2"
-        app:card_margin="@dimen/x10"
+
         />
 
       <!--<com.daimajia.slider.library.SliderLayout
