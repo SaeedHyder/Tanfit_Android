@@ -31,7 +31,8 @@ import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.app.fastcab.R;
+
+import com.ingic.tanfit.R;
 
 import java.util.Locale;
 

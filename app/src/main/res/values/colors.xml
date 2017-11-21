@@ -33,6 +33,8 @@
     <color name="notification_date_color">#D15801</color>
     <color name="text_color">#654F76</color>
     <color name="app_blue">#2179ee</color>
+    <color name="app_gray">#e7e8e9</color>
+    <color name="timer_red">#e5868a</color>
 
 
     <color name="color_rbtn">#0E8593</color>

@@ -102,7 +102,8 @@ public class WelcomeFragment extends BaseFragment {
 
             @Override
             public void discarded(int i, int i1) {
-                if (swipeDeck.getCurrIndex() == testData.size() - 1) {
+
+                if (swipeDeck != null && swipeDeck.getCurrIndex() == testData.size() - 1) {
                     swipeDeck.setCanSwipe(false);
                     btnNext.setText(R.string.finish);
                     getMainActivity().titleBar.hideButtons();
@@ -125,11 +126,6 @@ public class WelcomeFragment extends BaseFragment {
         titleBar.showSkipText();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @OnClick({R.id.swipe_deck, R.id.btn_next})
     public void onViewClicked(View view) {
@@ -137,11 +133,13 @@ public class WelcomeFragment extends BaseFragment {
             case R.id.swipe_deck:
                 break;
             case R.id.btn_next:
-                if (swipeDeck.getCurrIndex() == testData.size() - 1) {
+                if (swipeDeck != null) {
+                    if (swipeDeck.getCurrIndex() == testData.size() - 1) {
 
-                    getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(), "HomeFragment");
-                } else {
-                    swipeDeck.discardTop(2);
+                        getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(), "VerificationEmailFragment");
+                    } else {
+                        swipeDeck.discardTop(2);
+                    }
                 }
                 break;
         }

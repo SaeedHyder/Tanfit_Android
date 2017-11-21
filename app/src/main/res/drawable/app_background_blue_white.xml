@@ -1,4 +1,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <item android:bottom="@dimen/x100">
         <shape android:shape="rectangle" >
             <size android:height="@dimen/x100" />
@@ -6,10 +7,11 @@
         </shape>
     </item>
 
-    <item android:top="@dimen/x150">
+    <item android:top="@dimen/x100">
         <shape android:shape="rectangle" >
-            <size android:height="@dimen/x200" />
-            <solid android:color="#e7e8e9" />
+            <size android:height="@dimen/x100" />
+            <solid android:color="@color/app_gray" />
         </shape>
     </item>
+
 </layer-list>

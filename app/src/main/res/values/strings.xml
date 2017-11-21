@@ -104,4 +104,8 @@
     <string name="signup">SIGNUP</string>
     <string name="enter_the_4_digit_code">Enter the 4 digit code</string>
     <string name="resend_code">Resend Code</string>
+    <string name="enter_the_4_digit_code_we_send_you_via_email_to_continue">Enter the 4 digit code we send you via email to continue</string>
+    <string name="code_expires_in">code expires in:</string>
+    <string name="submit">Submit</string>
+    <string name="verify_email">Verify Email</string>
 </resources>
