@@ -1,7 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/ll_ProfileImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x50"
+        android:orientation="vertical">
 
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/CircularImageSharePop1"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/x120"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/gray_rect"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_profile"
+            android:layout_width="@dimen/x113"
+            android:layout_height="@dimen/x113"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/com_facebook_profile_picture_blank_square"/>
+
+
+        <ImageView
+            android:id="@+id/btn_camera"
+            android:layout_width="@dimen/x25"
+            android:layout_height="@dimen/x24"
+            android:layout_alignBottom="@+id/img_profile"
+            android:layout_alignEnd="@+id/img_profile"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/x5"
+            android:background="@drawable/circle_green"
+            android:src="@drawable/ic_launcher"
+            tools:ignore="ContentDescription"/>
+
+
+    </RelativeLayout>
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:text="@string/email"
+        android:textColor="@color/app_font_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+
+    <com.ingic.tanfit.ui.views.AnyEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/black_border"
+        android:hint="@string/email_address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:paddingStart="@dimen/x5"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:text="@string/email"
+        android:textColor="@color/app_font_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+
+    
+    <com.ingic.tanfit.ui.views.AnyEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/black_border"
+        android:hint="@string/email_address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:paddingStart="@dimen/x5"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:text="@string/email"
+        android:textColor="@color/app_font_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+
+    <com.ingic.tanfit.ui.views.AnyEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/black_border"
+        android:hint="@string/email_address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:paddingStart="@dimen/x5"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
 </LinearLayout>
