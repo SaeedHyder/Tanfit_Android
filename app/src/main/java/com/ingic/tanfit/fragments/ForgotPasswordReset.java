@@ -70,9 +70,9 @@ public class ForgotPasswordReset extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    edtPassword.setTransformationMethod(new PasswordTransformationMethod());
-                } else {
                     edtPassword.setTransformationMethod(null);
+                } else {
+                    edtPassword.setTransformationMethod(new PasswordTransformationMethod());
                 }
             }
         });

@@ -32,7 +32,7 @@
     <color name="forgot_pass_color">#BB4000</color>
     <color name="notification_date_color">#D15801</color>
     <color name="text_color">#654F76</color>
-    <color name="app_blue">#2179ee</color>
+    <color name="app_blue">#207AEE</color>
     <color name="app_gray">#e7e8e9</color>
     <color name="timer_red">#e5868a</color>
 
@@ -47,4 +47,5 @@
     <color name="default_hint_text">#757575</color>
     <color name="app_font_blue">#1E87E4</color>
     <color name="app_font_green">#19C657</color>
+    <color name="signup_color_green">#19C557</color>
 </resources>
