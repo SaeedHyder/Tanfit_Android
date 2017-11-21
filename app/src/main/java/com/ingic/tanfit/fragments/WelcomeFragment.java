@@ -25,6 +25,7 @@ import butterknife.Unbinder;
  */
 public class WelcomeFragment extends BaseFragment {
 
+    final ArrayList<String> testData = new ArrayList<>();
     @BindView(R.id.swipe_deck)
     CardStack swipeDeck;
     @BindView(R.id.btn_next)
@@ -32,8 +33,6 @@ public class WelcomeFragment extends BaseFragment {
     Unbinder unbinder;
     private int previousPosition = 0;
     private CardArrayAdapter<String> adapter;
-    final ArrayList<String> testData = new ArrayList<>();
-
 
     public static WelcomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -54,6 +53,13 @@ public class WelcomeFragment extends BaseFragment {
     }
 
     @Override
+    public void setTitleBar(TitleBar titleBar) {
+        super.setTitleBar(titleBar);
+        titleBar.hideButtons();
+        titleBar.showSkipText();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -66,6 +72,12 @@ public class WelcomeFragment extends BaseFragment {
 
         swapCard();
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void swapCard() {
@@ -118,32 +130,24 @@ public class WelcomeFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void setTitleBar(TitleBar titleBar) {
-        super.setTitleBar(titleBar);
-        titleBar.hideButtons();
-        titleBar.showSkipText();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     @OnClick({R.id.swipe_deck, R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.swipe_deck:
+                moveToLoginFragment();
                 break;
             case R.id.btn_next:
                 if (swipeDeck.getCurrIndex() == testData.size() - 1) {
-
-                    getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                    moveToLoginFragment();
                 } else {
                     swipeDeck.discardTop(2);
                 }
                 break;
         }
+    }
+
+    private void moveToLoginFragment() {
+        getDockActivity().popBackStackTillEntry(0);
+        getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
     }
 }

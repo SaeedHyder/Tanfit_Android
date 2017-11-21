@@ -102,4 +102,7 @@
     <string name="next">Next</string>
     <string name="email">Email</string>
     <string name="signup">SIGNUP</string>
+    <string name="enter_valid_email">Please Enter Valid Email</string>
+    <string name="enter_password">Password Field cannot be Empty</string>
+    <string name="passwordLength">Password cannot be less than 6 characters</string>
 </resources>

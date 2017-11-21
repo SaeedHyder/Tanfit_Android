@@ -174,7 +174,7 @@ public class MainActivity extends DockActivity implements OnClickListener {
         if (prefHelper.isLogin()) {
             replaceDockableFragment(WelcomeFragment.newInstance(), "HomeFragment");
         } else {
-            replaceDockableFragment(WelcomeFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
         }
     }
 
