@@ -1,18 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollview_bigdaddy"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:su="http://schemas.android.com/tools"
+            android:id="@+id/scrollview_bigdaddy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:orientation="vertical"
+            android:scrollbars="none">
 
-    <Button
-        android:id="@+id/loginButton"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Click to login"
-        android:layout_centerInParent="true"
-        android:textColor="@color/forgot_pass_color"
-        android:layout_gravity="bottom"
-         />
+        android:layout_height="wrap_content">
+        <!--  <ImageView
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/x250"
+              android:background="@color/red"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.33"
+                android:background="@color/red"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.67"
+                android:background="@color/blue">
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x20"
+            android:layout_marginStart="@dimen/x20"
+            android:layout_marginTop="@dimen/x150"
+            app:cardCornerRadius="@dimen/x4"
+            app:cardElevation="@dimen/x4"
+            app:cardUseCompatPadding="true"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/x10">
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/x20"
+                    app:typeface="@string/font_normal"/>
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:text="@string/email"
+                    android:textColor="@color/app_font_blue"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+
+                <com.ingic.tanfit.ui.views.AnyEditTextView
+                    android:id="@+id/edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x40"
+                    android:layout_marginEnd="@dimen/x10"
+                    android:layout_marginStart="@dimen/x10"
+                    android:layout_marginTop="@dimen/x10"
+                    android:background="@drawable/black_border"
+                    android:hint="@string/email_address"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/x5"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:text="@string/password"
+                    android:textColor="@color/app_font_blue"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+
+                <com.ingic.tanfit.ui.views.AnyEditTextView
+                    android:id="@+id/edt_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x40"
+                    android:layout_marginEnd="@dimen/x10"
+                    android:layout_marginStart="@dimen/x10"
+                    android:layout_marginTop="@dimen/x10"
+                    android:background="@drawable/black_border"
+                    android:hint="@string/password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/x5"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+
+                <com.ingic.tanfit.ui.views.SlideToUnlock
+                    android:id="@+id/slidelogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x50"
+                    android:layout_marginEnd="@dimen/x10"
+                    android:layout_marginStart="@dimen/x10"
+                    android:layout_marginTop="@dimen/x10"
+                    su:text="@string/search_hint"
+                    su:thumb="@drawable/slidetounlock_thumb"
+                    su:track="@drawable/ic_launcher"
+                    />
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:gravity="center"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/app_font_blue"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/btn_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center"
+            android:text="@string/signup"
+            android:textColor="@color/app_font_green"
+            android:textSize="@dimen/x20"
+            app:typeface="@string/font_normal"/>
+    </RelativeLayout>
+</ScrollView>

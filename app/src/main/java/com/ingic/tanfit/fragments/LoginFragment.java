@@ -16,12 +16,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class LoginFragment extends BaseFragment implements OnClickListener {
+public class LoginFragment extends BaseFragment {
 
 
-    Unbinder unbinder;
-    @BindView(R.id.loginButton)
-    Button loginButton;
+
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -31,14 +29,12 @@ public class LoginFragment extends BaseFragment implements OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(this, view);
-        setListeners();
+      ButterKnife.bind(this, view);
+
 
     }
 
-    private void setListeners() {
-        loginButton.setOnClickListener(this);
-    }
+
 
     @Override
     public void setTitleBar(TitleBar titleBar) {
@@ -55,20 +51,6 @@ public class LoginFragment extends BaseFragment implements OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        switch (v.getId()) {
-            case R.id.loginButton:
-                prefHelper.setLoginStatus(true);
-                getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragmnet");
-                break;
-        }
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 }
