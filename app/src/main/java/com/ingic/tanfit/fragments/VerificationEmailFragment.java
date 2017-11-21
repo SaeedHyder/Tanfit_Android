@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.PinEntryEditText;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -117,7 +118,9 @@ public class VerificationEmailFragment extends BaseFragment {
                 getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
                 break;
             case R.id.txt_resened_code:
+                timer.cancel();
                 counter();
+                UIHelper.showShortToastInCenter(getDockActivity(),"Resend Code");
                 break;
         }
     }
