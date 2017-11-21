@@ -101,8 +101,10 @@ public class LoginFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.forgot_password:
+                getDockActivity().replaceDockableFragment(ForgotPasswordEmailEnter.newInstance(), "ForgotPasswordEmailEnter");
                 break;
             case R.id.btn_signup:
+                getDockActivity().replaceDockableFragment(SignUpFragment.newInstance(), "SignUpFragment");
                 break;
         }
     }

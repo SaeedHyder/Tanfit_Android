@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x5"
         android:gravity="center_horizontal"
-        android:text="@string/enter_email_forgot_password"
+        android:text="@string/forgot_password_email_send_heading"
         android:textColor="@color/app_blue"
         android:textSize="@dimen/x20"
         app:typeface="@string/font_normal"/>
@@ -39,47 +39,32 @@
         android:layout_marginStart="@dimen/x40"
         android:layout_marginTop="@dimen/x5"
         android:gravity="center"
-        android:text="@string/forgot_password_email_message"
+        android:text="@string/forgot_password_email_send_message"
         android:textColor="@color/dark_grey"
         android:textSize="@dimen/x14"
         app:typeface="@string/font_normal"/>
 
-    <LinearLayout
+    <com.ingic.tanfit.ui.views.AnyTextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x40"
-        android:layout_margin="@dimen/x15"
-        android:background="@drawable/box1"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="@dimen/x20"
-            android:layout_height="@dimen/x20"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/x15"
-            android:src="@drawable/ic_launcher"/>
-
-        <com.ingic.tanfit.ui.views.AnyEditTextView
-            android:id="@+id/edt_email"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x40"
-            android:background="@color/transparent"
-            android:hint="@string/email_address"
-            android:imeOptions="actionDone"
-            android:inputType="textEmailAddress"
-            android:paddingEnd="@dimen/x5"
-            android:paddingStart="@dimen/x8"
-            android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x15"
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginTop="@dimen/x5"
+        android:gravity="center"
+        android:text="@string/forgot_password_email_send_message_query"
+        android:textColor="@color/app_font_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
 
     <Button
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/x30"
         android:layout_marginStart="@dimen/x30"
         android:background="@color/app_blue"
-        android:text="@string/submit"
+        android:text="@string/sample_email"
         android:textAllCaps="false"
         android:textColor="@color/white"
         />
