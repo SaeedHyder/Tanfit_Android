@@ -78,6 +78,7 @@
         android:textSize="@dimen/x14"
         app:typeface="@string/font_normal"/>
 
+    
     <com.ingic.tanfit.ui.views.AnyEditTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/x40"
