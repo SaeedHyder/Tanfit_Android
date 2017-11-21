@@ -123,7 +123,12 @@ public class WelcomeFragment extends BaseFragment {
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
-        titleBar.showSkipText();
+        titleBar.showSkipText(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+            }
+        });
     }
 
 

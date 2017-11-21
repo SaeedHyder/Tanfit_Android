@@ -59,8 +59,7 @@ public class WelcomeItemBinder extends ViewBinder<String> {
         ImageView logo;
         @BindView(R.id.iv_mainImage)
         ImageView ivMainImage;
-        @BindView(R.id.custom_indicator)
-        PagerIndicator customIndicator;
+
         @BindView(R.id.txt_heading)
         TextView txtHeading;
         @BindView(R.id.txt_description)
