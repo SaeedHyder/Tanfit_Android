@@ -24,4 +24,10 @@
       <enum name="bottom" value="2"/>
     </attr>
   </declare-styleable>
+
+  <declare-styleable name="slideunlocker">
+    <attr name="slider_text" format="string"/>
+    <attr name="slider_thumb" format="integer"/>
+    <attr name="slider_track" format="integer"/>
+  </declare-styleable>
 </resources>
