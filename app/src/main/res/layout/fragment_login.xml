@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroung_blue_white">
         <!--  <ImageView
               android:layout_width="match_parent"
               android:layout_height="@dimen/x250"
@@ -21,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="match_parent"
