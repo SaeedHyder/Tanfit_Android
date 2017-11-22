@@ -35,6 +35,8 @@
     <color name="app_blue">#207AEE</color>
     <color name="app_gray">#e7e8e9</color>
     <color name="app_light_gray">#f7f5f7</color>
+    <color name="app_text_gray">#898989</color>
+    <color name="app_green_dark">#1ac458</color>
     <color name="timer_red">#e5868a</color>
     <color name="app_green">#1bc559</color>
 

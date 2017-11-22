@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_light_gray"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x60"
+        android:layout_marginBottom="@dimen/x10"
+        android:background="@color/app_green_dark"
+        android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x10"
+
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/your_subscription_plan_is"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x18"
+            app:typeface="@string/font_normal" />
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_subscription_package"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/x10"
+            android:gravity="right|center_vertical"
+            android:text="Basic"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x18"
+            app:typeface="@string/font_bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
+        android:background="@drawable/boxsub"
+        android:orientation="vertical"
+        android:padding="@dimen/x20">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/need_a_short_break"
+            android:textColor="@color/app_blue"
+            android:textSize="@dimen/x18"
+            app:typeface="@string/font_bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:layout_marginTop="@dimen/x5"
+                android:gravity="center_vertical"
+                android:text="@string/you_can_pause_your_subscription_for"
+                android:textColor="@color/app_text_gray"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_normal" />
+
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/box2sub"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="5 Days"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/x13"
+                app:typeface="@string/font_normal" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_pause"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x5"
+            android:background="@color/app_blue"
+            android:gravity="center"
+            android:text="@string/pause"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_days_left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x5"
+            android:alpha="0.8"
+            android:gravity="center_vertical"
+            android:text="You stil have 8 more days left once you resume"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/x12"
+            app:typeface="@string/font_normal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x10"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
+        android:gravity="center_vertical"
+        android:background="@drawable/boxsub"
+        android:orientation="vertical"
+        android:padding="@dimen/x20"
+
+        >
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/cancel_subscription"
+            android:textColor="@color/app_blue"
+            android:textSize="@dimen/x18"
+            app:typeface="@string/font_bold" />
+
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x5"
+                android:gravity="center_vertical"
+                android:text="We regret you want to cancel your subscription"
+                android:textColor="@color/app_text_gray"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_normal" />
+
+
+
+
+        <Button
+            android:id="@+id/btn_visit_website"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginTop="@dimen/x5"
+            android:background="@color/app_blue"
+            android:gravity="center"
+            android:text="@string/cancel_subscription"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

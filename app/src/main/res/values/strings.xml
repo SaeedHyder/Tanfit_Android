@@ -160,5 +160,12 @@
     <string name="about">About</string>
     <string name="address">Address</string>
     <string name="contact">Contact</string>
+    <string name="my_subscriptions">My Subscriptions</string>
+    <string name="your_subscription_plan_is">Your Subscription Plan is</string>
+    <string name="need_a_short_break">Need a Short Break?</string>
+    <string name="visit_website">Visit Website</string>
+    <string name="pause">Pause</string>
+    <string name="you_can_pause_your_subscription_for">You can pause your subscription for</string>
+    <string name="cancel_subscription">Cancel Subscription</string>
 
 </resources>
