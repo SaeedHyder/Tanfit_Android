@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.ClassDetailFragment;
 import com.ingic.tanfit.fragments.ContactUsFragment;
+import com.ingic.tanfit.fragments.FavoriteFragment;
+import com.ingic.tanfit.fragments.FitnessClassesFragment;
 import com.ingic.tanfit.fragments.HomeFragment;
 import com.ingic.tanfit.fragments.LoginFragment;
 import com.ingic.tanfit.fragments.MySubscriptionFragment;
@@ -177,7 +179,7 @@ public class MainActivity extends DockActivity implements OnClickListener {
         if (prefHelper.isLogin()) {
             replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
         } else {
-            replaceDockableFragment(MySubscriptionFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(FavoriteFragment.newInstance(), "LoginFragment");
         }
     }
 

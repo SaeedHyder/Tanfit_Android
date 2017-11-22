@@ -170,5 +170,13 @@
     <string name="pause">Pause</string>
     <string name="you_can_pause_your_subscription_for">You can pause your subscription for</string>
     <string name="cancel_subscription">Cancel Subscription</string>
-    
+    <string name="no_data">No Data to show</string>
+    <string name="fitness_classes">Fitness Classes</string>
+    <string name="studios">Studios</string>
+    <string name="favorite">Favorite</string>
+    <string name="pilates">Pilates</string>
+    <string name="trx">TRX</string>
+    <string name="yoga">Yoga</string>
+    <string name="spinning">Spinning</string>
+
 </resources>

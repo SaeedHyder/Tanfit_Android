@@ -144,7 +144,7 @@ public class WelcomeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.swipe_deck:
-                moveToLoginFragment();
+                //moveToLoginFragment();
                 break;
             case R.id.btn_next:
                 if (swipeDeck != null) {
