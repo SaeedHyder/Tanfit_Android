@@ -127,9 +127,6 @@
                     android:layout_marginEnd="@dimen/x10"
                     android:layout_marginStart="@dimen/x10"
                     android:layout_marginTop="@dimen/x10"
-                    su:text="@string/search_hint"
-                    su:thumb="@drawable/ic_launcher"
-                    su:track="@drawable/ic_launcher"
                     />
 
                 <com.ingic.tanfit.ui.views.AnyTextView

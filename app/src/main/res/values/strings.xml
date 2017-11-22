@@ -143,6 +143,9 @@
     <string name="submit">Submit</string>
     <string name="verify_email">Verify Email</string>
     <string name="correct_verification_code">Please insert correct verification code.</string>
+    <string name="full_name">Full Name</string>
+    <string name="gender">Gender</string>
+    <string name="term_condition_agree">I agree to Terms and Conditions</string>
     <string name="description">Description</string>
     <string name="special_features">Special Features</string>
     <string name="trainer">Trainer</string>
@@ -167,5 +170,5 @@
     <string name="pause">Pause</string>
     <string name="you_can_pause_your_subscription_for">You can pause your subscription for</string>
     <string name="cancel_subscription">Cancel Subscription</string>
-
+    
 </resources>

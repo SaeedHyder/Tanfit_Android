@@ -2,6 +2,9 @@ package com.ingic.tanfit.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +72,26 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void setListener() {
+        edtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 6 && !hasImageSpan(edtPassword)) {
+                    edtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
+                } else if (s.toString().length() < 6 && hasImageSpan(edtPassword)) {
+                    edtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                }
+            }
+        });
         slidelogin.setOnUnlockListener(new SlideToUnlock.OnUnlockListener() {
             @Override
             public void onUnlock() {
@@ -79,6 +102,12 @@ public class LoginFragment extends BaseFragment {
                     slidelogin.reset();
             }
         });
+    }
+
+    public boolean hasImageSpan(AnyEditTextView editText) {
+        Editable text = editText.getEditableText();
+        ImageSpan[] spans = text.getSpans(0, text.length(), ImageSpan.class);
+        return !(spans.length == 0);
     }
 
     private boolean isValidated() {
