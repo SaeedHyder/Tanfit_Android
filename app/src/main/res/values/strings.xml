@@ -82,6 +82,21 @@
          . It was popularised in the 1960s with the release of Letraset sheets cont
          aining Lorem Ipsum passages, and more recently with desktop publishing so
          ftware like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="long_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book. It has survived not only five centuries, but
+         also the leap into electronic typesetting, remaining essentially unchanged
+         . It was popularised in the 1960s with the release of Letraset sheets cont
+         aining Lorem Ipsum passages, and more recently with desktop publishing so
+         ftware like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book. It has survived not only five centuries, but
+         also the leap into electronic typesetting, remaining essentially unchanged
+         . It was popularised in the 1960s with the release of Letraset sheets cont
+         aining Lorem Ipsum passages, and more recently with desktop publishing so
+         ftware like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="small_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and types
         etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
         e the 1500s, when an unknown printer took a galley of type and scrambled it t
@@ -138,5 +153,12 @@
     <string name="view_studio_page">View Studio Page</string>
     <string name="book_now">Book Now</string>
     <string name="location">Location</string>
+    <string name="logout">Logout</string>
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="about">About</string>
+    <string name="address">Address</string>
+    <string name="contact">Contact</string>
 
 </resources>
