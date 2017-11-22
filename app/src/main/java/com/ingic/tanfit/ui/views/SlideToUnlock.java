@@ -37,7 +37,6 @@ public class SlideToUnlock extends RelativeLayout {
 
   private OnUnlockListener listener;
   private SeekBar          seekbar;
-  private TextView         label;
   private int              thumbWidth;
 
   public SlideToUnlock(Context context) {
@@ -63,7 +62,7 @@ public class SlideToUnlock extends RelativeLayout {
    * Resets slider to initial state.
    */
   public void reset() {
-    seekbar.setProgress(0);
+    seekbar.setProgress(5);
   }
 
   private void init(Context context, AttributeSet attrs) {
@@ -74,7 +73,6 @@ public class SlideToUnlock extends RelativeLayout {
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.slidetounlock_lt, this, true);
 
-    label = (TextView) findViewById(R.id.slider_label);
     seekbar = (SeekBar) findViewById(R.id.slider_seekbar);
     background = findViewById(R.id.slider_bg);
 
@@ -82,7 +80,7 @@ public class SlideToUnlock extends RelativeLayout {
     String text = attributes.getString(R.styleable.slideunlocker_slider_text);
     Drawable thumb = attributes.getDrawable(R.styleable.slideunlocker_slider_thumb);
     if (thumb == null) {
-      thumb = getResources().getDrawable(R.drawable.ic_launcher);
+      thumb = getResources().getDrawable(R.drawable.arrow_circle);
     }
     track = attributes.getDrawable(R.styleable.slideunlocker_slider_track);
     attributes.recycle();
@@ -93,11 +91,11 @@ public class SlideToUnlock extends RelativeLayout {
       background.setBackgroundDrawable(track);
     }
 
-    if (text != null) {
+    /*if (text != null) {
       label.setText(text);
     }
     label.setPadding(thumbWidth, 0, 0, 0);
-
+*/
     int defaultOffset = seekbar.getThumbOffset();
     seekbar.setThumb(thumb);
     seekbar.setThumbOffset(defaultOffset);
@@ -128,7 +126,7 @@ public class SlideToUnlock extends RelativeLayout {
 
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-        label.setAlpha(1f - progress * 0.02f);
+        //label.setAlpha(1f - progress * 0.02f);
       }
 
       @Override

@@ -5,27 +5,15 @@
       android:id="@+id/slider_bg"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="@drawable/black_border"
+      android:background="@drawable/seekbar"
       />
-
-  <TextView
-      android:id="@+id/slider_label"
-      android:gravity="center"
-      android:layout_centerInParent="true"
-      android:textColor="@android:color/white"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Swipe to Unlock"
-      android:textSize="18sp"
-      android:textStyle="italic"
-      />
-
   <SeekBar
       android:id="@+id/slider_seekbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:progressDrawable="@android:color/transparent"
-      android:thumb="@drawable/ic_launcher"
-      android:layout_marginTop="2dp"
+      android:progressDrawable="@color/transparent"
+      android:thumb="@drawable/arrow_circle"
+      android:layout_marginTop="@dimen/x2"
+      android:progress="5"
       />
 </merge>
