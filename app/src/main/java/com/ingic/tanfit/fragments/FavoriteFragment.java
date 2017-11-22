@@ -1,11 +1,14 @@
 package com.ingic.tanfit.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
@@ -58,8 +61,20 @@ public class FavoriteFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setViewPager();
+        setViewInTabLayout();
 
 
+    }
+
+    private void setViewInTabLayout() {
+
+        LinearLayout linearLayout = (LinearLayout)tabLayout.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(Color.GRAY);
+        drawable.setSize(1, 1);
+        linearLayout.setDividerPadding(10);
+        linearLayout.setDividerDrawable(drawable);
     }
 
     private void setViewPager() {
