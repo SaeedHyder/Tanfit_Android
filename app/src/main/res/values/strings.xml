@@ -123,5 +123,8 @@
     <string name="submit">Submit</string>
     <string name="verify_email">Verify Email</string>
     <string name="correct_verification_code">Please insert correct verification code.</string>
+    <string name="full_name">Full Name</string>
+    <string name="gender">Gender</string>
+    <string name="term_condition_agree">I agree to Terms and Conditions</string>
 
 </resources>
