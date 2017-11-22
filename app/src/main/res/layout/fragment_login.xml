@@ -13,7 +13,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/backgroung_blue_white">
+            >
         <!--  <ImageView
               android:layout_width="match_parent"
               android:layout_height="@dimen/x250"
@@ -23,20 +23,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:weightSum="1"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.33"
-                android:background="@color/red"
+                android:background="@drawable/character"
                 android:contentDescription="banner"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.67"
-                android:background="@color/blue">
+                android:background="@color/app_gray">
 
             </FrameLayout>
         </LinearLayout>
@@ -128,7 +128,7 @@
                     android:layout_marginStart="@dimen/x10"
                     android:layout_marginTop="@dimen/x10"
                     su:text="@string/search_hint"
-                    su:thumb="@drawable/slidetounlock_thumb"
+                    su:thumb="@drawable/ic_launcher"
                     su:track="@drawable/ic_launcher"
                     />
 

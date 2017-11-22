@@ -82,6 +82,11 @@
          . It was popularised in the 1960s with the release of Letraset sheets cont
          aining Lorem Ipsum passages, and more recently with desktop publishing so
          ftware like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="small_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book.
+         </string>
     <string name="this_is_login_fragment">This is Login Fragment</string>
 
     <string name="default_hint_text">Where are you going?</string>
@@ -123,5 +128,15 @@
     <string name="submit">Submit</string>
     <string name="verify_email">Verify Email</string>
     <string name="correct_verification_code">Please insert correct verification code.</string>
+    <string name="description">Description</string>
+    <string name="special_features">Special Features</string>
+    <string name="trainer">Trainer</string>
+    <string name="music">Music</string>
+    <string name="changing_room">Changing Room</string>
+    <string name="treadmil">Treadmil</string>
+    <string name="amenilities">Amenilities</string>
+    <string name="view_studio_page">View Studio Page</string>
+    <string name="book_now">Book Now</string>
+    <string name="location">Location</string>
 
 </resources>

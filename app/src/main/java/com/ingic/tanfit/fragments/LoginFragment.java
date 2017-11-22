@@ -74,7 +74,7 @@ public class LoginFragment extends BaseFragment {
             public void onUnlock() {
                 if (isValidated()) {
                     getDockActivity().popBackStackTillEntry(0);
-                    getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                    getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
                 } else
                     slidelogin.reset();
             }
