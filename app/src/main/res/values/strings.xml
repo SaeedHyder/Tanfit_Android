@@ -8,7 +8,7 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
-    <string name="api_key">AIzaSyCDylplefNyWlLDoBL_n2VFjwlMWvq3sBg  </string>
+    <string name="api_key">AIzaSyDu4yb8rqG-Y14svz19ebqmzwbO1wp85uQ</string>
     <string name="app_name">TANFIT</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -178,5 +178,11 @@
     <string name="trx">TRX</string>
     <string name="yoga">Yoga</string>
     <string name="spinning">Spinning</string>
+    <string name="subscribe_now">Subscribe Now</string>
+    <string name="subscription_plans">Subscription Plans</string>
+    <string name="by_location">By Location</string>
+    <string name="by_activity">By Activity</string>
+    <string name="by_available_hours">By Available hours</string>
+    <string name="activity">Activity</string>
 
 </resources>

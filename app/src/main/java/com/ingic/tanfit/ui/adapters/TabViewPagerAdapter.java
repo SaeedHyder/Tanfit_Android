@@ -14,11 +14,11 @@ import java.util.List;
  */
 
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class TabViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public ViewPagerAdapter(FragmentManager manager) {
+    public TabViewPagerAdapter(FragmentManager manager) {
         super(manager);
     }
 

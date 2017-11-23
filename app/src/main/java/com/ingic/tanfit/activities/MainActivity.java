@@ -20,7 +20,10 @@ import com.ingic.tanfit.fragments.HomeFragment;
 import com.ingic.tanfit.fragments.LoginFragment;
 import com.ingic.tanfit.fragments.MySubscriptionFragment;
 import com.ingic.tanfit.fragments.NotificationsFragment;
+import com.ingic.tanfit.fragments.SearchFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
+import com.ingic.tanfit.fragments.SubscriptionFragment;
+import com.ingic.tanfit.fragments.SubscriptionPagerItem;
 import com.ingic.tanfit.fragments.WelcomeFragment;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.SideMenuChooser;
@@ -177,9 +180,9 @@ public class MainActivity extends DockActivity implements OnClickListener {
     public void initFragment() {
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         if (prefHelper.isLogin()) {
-            replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+            replaceDockableFragment(SearchFragment.newInstance(), "HomeFragment");
         } else {
-            replaceDockableFragment(FavoriteFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(SearchFragment.newInstance(), "LoginFragment");
         }
     }
 
