@@ -190,6 +190,7 @@
     <orderEntry type="library" name="com.android.support:support-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" name="com.android.support:recyclerview-v7-25.3.1" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-10.0.1" level="project" />
+    <orderEntry type="library" name="com.kbeanie:image-chooser-library-1.5.8" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-wallet-10.0.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-clearcut-10.0.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-analytics-10.0.1" level="project" />

@@ -1,5 +1,7 @@
 package com.ingic.tanfit.activities;
 
+
+import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,7 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-
+import android.widget.Toast;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.LocationModel;
 import com.ingic.tanfit.fragments.ClassDetailFragment;
@@ -33,7 +35,6 @@ import com.ingic.tanfit.fragments.FavoriteFragment;
 import com.ingic.tanfit.fragments.FitnessClassesFragment;
 import com.ingic.tanfit.fragments.HomeFragment;
 import com.ingic.tanfit.fragments.LoginFragment;
-import com.ingic.tanfit.fragments.MySubscriptionFragment;
 import com.ingic.tanfit.fragments.NotificationsFragment;
 import com.ingic.tanfit.fragments.SearchFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
@@ -45,8 +46,14 @@ import com.ingic.tanfit.global.SideMenuChooser;
 import com.ingic.tanfit.global.SideMenuDirection;
 import com.ingic.tanfit.helpers.ScreenHelper;
 import com.ingic.tanfit.helpers.UIHelper;
+import com.ingic.tanfit.interfaces.ImageSetter;
 import com.ingic.tanfit.residemenu.ResideMenu;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.kbeanie.imagechooser.api.ChooserType;
+import com.kbeanie.imagechooser.api.ChosenImage;
+import com.kbeanie.imagechooser.api.ChosenImages;
+import com.kbeanie.imagechooser.api.ImageChooserListener;
+import com.kbeanie.imagechooser.api.ImageChooserManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,7 +63,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends DockActivity implements OnClickListener {
+public class MainActivity extends DockActivity implements OnClickListener, ImageChooserListener {
     public TitleBar titleBar;
     @BindView(R.id.sideMneuFragmentContainer)
     public FrameLayout sideMneuFragmentContainer;
@@ -68,73 +75,20 @@ public class MainActivity extends DockActivity implements OnClickListener {
     ProgressBar progressBar;
     private MainActivity mContext;
     private boolean loading;
-
+    private ImageSetter imageSetter;
     private ResideMenu resideMenu;
-
     private float lastTranslate = 0.0f;
-
     private String sideMenuType;
     private String sideMenuDirection;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dock);
-        ButterKnife.bind(this);
-        titleBar = header_main;
-        // setBehindContentView(R.layout.fragment_frame);
-        mContext = this;
-        Log.i("Screen Density", ScreenHelper.getDensity(this) + "");
-
-        sideMenuType = SideMenuChooser.RESIDE_MENU.getValue();
-        sideMenuDirection = SideMenuDirection.LEFT.getValue();
-
-        settingSideMenu(sideMenuType, sideMenuDirection);
-
-        titleBar.setMenuButtonListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (sideMenuType.equals(SideMenuChooser.DRAWER.getValue()) && getDrawerLayout() != null) {
-                    if (sideMenuDirection.equals(SideMenuDirection.LEFT.getValue())) {
-                        drawerLayout.openDrawer(Gravity.LEFT);
-                    } else {
-                        drawerLayout.openDrawer(Gravity.RIGHT);
-                    }
-                } else {
-                    resideMenu.openMenu(sideMenuDirection);
-                }
-
-            }
-        });
-
-        titleBar.setBackButtonListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if (loading) {
-                    UIHelper.showLongToastInCenter(getApplicationContext(),
-                            R.string.message_wait);
-                } else {
-
-                    popFragment();
-                    UIHelper.hideSoftKeyboard(getApplicationContext(),
-                            titleBar);
-                }
-            }
-        });
-
-        titleBar.setNotificationButtonListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceDockableFragment(NotificationsFragment.newInstance(), "NotificationsFragment");
-            }
-        });
-
-        if (savedInstanceState == null)
-            initFragment();
-
+    private ImageChooserManager imageChooserManager;
+    private int chooserType;
+    private String filePath;
+    private String originalFilePath;
+    private String thumbnailFilePath;
+    private String thumbnailSmallFilePath;
+    private boolean isActivityResultOver = false;
+    public void setImageSetter(ImageSetter imageSetter) {
+        this.imageSetter = imageSetter;
     }
 
     public LocationModel getMyCurrentLocation() {
@@ -256,7 +210,20 @@ public class MainActivity extends DockActivity implements OnClickListener {
     public View getDrawerView() {
         return getLayoutInflater().inflate(getSideMenuFrameLayoutId(), null);
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK
+                && (requestCode == ChooserType.REQUEST_PICK_PICTURE || requestCode == ChooserType.REQUEST_CAPTURE_PICTURE)) {
+            if (imageChooserManager == null) {
+                reinitializeImageChooser();
+            }
+            imageChooserManager.submit(requestCode, data);
+        } else {
+            // progressBar.setVisibility(View.GONE);
+        }
 
+    }
     private void settingSideMenu(String type, String direction) {
 
         if (type.equals(SideMenuChooser.DRAWER.getValue())) {
@@ -311,13 +278,12 @@ public class MainActivity extends DockActivity implements OnClickListener {
 
     }
 
-
     public void initFragment() {
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         if (prefHelper.isLogin()) {
             replaceDockableFragment(SearchFragment.newInstance(), "HomeFragment");
         } else {
-            replaceDockableFragment(SearchFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
         }
     }
 
@@ -372,6 +338,77 @@ public class MainActivity extends DockActivity implements OnClickListener {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dock);
+        ButterKnife.bind(this);
+        titleBar = header_main;
+        // setBehindContentView(R.layout.fragment_frame);
+        mContext = this;
+        Log.i("Screen Density", ScreenHelper.getDensity(this) + "");
+
+        sideMenuType = SideMenuChooser.RESIDE_MENU.getValue();
+        sideMenuDirection = SideMenuDirection.LEFT.getValue();
+
+        settingSideMenu(sideMenuType, sideMenuDirection);
+
+        titleBar.setMenuButtonListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (sideMenuType.equals(SideMenuChooser.DRAWER.getValue()) && getDrawerLayout() != null) {
+                    if (sideMenuDirection.equals(SideMenuDirection.LEFT.getValue())) {
+                        drawerLayout.openDrawer(Gravity.LEFT);
+                    } else {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                } else {
+                    resideMenu.openMenu(sideMenuDirection);
+                }
+
+            }
+        });
+
+        titleBar.setBackButtonListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if (loading) {
+                    UIHelper.showLongToastInCenter(getApplicationContext(),
+                            R.string.message_wait);
+                } else {
+
+                    popFragment();
+                    UIHelper.hideSoftKeyboard(getApplicationContext(),
+                            titleBar);
+                }
+            }
+        });
+
+        titleBar.setNotificationButtonListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceDockableFragment(NotificationsFragment.newInstance(), "NotificationsFragment");
+            }
+        });
+
+        if (savedInstanceState == null)
+            initFragment();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (loading) {
+            UIHelper.showLongToastInCenter(getApplicationContext(),
+                    R.string.message_wait);
+        } else
+            super.onBackPressed();
+
+    }
+
+    @Override
     public void onMenuItemActionCalled(int actionId, String data) {
 
     }
@@ -390,23 +427,110 @@ public class MainActivity extends DockActivity implements OnClickListener {
     public void hideHeaderButtons(boolean leftBtn, boolean rightBtn) {
     }
 
-    @Override
-    public void onBackPressed() {
-        if (loading) {
-            UIHelper.showLongToastInCenter(getApplicationContext(),
-                    R.string.message_wait);
-        } else
-            super.onBackPressed();
-
-    }
-
-    @Override
+    private void notImplemented() {
+        UIHelper.showLongToastInCenter(this, "Coming Soon");
+    }    @Override
     public void onClick(View view) {
 
     }
-
-    private void notImplemented() {
-        UIHelper.showLongToastInCenter(this, "Coming Soon");
+    private void reinitializeImageChooser() {
+        imageChooserManager = new ImageChooserManager(this, chooserType, true);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        imageChooserManager.setExtras(bundle);
+        imageChooserManager.setImageChooserListener(this);
+        imageChooserManager.reinitialize(filePath);
     }
+
+    public void chooseImage() {
+        chooserType = ChooserType.REQUEST_PICK_PICTURE;
+        imageChooserManager = new ImageChooserManager(this,
+                ChooserType.REQUEST_PICK_PICTURE, true);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        imageChooserManager.setExtras(bundle);
+        imageChooserManager.setImageChooserListener(this);
+        imageChooserManager.clearOldFiles();
+        try {
+            //pbar.setVisibility(View.VISIBLE);
+            filePath = imageChooserManager.choose();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void takePicture() {
+        chooserType = ChooserType.REQUEST_CAPTURE_PICTURE;
+        imageChooserManager = new ImageChooserManager(this,
+                ChooserType.REQUEST_CAPTURE_PICTURE, true);
+        imageChooserManager.setImageChooserListener(this);
+        try {
+            //pbar.setVisibility(View.VISIBLE);
+            filePath = imageChooserManager.choose();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private final static String TAG = "ICA";
+    @Override
+    public void onImageChosen(final ChosenImage image) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Log.i(TAG, "Chosen Image: O - " + image.getFilePathOriginal());
+                Log.i(TAG, "Chosen Image: T - " + image.getFileThumbnail());
+                Log.i(TAG, "Chosen Image: Ts - " + image.getFileThumbnailSmall());
+                isActivityResultOver = true;
+                originalFilePath = image.getFilePathOriginal();
+                thumbnailFilePath = image.getFileThumbnail();
+                thumbnailSmallFilePath = image.getFileThumbnailSmall();
+                //pbar.setVisibility(View.GONE);
+                if (image != null) {
+                    Log.i(TAG, "Chosen Image: Is not null");
+
+                    // Toast.makeText(getApplication(),thumbnailFilePath,Toast.LENGTH_LONG).show();
+                    imageSetter.setImage(originalFilePath);
+
+                    //loadImage(imageViewThumbnail, image.getFileThumbnail());
+                } else {
+                    Log.i(TAG, "Chosen Image: Is null");
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onError(final String reason) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Log.i(TAG, "OnError: " + reason);
+                // pbar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, reason,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onImagesChosen(final ChosenImages images) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "On Images Chosen: " + images.size());
+                onImageChosen(images.getImage(0));
+            }
+        });
+
+    }
+
 
 }

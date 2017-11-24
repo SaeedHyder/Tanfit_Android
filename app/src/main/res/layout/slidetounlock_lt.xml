@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <View
-      android:id="@+id/slider_bg"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/seekbar"
-      />
-  <SeekBar
-      android:id="@+id/slider_seekbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:progressDrawable="@color/transparent"
-      android:thumb="@drawable/arrow_circle"
-      android:layout_marginTop="@dimen/x2"
-      android:progress="5"
-      />
+    <RelativeLayout
+        android:id="@+id/slider_bg"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/x5"
+        android:paddingEnd="@dimen/x5"
+        android:background="@drawable/seekbar">
+
+        <SeekBar
+            android:id="@+id/slider_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/x2"
+            android:progressDrawable="@drawable/dotted_circler"
+            android:thumb="@drawable/arrow_circle"
+            />
+    </RelativeLayout>
 </merge>

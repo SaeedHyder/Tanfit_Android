@@ -42,14 +42,13 @@
 
             <ImageView
                 android:id="@+id/btn_camera"
-                android:layout_width="@dimen/x25"
-                android:layout_height="@dimen/x24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/img_profile"
                 android:layout_alignEnd="@+id/img_profile"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="@dimen/x5"
-                android:background="@drawable/circle_green"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/camera_circle"
                 tools:ignore="ContentDescription"/>
 
 
@@ -96,8 +95,8 @@
             style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x40"
-            android:layout_marginStart="@dimen/x10"
             android:layout_marginEnd="@dimen/x10"
+            android:layout_marginStart="@dimen/x10"
             android:layout_marginTop="@dimen/x10"/>
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -164,8 +163,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/x10"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1"
+                android:button="@drawable/password_botton_eye"/>
         </LinearLayout>
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -207,15 +206,36 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/x10"
-                android:layout_weight="0.1"/>
+                android:layout_weight="0.1"
+                android:button="@drawable/password_botton_eye"/>
         </LinearLayout>
 
-        <CheckBox
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
-            android:text="@string/term_condition_agree"/>
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/check_term_condition"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                />
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txt_term_condition_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x3"
+                android:layout_weight="0.9"
+                android:text="@string/term_condition_agree"
+                android:textColor="@color/app_font_black"
+                android:textSize="@dimen/x15"
+                app:typeface="@string/font_normal"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_submit"
@@ -225,6 +245,32 @@
             android:layout_marginStart="@dimen/x30"
             android:layout_marginTop="@dimen/x10"
             android:background="@color/app_blue"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            />
+
+        <Button
+            android:id="@+id/btn_fbSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@color/facebook_color"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            />
+
+        <Button
+            android:id="@+id/btn_gSingup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x30"
+            android:layout_marginStart="@dimen/x30"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@color/google_color"
             android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/white"
