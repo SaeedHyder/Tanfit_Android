@@ -9,104 +9,156 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/x15"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/x15">
-
-        <com.ingic.tanfit.ui.views.AnyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/by_location"
-            android:textColor="@color/app_blue"
-            android:textSize="@dimen/x12"
-            app:typeface="@string/font_bold" />
-
-        <com.ingic.tanfit.ui.views.AnyEditTextView
+        <LinearLayout
+            android:id="@+id/ll_filters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x6"
-            android:background="@drawable/invite_boarder"
-            android:hint="Location"
-            android:padding="@dimen/x10"
-            android:textSize="@dimen/x10"
-            app:typeface="@string/font_normal" />
+            android:layout_margin="@dimen/x15"
+            android:background="@drawable/white_box_drawable"
+            android:orientation="vertical"
+            android:padding="@dimen/x15">
 
-        <com.ingic.tanfit.ui.views.AnyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x6"
-            android:text="@string/by_activity"
-            android:textColor="@color/app_blue"
-            android:textSize="@dimen/x12"
-            app:typeface="@string/font_bold" />
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/by_location"
+                android:textColor="@color/app_blue"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_bold" />
 
-        <com.ingic.tanfit.ui.views.AnyEditTextView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/x6">
+
+                <com.ingic.tanfit.ui.views.AutoCompleteLocation
+                    android:id="@+id/autoComplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x35"
+                    android:background="@drawable/invite_boarder"
+                    android:hint="@string/location"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:textSize="@dimen/x11" />
+
+                <ImageView
+                    android:id="@+id/img_gps"
+                    android:layout_width="@dimen/x20"
+                    android:layout_height="@dimen/x20"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x11"
+                    android:src="@drawable/target" />
+
+            </RelativeLayout>
+
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x6"
+                android:text="@string/by_activity"
+                android:textColor="@color/app_blue"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_bold" />
+
+            <com.ingic.tanfit.ui.views.AnyEditTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x6"
+                android:background="@drawable/invite_boarder"
+                android:hint="@string/activity"
+                android:padding="@dimen/x10"
+                android:textSize="@dimen/x10"
+                app:typeface="@string/font_normal" />
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x6"
+                android:text="@string/by_available_hours"
+                android:textColor="@color/app_blue"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_bold" />
+
+            <!-- <com.edmodo.rangebar.RangeBar
+                 xmlns:custom="http://schemas.android.com/apk/res-auto"
+                 android:id="@+id/rangebar"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 custom:barColor="@color/app_green"
+                 custom:connectingLineColor="@color/app_green"
+                 custom:thumbColorNormal="@color/app_green"
+                 custom:connectingLineWeight="@dimen/x2"
+                 custom:thumbColorPressed="@color/grey"
+                 custom:tickHeight="@dimen/x3"
+
+                 />-->
+            <me.bendik.simplerangeview.SimpleRangeView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rangeview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:activeLabelColor="@color/transparent"
+                app:activeLineColor="@color/app_green"
+                app:activeLineThickness="@dimen/x3"
+                app:activeThumbColor="@color/app_green"
+                app:activeThumbFocusRadius="@dimen/x8"
+                app:activeThumbLabelColor="@color/black"
+                app:activeThumbRadius="@dimen/x7"
+                app:count="23"
+                app:end="23"
+                app:endFixed="23"
+                app:fixedLabelColor="@color/transparent"
+                app:fixedLineThickness="@dimen/x3"
+                app:fixedThumbLabelColor="@color/transparent"
+                app:fixedThumbRadius="@dimen/x7"
+                app:innerRangePaddingRight="@dimen/x30"
+                app:labelColor="@color/transparent"
+                app:lineThickness="@dimen/x3"
+                app:minDistanceBetweenLabels="@dimen/x5"
+                app:movable="true"
+                app:showActiveTicks="false"
+                app:showFixedLine="true"
+                app:showFixedTicks="false"
+                app:showLabels="true"
+                app:showTicks="false"
+                app:start="0"
+                app:startFixed="0"
+
+                />
+
+
+            <Button
+                android:id="@+id/btn_apply"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:layout_below="@+id/txt_description2"
+                android:layout_marginEnd="@dimen/x10"
+                android:layout_marginStart="@dimen/x10"
+                android:layout_marginTop="@dimen/x15"
+                android:background="@color/app_blue"
+                android:text="Apply"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
+        <com.ingic.tanfit.ui.views.CustomRecyclerView
+            android:id="@+id/lv_companies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x6"
-            android:background="@drawable/invite_boarder"
-            android:hint="@string/activity"
-            android:padding="@dimen/x10"
-            android:textSize="@dimen/x10"
-            app:typeface="@string/font_normal" />
-
-        <com.ingic.tanfit.ui.views.AnyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x6"
-            android:text="@string/by_available_hours"
-            android:textColor="@color/app_blue"
-            android:textSize="@dimen/x12"
-            app:typeface="@string/font_bold" />
-
-        <com.ingic.tanfit.ui.views.AnyEditTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x6"
-            android:background="@drawable/invite_boarder"
-            android:hint="Hours"
-            android:padding="@dimen/x10"
-            android:textSize="@dimen/x10"
-            app:typeface="@string/font_normal" />
-
-        <Button
-            android:id="@+id/btn_apply"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x40"
-            android:layout_marginStart="@dimen/x10"
-            android:layout_marginEnd="@dimen/x10"
-            android:layout_below="@+id/txt_description2"
-            android:layout_marginTop="@dimen/x15"
-            android:background="@color/app_blue"
-            android:text="Apply"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-
-
-
-    <com.ingic.tanfit.ui.views.CustomRecyclerView
-        android:id="@+id/lv_companies"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/x15"
-        android:layout_alignParentBottom="true"
-        android:scrollbars="none"
-        android:divider="@null"
-        android:visibility="visible" />
+            android:layout_alignParentBottom="true"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
