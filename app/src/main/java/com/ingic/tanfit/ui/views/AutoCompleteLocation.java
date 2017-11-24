@@ -51,7 +51,7 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
         }
         String hintText = typedArray.getString(R.styleable.AutoCompleteLocation_hint_text);
         if (hintText == null) {
-            hintText = resources.getString(R.string.default_hint_text);
+            hintText = resources.getString(R.string.location);
         }
         int hintTextColor = typedArray.getColor(R.styleable.AutoCompleteLocation_hint_text_color,
                 resources.getColor(R.color.default_hint_text));
@@ -62,7 +62,7 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
 
         setBackground(background);
         setHint(hintText);
-        setHintTextColor(hintTextColor);
+       // setHintTextColor(hintTextColor);
         setTextColor(textColor);
         setPadding(padding, padding, padding, padding);
         setMaxLines(resources.getInteger(R.integer.default_max_lines));

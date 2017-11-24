@@ -1,78 +1,50 @@
 package com.ingic.tanfit.ui.adapters;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.ingic.tanfit.R;
+import com.ingic.tanfit.activities.DockActivity;
+import com.ingic.tanfit.activities.MainActivity;
+import com.ingic.tanfit.fragments.SubscriptionPagerItem;
+import com.ingic.tanfit.fragments.VerificationEmailFragment;
+
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by muniyemiftikhar on 4/24/2017.
- */
+public class ViewPagerAdapter extends FragmentPagerAdapter {
+
+    private String[] titles= new String[]{""};
+    ArrayList<SubscriptionPagerItem> pagesArray;
 
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
-
-    public ViewPagerAdapter(FragmentManager manager) {
-        super(manager);
+    public ViewPagerAdapter(FragmentManager fm, ArrayList<SubscriptionPagerItem> pagesArray) {
+        super(fm);
+        this.pagesArray=pagesArray;
     }
 
-    @Override
-    public Parcelable saveState() {
-        return null;
-    }
-
-
-    @Override
-    public Fragment getItem(int position) {
-        return mFragmentList.get(position);
-    }
-
-
+    // Returns total number of pages
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return  pagesArray.size() ;
     }
 
-    public void addFragment(Fragment fragment, String title) {
-
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
-    }
-
+    // Returns the fragment to display for that page
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
+    public Fragment getItem(int position) {
 
+        return pagesArray.get(position);
     }
 
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
-
-    public void clearList() {
-        mFragmentList.clear();
-        mFragmentTitleList.clear();
-        notifyDataSetChanged();
-    }
-
+    // Returns the page title for the top indicator
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+        return  titles[position];
     }
-    /**
-     * Get the Fragment by position
-     *
-     * @param position tab position of the fragment
-     * @return
-     */
-    public Fragment getRegisteredFragment(int position) {
-        return mFragmentList.get(position);
-    }
+
+
 }

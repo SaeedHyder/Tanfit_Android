@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:paddingStart="@dimen/x7"
+    android:paddingEnd="@dimen/x7"
+    android:paddingBottom="@dimen/x15"
+    android:paddingTop="@dimen/x15"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="@dimen/x150"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/white_box_drawable">
+        
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image1"
+            android:scaleType="fitXY"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_gym_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x5"
+            android:layout_marginTop="@dimen/x3"
+            android:text="Troh Gym"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/app_blue"
+            android:textSize="@dimen/x15"
+            app:typeface="@string/font_bold_roboto" />
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_gym_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x5"
+            android:layout_marginBottom="@dimen/x3"
+            android:text="Meimi Beach FL USA"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/app_text_gray"
+            android:textSize="@dimen/x12"
+            app:typeface="@string/font_normal" />
+        
+    </LinearLayout>
+
+</LinearLayout>

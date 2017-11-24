@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
@@ -19,6 +20,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.util.DisplayMetrics;
+
+import com.ingic.tanfit.R;
 
 public class BitmapHelper {
 	
@@ -78,6 +81,7 @@ public class BitmapHelper {
 		}
 		return null;
 	}
+
 	
 	public static Bitmap scaleCenterCrop(Bitmap source, int newHeight,
 			int newWidth) {
@@ -160,6 +164,55 @@ public class BitmapHelper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static Bitmap getRoundCircleImage( Bitmap bitmap,Context context ) {
+		//int w = bitmap.getWidth();
+		//int h = bitmap.getHeight();
+
+		int w=(int)context.getResources().getDimension(R.dimen.x50);
+		int h=(int)context.getResources().getDimension(R.dimen.x50);
+
+
+
+		int radius = Math.min(h / 2, w / 2);
+		Bitmap output = Bitmap.createBitmap(w + 8, h + 8, Config.ARGB_8888);
+
+		Paint p = new Paint();
+		p.setAntiAlias(true);
+
+		Canvas c = new Canvas(output);
+		c.drawARGB(0, 0, 0, 0);
+		p.setStyle(Paint.Style.FILL);
+
+		c.drawCircle((w / 2) + 4, (h / 2) + 4, radius, p);
+
+		p.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+
+		c.drawBitmap(bitmap, 4, 4, p);
+		p.setXfermode(null);
+		p.setStyle(Paint.Style.STROKE);
+		p.setColor(Color.WHITE);
+		p.setStrokeWidth(3);
+		c.drawCircle((w / 2) + 4, (h / 2) + 4, radius, p);
+
+		return output;
+
+	}
+
+	public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+
+		float bitmapRatio = (float)width / (float) height;
+		if (bitmapRatio > 1) {
+			width = maxSize;
+			height = (int) (width / bitmapRatio);
+		} else {
+			height = maxSize;
+			width = (int) (height * bitmapRatio);
+		}
+		return Bitmap.createScaledBitmap(image, width, height, true);
 	}
 	
 	public static Bitmap scaleCenterCrop( Bitmap srcBmp ) {

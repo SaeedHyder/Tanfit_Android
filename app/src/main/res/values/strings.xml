@@ -8,7 +8,7 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
-    <string name="api_key">AIzaSyCDylplefNyWlLDoBL_n2VFjwlMWvq3sBg  </string>
+    <string name="api_key">AIzaSyDu4yb8rqG-Y14svz19ebqmzwbO1wp85uQ</string>
     <string name="app_name">TANFIT</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -113,6 +113,8 @@
     <string name="font_normal">Poppins-Regular_1.ttf</string>
     <string name="font_bold">Poppins-Bold_1.ttf</string>
     <string name="font_italic_bold">Roboto-Italic_2.ttf</string>
+    <string name="font_bold_roboto">Roboto-Bold.ttf</string>
+    <string name="font_roboto">Roboto-Regular.ttf</string>
     <string name="font_italic_light">Roboto-LightItalic_2.ttf</string>
     <string name="font_handwriting">segoeprb_1.ttf</string>
     <string name="notification">Notifications</string>
@@ -189,5 +191,15 @@
     <string name="confirm_password_error">Confirm Password did not match</string>
     <string name="select_gender_error">Please select your Gender</string>
     <string name="select_term_condition_error">Please Agree to our Terms and Conditions</string>
+    <string name="subscribe_now">Subscribe Now</string>
+    <string name="subscription_plans">Subscription Plans</string>
+    <string name="by_location">By Location</string>
+    <string name="by_activity">By Activity</string>
+    <string name="by_available_hours">By Available hours</string>
+    <string name="activity">Activity</string>
+    <string name="internet_not_connected">Internet is not Connected</string>
+    <string name="gps_question">Location is Disabled.Do you want to enable it</string>
+    <string name="gps_yes">Yes</string>
+    <string name="gps_no">No</string>
 
 </resources>

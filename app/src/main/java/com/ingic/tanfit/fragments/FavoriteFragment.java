@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.ui.adapters.ViewPagerAdapter;
+import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
 
 import butterknife.BindView;
@@ -29,7 +29,7 @@ public class FavoriteFragment extends BaseFragment {
     ViewPager pager;
     Unbinder unbinder;
 
-    private ViewPagerAdapter adapter;
+    private TabViewPagerAdapter adapter;
 
     public static FavoriteFragment newInstance() {
         Bundle args = new Bundle();
@@ -43,7 +43,7 @@ public class FavoriteFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new ViewPagerAdapter( getChildFragmentManager() );
+        adapter = new TabViewPagerAdapter( getChildFragmentManager() );
         if (getArguments() != null) {
         }
 
