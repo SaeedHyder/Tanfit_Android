@@ -205,10 +205,11 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback {
         mapCollection = new ArrayList<>();
 
         mapCollection.add(new MapScreenItem("25.204849","55.270783",R.drawable.circle2marker));
-        mapCollection.add(new MapScreenItem("25.209740","55.274330",R.drawable.circle2marker));
+        mapCollection.add(new MapScreenItem("25.209740","55.274330",R.drawable.circle1marker));
         mapCollection.add(new MapScreenItem("25.218322","55.309210",R.drawable.circle2marker));
-        mapCollection.add(new MapScreenItem("25.259935","55.292387",R.drawable.circle2marker));
+        mapCollection.add(new MapScreenItem("25.259935","55.292387",R.drawable.circle1marker));
         mapCollection.add(new MapScreenItem("25.276391","55.362768",R.drawable.circle2marker));
+        mapCollection.add(new MapScreenItem("25.208397","55.271852",R.drawable.circle1marker));
        /* try {
             for (UserProfile user : resultuser) {
                 if (!user.getGym_latitude().isEmpty()) {

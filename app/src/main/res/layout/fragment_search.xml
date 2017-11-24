@@ -43,6 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x35"
                     android:background="@drawable/invite_boarder"
+                    android:inputType="text"
                     android:hint="@string/location"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
@@ -53,6 +54,7 @@
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
                     android:layout_alignParentEnd="true"
+
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/x11"
                     android:src="@drawable/target" />
@@ -75,6 +77,9 @@
                 android:layout_marginTop="@dimen/x6"
                 android:background="@drawable/invite_boarder"
                 android:hint="@string/activity"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:inputType="text"
                 android:padding="@dimen/x10"
                 android:textSize="@dimen/x10"
                 app:typeface="@string/font_normal" />
@@ -122,7 +127,6 @@
                 app:innerRangePaddingRight="@dimen/x30"
                 app:labelColor="@color/transparent"
                 app:lineThickness="@dimen/x3"
-                app:minDistanceBetweenLabels="@dimen/x5"
                 app:movable="true"
                 app:showActiveTicks="false"
                 app:showFixedLine="true"
