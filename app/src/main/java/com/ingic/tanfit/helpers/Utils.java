@@ -1,4 +1,7 @@
-package com.ingic.wewash.helpers;
+package com.ingic.tanfit.helpers;
+
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 
 /**
  * Created on 9/26/2017.
@@ -20,5 +23,19 @@ public class Utils {
         StackTraceElement element = elements[position];
         String className = element.getFileName().replace(".java", "");
         return "[" + className + "](" + element.getMethodName() + ":" + element.getLineNumber() + ")";
+    }
+    public static void setSpan(SpannableStringBuilder stringBuilder, String text, String secondaryText, Object Span) {
+        try {
+            stringBuilder.setSpan(
+                    Span,
+                    text.indexOf(secondaryText),
+                    text.indexOf(secondaryText) + String.valueOf(secondaryText).length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
     }
 }

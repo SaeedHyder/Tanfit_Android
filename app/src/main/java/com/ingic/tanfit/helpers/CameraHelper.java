@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 
+import com.ingic.tanfit.activities.MainActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class CameraHelper {
@@ -299,8 +300,7 @@ public class CameraHelper {
 		return options;
 	}
 
-	public static void uploadPhotoDialog(final Fragment fragment,
-			Activity activity) {
+	public static void uploadPhotoDialog(final MainActivity activity) {
 		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(activity);
 		myAlertDialog.setTitle("Upload Photo");
 		myAlertDialog.setMessage("How do you want to set your photo?");
@@ -308,14 +308,14 @@ public class CameraHelper {
 		myAlertDialog.setPositiveButton("Gallery",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface arg0, int arg1) {
-						uploadFromGallery(fragment);
+						activity.chooseImage();
 					}
 				});
 
 		myAlertDialog.setNegativeButton("Camera",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface arg0, int arg1) {
-						uploadFromCamera(fragment);
+						activity.takePicture();
 					}
 				});
 		myAlertDialog.show();

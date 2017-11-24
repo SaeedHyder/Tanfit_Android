@@ -1,21 +1,25 @@
 package com.ingic.tanfit.fragments;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.style.ImageSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
-import com.ingic.tanfit.ui.views.SlideToUnlock;
 import com.ingic.tanfit.ui.views.TitleBar;
 
 import butterknife.BindView;
@@ -32,7 +36,7 @@ public class LoginFragment extends BaseFragment {
     @BindView(R.id.edt_password)
     AnyEditTextView edtPassword;
     @BindView(R.id.slidelogin)
-    SlideToUnlock slidelogin;
+    SeekBar slidelogin;
     @BindView(R.id.forgot_password)
     AnyTextView forgotPassword;
     @BindView(R.id.card_container)
@@ -41,6 +45,8 @@ public class LoginFragment extends BaseFragment {
     AnyTextView btnSignup;
     @BindView(R.id.scrollview_bigdaddy)
     ScrollView scrollviewBigdaddy;
+    @BindView(R.id.img_password)
+    ImageView passwordTick;
     Unbinder unbinder;
 
     public static LoginFragment newInstance() {
@@ -85,14 +91,56 @@ public class LoginFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 6 && !hasImageSpan(edtPassword)) {
-                    edtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.tick, 0);
-                } else if (s.toString().length() < 6 && hasImageSpan(edtPassword)) {
-                    edtPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                if (s.toString().length() > 6 && !hasImageSpan()) {
+                    passwordTick.setVisibility(View.VISIBLE);
+                } else if (s.toString().length() < 6 && hasImageSpan()) {
+                    passwordTick.setVisibility(View.GONE);
                 }
             }
         });
-        slidelogin.setOnUnlockListener(new SlideToUnlock.OnUnlockListener() {
+
+        slidelogin.setOnTouchListener(new View.OnTouchListener() {
+            private boolean isInvalidMove;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        return isInvalidMove = motionEvent.getX() > slidelogin.getThumb().getIntrinsicWidth();
+                    case MotionEvent.ACTION_MOVE:
+                        return isInvalidMove;
+                    case MotionEvent.ACTION_UP:
+                        return isInvalidMove;
+                }
+                return false;
+            }
+        });
+
+        slidelogin.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
+                //label.setAlpha(1f - progress * 0.02f);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (seekBar.getProgress() < 100) {
+                    animateSeekbarToZero(seekBar);
+                } else {
+                    if (isValidated()) {
+                        getDockActivity().popBackStackTillEntry(0);
+                        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
+                    } else
+                        animateSeekbarToZero(seekBar);
+                }
+            }
+        });
+       /* slidelogin.setOnUnlockListener(new SlideToUnlock.OnUnlockListener() {
             @Override
             public void onUnlock() {
                 if (isValidated()) {
@@ -101,13 +149,18 @@ public class LoginFragment extends BaseFragment {
                 } else
                     slidelogin.reset();
             }
-        });
+        });*/
     }
 
-    public boolean hasImageSpan(AnyEditTextView editText) {
-        Editable text = editText.getEditableText();
-        ImageSpan[] spans = text.getSpans(0, text.length(), ImageSpan.class);
-        return !(spans.length == 0);
+    private void animateSeekbarToZero(SeekBar seekBar) {
+        ObjectAnimator anim = ObjectAnimator.ofInt(seekBar, "progress", 0);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+        anim.start();
+    }
+
+    public boolean hasImageSpan() {
+        return passwordTick.getVisibility() == View.VISIBLE;
     }
 
     private boolean isValidated() {

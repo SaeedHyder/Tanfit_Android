@@ -64,6 +64,7 @@ dependencies {
     compile project(':nineoldandroids-library-2.4.0')
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.kbeanie:image-chooser-library:1.5.8@aar'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.daprlabs.aaron:cardstack:0.3.1-beta0'
     compile 'com.android.support:cardview-v7:25.2.0'
