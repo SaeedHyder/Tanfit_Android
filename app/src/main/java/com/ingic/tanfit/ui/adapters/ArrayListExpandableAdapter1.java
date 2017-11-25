@@ -10,7 +10,7 @@ import com.ingic.tanfit.ui.viewbinders.abstracts.ExpandableListViewBinder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter {
+public class ArrayListExpandableAdapter1<T, E> extends BaseExpandableListAdapter {
 
     protected Activity mContext;
 
@@ -20,8 +20,8 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
     private ArrayList<T> headerCollection = new ArrayList<>();
     private HashMap<T, T> ChildCollection = new HashMap<>();
 
-    public ArrayListExpandableAdapter(Activity context, ArrayList<T> headerCollection, HashMap<T, T> listDataChild,
-                                      ExpandableListViewBinder<T, E> viewBinder) {
+    public ArrayListExpandableAdapter1(Activity context, ArrayList<T> headerCollection, HashMap<T, T> listDataChild,
+                                       ExpandableListViewBinder<T, E> viewBinder) {
         mContext = context;
         this.headerCollection = headerCollection;
         this.ChildCollection = listDataChild;
@@ -87,7 +87,7 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
         }
 
         T groupItem = (T) getGroup(groupPosition);
-        viewBinder.bindGroupView(groupItem, groupPosition, 0, convertView, mContext);
+        viewBinder.bindGroupView(groupItem, groupPosition, groupPosition, 0, convertView, mContext, isExpanded);
 
         return convertView;
 

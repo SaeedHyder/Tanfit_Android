@@ -29,14 +29,20 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.LocationModel;
+import com.ingic.tanfit.fragments.BookingHistoryFragment;
+import com.ingic.tanfit.fragments.BookingHistoryTabLayFragment;
+import com.ingic.tanfit.fragments.ChangePasswordFragment;
 import com.ingic.tanfit.fragments.ClassDetailFragment;
 import com.ingic.tanfit.fragments.ContactUsFragment;
+import com.ingic.tanfit.fragments.CurrentBookingFragment;
 import com.ingic.tanfit.fragments.FavoriteFragment;
 import com.ingic.tanfit.fragments.FitnessClassesFragment;
 import com.ingic.tanfit.fragments.HomeFragment;
 import com.ingic.tanfit.fragments.LoginFragment;
+import com.ingic.tanfit.fragments.MyProfileFragment;
 import com.ingic.tanfit.fragments.NotificationsFragment;
 import com.ingic.tanfit.fragments.SearchFragment;
+import com.ingic.tanfit.fragments.SettingFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
 import com.ingic.tanfit.fragments.SubscriptionFragment;
 import com.ingic.tanfit.fragments.SubscriptionPagerItem;
@@ -281,9 +287,9 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     public void initFragment() {
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         if (prefHelper.isLogin()) {
-            replaceDockableFragment(SearchFragment.newInstance(), "HomeFragment");
+            replaceDockableFragment(MyProfileFragment.newInstance(), "HomeFragment");
         } else {
-            replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(MyProfileFragment.newInstance(), "LoginFragment");
         }
     }
 

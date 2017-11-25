@@ -1,0 +1,141 @@
+package com.ingic.tanfit.fragments;
+
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.ProfileEnt;
+import com.ingic.tanfit.entities.SearchRecyclerEnt;
+import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.ui.binders.ProfileItemBinder;
+import com.ingic.tanfit.ui.binders.SearchItemBinder;
+import com.ingic.tanfit.ui.views.AnyTextView;
+import com.ingic.tanfit.ui.views.CustomRecyclerView;
+import com.ingic.tanfit.ui.views.TitleBar;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+/**
+ * Created by saeedhyder on 11/25/2017.
+ */
+public class MyProfileFragment extends BaseFragment {
+
+    @BindView(R.id.btnBack)
+    ImageView btnBack;
+    @BindView(R.id.btnLogout)
+    ImageView btnLogout;
+    @BindView(R.id.txt_name)
+    AnyTextView txtName;
+    @BindView(R.id.txt_email)
+    AnyTextView txtEmail;
+    @BindView(R.id.rv_gyms)
+    CustomRecyclerView rvGyms;
+    @BindView(R.id.txt_bookingHistory)
+    AnyTextView txtBookingHistory;
+    @BindView(R.id.txt_manageSubscription)
+    AnyTextView txtManageSubscription;
+    @BindView(R.id.txt_MyFavorites)
+    AnyTextView txtMyFavorites;
+    @BindView(R.id.txt_changePassword)
+    AnyTextView txtChangePassword;
+    @BindView(R.id.txt_settings)
+    AnyTextView txtSettings;
+    @BindView(R.id.txt_aboutUs)
+    AnyTextView txtAboutUs;
+    @BindView(R.id.txt_contactUs)
+    AnyTextView txtContactUs;
+    Unbinder unbinder;
+
+    private ArrayList<ProfileEnt> userCollections;;
+
+    public static MyProfileFragment newInstance() {
+        Bundle args = new Bundle();
+
+        MyProfileFragment fragment = new MyProfileFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+        }
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_myprofile, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setProfileData();
+    }
+
+    private void setProfileData() {
+
+            userCollections = new ArrayList<>();
+            userCollections.add(new ProfileEnt("sdfsdfds"));
+            userCollections.add(new ProfileEnt("sdfsdfds"));
+            userCollections.add(new ProfileEnt("sdfsdfds"));
+
+            rvGyms.BindRecyclerView(new ProfileItemBinder(), userCollections,
+                    new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
+                    , new DefaultItemAnimator());
+
+    }
+
+    @Override
+    public void setTitleBar(TitleBar titleBar) {
+        super.setTitleBar(titleBar);
+        titleBar.hideButtons();
+        titleBar.setSubHeading("");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.btnBack, R.id.btnLogout, R.id.txt_bookingHistory, R.id.txt_manageSubscription, R.id.txt_MyFavorites, R.id.txt_changePassword, R.id.txt_settings, R.id.txt_aboutUs, R.id.txt_contactUs})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnBack:
+                break;
+            case R.id.btnLogout:
+                break;
+            case R.id.txt_bookingHistory:
+                break;
+            case R.id.txt_manageSubscription:
+                break;
+            case R.id.txt_MyFavorites:
+                break;
+            case R.id.txt_changePassword:
+                break;
+            case R.id.txt_settings:
+                break;
+            case R.id.txt_aboutUs:
+                break;
+            case R.id.txt_contactUs:
+                break;
+        }
+    }
+}

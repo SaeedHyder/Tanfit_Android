@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/txt_deleteAccount"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/x10"
+        android:text="@string/delete_account"
+        android:textSize="@dimen/x15"
+        android:textColor="@color/black_text"
+        app:typeface="@string/font_normal" />
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/border_gray_light"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x10"
+            android:text="@string/notifications_settings"
+            android:textSize="@dimen/x15"
+            android:textColor="@color/black_text"
+            app:typeface="@string/font_normal" />
+
+        <ToggleButton
+            android:id="@+id/toggleNotification"
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/x25"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x10"
+            android:layout_marginEnd="@dimen/x10"
+            android:background="@drawable/selector_toggle"
+            android:checked="true"
+            android:text=""
+            android:textOff=""
+            android:textOn=""/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/border_gray_light"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x10"
+            android:text="@string/language"
+            android:textSize="@dimen/x15"
+            android:textColor="@color/black_text"
+            app:typeface="@string/font_normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+          android:layout_gravity="right"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_englishLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
+            android:text="@string/english"
+            android:textSize="@dimen/x15"
+            android:textColor="@color/app_green"
+            app:typeface="@string/font_normal" />
+        
+        <View
+            android:layout_width="@dimen/x1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/x5"
+            android:layout_marginBottom="@dimen/x5"
+            android:background="@color/border_gray_light"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_persianLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
+            android:text="@string/persian"
+            android:textSize="@dimen/x15"
+            android:textColor="@color/app_text_gray"
+            app:typeface="@string/font_normal" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/border_gray_light"/>
+
+</LinearLayout>
