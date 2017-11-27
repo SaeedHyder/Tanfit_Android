@@ -200,6 +200,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                 btnCancelBooking.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_viewStudioPage:
+                getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(),"GymDetailFragment");
                 break;
             case R.id.btn_cancel_booking:
                 btnBookNow.setVisibility(View.VISIBLE);
