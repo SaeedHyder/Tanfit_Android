@@ -1,18 +1,24 @@
 package com.ingic.tanfit.fragments;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -64,6 +70,9 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     ImageView imgGps;
     @BindView(R.id.ll_filters)
     LinearLayout llFilters;
+    @BindView(R.id.btn_showFilters)
+    Button btnShowFilters;
+
     private SetChildTitlebar childTitlebar;
     private ArrayList<MapScreenItem> mapCollection = new ArrayList<>();
     private GoogleMap mMap;
@@ -122,6 +131,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         if (mapFragment == null) {
             initMap();
         }
+
+        lv_companies.setVisibility(View.GONE);
 
         childTitlebar = (MainFragment) getParentFragment();
         if (childTitlebar != null) {
@@ -183,9 +194,9 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     private void setRecyclerViewData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image1, "Troh Gym", "Meimi Beach FL USA"));
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image1, "Troh Gym", "Meimi Beach FL USA"));
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image1, "Troh Gym", "Meimi Beach FL USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image8, "Troh Gym", "Meimi Beach FL USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image9, "Troh Gym", "Meimi Beach FL USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.images10, "Troh Gym", "Meimi Beach FL USA"));
 
         lv_companies.BindRecyclerView(new SearchItemBinder(this), userCollections,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
@@ -277,19 +288,31 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     }
 
 
-    @OnClick({R.id.btn_apply, R.id.img_gps})
+    @OnClick({R.id.btn_apply, R.id.img_gps,R.id.btn_showFilters})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_apply:
+
                 llFilters.setVisibility(View.GONE);
-                lv_companies.setVisibility(View.GONE);
+                lv_companies.setVisibility(View.VISIBLE);
+                btnShowFilters.setVisibility(View.VISIBLE);
                 bindview();
                 break;
             case R.id.img_gps:
                 getLocation(autoComplete);
                 break;
+
+            case R.id.btn_showFilters:
+                btnShowFilters.setVisibility(View.GONE);
+                llFilters.setVisibility(View.VISIBLE);
+                break;
+
+
         }
-    }
+
+}
+
+
 
 
     @Override

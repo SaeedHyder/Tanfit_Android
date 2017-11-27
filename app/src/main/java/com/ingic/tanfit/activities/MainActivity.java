@@ -225,13 +225,14 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
         if (type.equals(SideMenuChooser.DRAWER.getValue())) {
 
+            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(getResources().getDisplayMetrics().widthPixels, (int) DrawerLayout.LayoutParams.MATCH_PARENT);
 
-//            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams((int) getResources().getDimension(R.dimen.x300), (int) DrawerLayout.LayoutParams.MATCH_PARENT);
-
-            int width = getResources().getDisplayMetrics().widthPixels;
+        /*   int width = getResources().getDisplayMetrics().widthPixels;
             DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) sideMneuFragmentContainer.getLayoutParams();
-            params.width = width;
+            params.width = width;*/
 
+
+        //   DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams((int) DrawerLayout.LayoutParams.MATCH_PARENT, (int) DrawerLayout.LayoutParams.MATCH_PARENT);
             if (direction.equals(SideMenuDirection.LEFT.getValue())) {
                 params.gravity = Gravity.LEFT;
                 sideMneuFragmentContainer.setLayoutParams(params);
@@ -241,6 +242,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
                 sideMneuFragmentContainer.setLayoutParams(params);
             }
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
             sideMenuFragment = MyProfileFragment.newInstance();
             FragmentTransaction transaction = getSupportFragmentManager()
@@ -353,10 +355,13 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
         settingSideMenu(sideMenuType, sideMenuDirection);
 
+
+
         titleBar.setMenuButtonListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 if (sideMenuType.equals(SideMenuChooser.DRAWER.getValue()) && getDrawerLayout() != null) {
                     if (sideMenuDirection.equals(SideMenuDirection.LEFT.getValue())) {
                         drawerLayout.openDrawer(Gravity.LEFT);

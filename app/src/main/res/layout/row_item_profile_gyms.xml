@@ -9,7 +9,7 @@
             android:id="@+id/iv_gymImage"
             android:layout_width="@dimen/x70"
             android:layout_height="@dimen/x70"
-            android:src="@drawable/image3" />
+            android:src="@drawable/image5" />
 
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.ingic.tanfit.ui.binders;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
@@ -39,6 +40,7 @@ public class SearchItemBinder extends RecyclerViewBinder<SearchRecyclerEnt> {
     @Override
     public void bindView(SearchRecyclerEnt entity, final int position, final Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
+        imageLoader.displayImage(entity.getImage(),holder.image);
 
         holder.llCompany.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +62,10 @@ public class SearchItemBinder extends RecyclerViewBinder<SearchRecyclerEnt> {
         AnyTextView txtGymAddress;
         @BindView(R.id.ll_company)
         LinearLayout llCompany;
+        @BindView(R.id.image)
+        ImageView image;
+
+
 
 
 

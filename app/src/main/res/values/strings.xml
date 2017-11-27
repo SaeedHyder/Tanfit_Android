@@ -232,5 +232,6 @@
     <string name="days">Days</string>
     <string name="cancel_booking">Cancel Booking</string>
     <string name="subscribe">Subscribe</string>
+    <string name="show_filters">Show Filters</string>
 
 </resources>

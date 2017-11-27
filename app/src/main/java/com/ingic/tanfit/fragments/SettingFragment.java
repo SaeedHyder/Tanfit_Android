@@ -87,7 +87,7 @@ public class SettingFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.txt_englishLanguage, R.id.txt_persianLanguage})
+    @OnClick({R.id.txt_englishLanguage, R.id.txt_persianLanguage,R.id.txt_deleteAccount})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_englishLanguage:

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.ProfileEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.helpers.DialogHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.binders.ProfileItemBinder;
@@ -96,12 +97,12 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     private void setProfileData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new ProfileEnt("sdfsdfds"));
-        userCollections.add(new ProfileEnt("sdfsdfds"));
-        userCollections.add(new ProfileEnt("sdfsdfds"));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH+R.drawable.image7));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH+R.drawable.image6));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH+R.drawable.image5));
 
 
-        rvGyms.addItemDecoration(new OverlapDecoration());
+        rvGyms.addItemDecoration(new OverlapDecoration(-110));
         rvGyms.setLayoutManager(new LinearLayoutManager(getDockActivity()));
 
 
@@ -128,7 +129,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                getMainActivity().closeDrawer();
+                getDockActivity().closeDrawer();
                 break;
             case R.id.btnLogout:
                 final DialogHelper dialogHelper = new DialogHelper(getDockActivity());
@@ -180,7 +181,12 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
     public class OverlapDecoration extends RecyclerView.ItemDecoration {
 
-        private final int vertOverlap = -90;
+        private final int vertOverlap = -110;
+        private int padding=0;
+
+        public OverlapDecoration(int padding) {
+            this.padding=padding;
+        }
 
 
         @Override
@@ -189,10 +195,10 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
             if (itemPosition == 0) {
                 return;
             }
-            outRect.set(vertOverlap, 0, 0, 0);
-
+            outRect.set(padding, 0, 0, 0);
 
         }
+
     }
 }
 

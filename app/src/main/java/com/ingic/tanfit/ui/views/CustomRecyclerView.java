@@ -62,7 +62,7 @@ public class CustomRecyclerView<T> extends RecyclerView {
         }
     }
 
-    private void notifyDataSetChanged() {
+    public void notifyDataSetChanged() {
         if (mRecyclerViewAdapter != null) {
             mRecyclerViewAdapter.notifyDataSetChanged();
         }
