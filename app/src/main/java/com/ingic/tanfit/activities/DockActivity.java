@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.ingic.tanfit.BaseApplication;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.HomeFragment;
+import com.ingic.tanfit.fragments.MyProfileFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
@@ -40,7 +41,7 @@ public abstract class DockActivity extends AppCompatActivity implements
 
     //For side menu
     protected DrawerLayout drawerLayout;
-    public SideMenuFragment sideMenuFragment;
+    public MyProfileFragment sideMenuFragment;
 
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
         @Override

@@ -1,8 +1,10 @@
 package com.ingic.tanfit.fragments;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,10 @@ import android.widget.ImageView;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.ProfileEnt;
-import com.ingic.tanfit.entities.SearchRecyclerEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.helpers.DialogHelper;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.binders.ProfileItemBinder;
-import com.ingic.tanfit.ui.binders.SearchItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -29,7 +30,7 @@ import butterknife.Unbinder;
 /**
  * Created by saeedhyder on 11/25/2017.
  */
-public class MyProfileFragment extends BaseFragment {
+public class MyProfileFragment extends BaseFragment implements RecyclerViewItemListener {
 
     @BindView(R.id.btnBack)
     ImageView btnBack;
@@ -57,7 +58,8 @@ public class MyProfileFragment extends BaseFragment {
     AnyTextView txtContactUs;
     Unbinder unbinder;
 
-    private ArrayList<ProfileEnt> userCollections;;
+    private ArrayList<ProfileEnt> userCollections;
+    ;
 
     public static MyProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -87,26 +89,32 @@ public class MyProfileFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setProfileData();
+
     }
+
 
     private void setProfileData() {
 
-            userCollections = new ArrayList<>();
-            userCollections.add(new ProfileEnt("sdfsdfds"));
-            userCollections.add(new ProfileEnt("sdfsdfds"));
-            userCollections.add(new ProfileEnt("sdfsdfds"));
+        userCollections = new ArrayList<>();
+        userCollections.add(new ProfileEnt("sdfsdfds"));
+        userCollections.add(new ProfileEnt("sdfsdfds"));
+        userCollections.add(new ProfileEnt("sdfsdfds"));
 
-            rvGyms.BindRecyclerView(new ProfileItemBinder(), userCollections,
-                    new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
-                    , new DefaultItemAnimator());
+
+        rvGyms.addItemDecoration(new OverlapDecoration());
+        rvGyms.setLayoutManager(new LinearLayoutManager(getDockActivity()));
+
+
+        rvGyms.BindRecyclerView(new ProfileItemBinder(this), userCollections,
+                new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
+                , new DefaultItemAnimator());
 
     }
 
     @Override
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
-        titleBar.hideButtons();
-        titleBar.setSubHeading("");
+        titleBar.hideTitleBar();
     }
 
     @Override
@@ -119,23 +127,71 @@ public class MyProfileFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
+                getMainActivity().popFragment();
                 break;
             case R.id.btnLogout:
+                final DialogHelper dialogHelper = new DialogHelper(getDockActivity());
+                dialogHelper.initlogout(R.layout.logout_dialog, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        prefHelper.setLoginStatus(false);
+                        getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+                        dialogHelper.hideDialog();
+                    }
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogHelper.hideDialog();
+                    }
+                });
+                dialogHelper.showDialog();
+
                 break;
             case R.id.txt_bookingHistory:
+                getDockActivity().replaceDockableFragment(BookingHistoryTabLayFragment.newInstance(), "BookingHistoryTabLayFragment");
                 break;
             case R.id.txt_manageSubscription:
+                getDockActivity().replaceDockableFragment(MySubscriptionFragment.newInstance(), "MySubscriptionFragment");
                 break;
             case R.id.txt_MyFavorites:
+                getDockActivity().replaceDockableFragment(FavoriteFragment.newInstance(), "FavoriteFragment");
                 break;
             case R.id.txt_changePassword:
+                getDockActivity().replaceDockableFragment(ChangePasswordFragment.newInstance(), "ChangePasswordFragment");
                 break;
             case R.id.txt_settings:
+                getDockActivity().replaceDockableFragment(SettingFragment.newInstance(), "SettingFragment");
                 break;
             case R.id.txt_aboutUs:
+                getDockActivity().replaceDockableFragment(AboutUsFragment.newInstance(), "AboutUsFragment");
                 break;
             case R.id.txt_contactUs:
+                getDockActivity().replaceDockableFragment(ContactUsFragment.newInstance(), "ContactUsFragment");
                 break;
         }
     }
+
+    @Override
+    public void onRecyclerItemClicked(Object Ent, int position) {
+
+
+    }
+
+    public class OverlapDecoration extends RecyclerView.ItemDecoration {
+
+        private final int vertOverlap = -90;
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            final int itemPosition = parent.getChildAdapterPosition(view);
+            if (itemPosition == 0) {
+                return;
+            }
+            outRect.set(vertOverlap, 0, 0, 0);
+
+
+        }
+    }
 }
+
+

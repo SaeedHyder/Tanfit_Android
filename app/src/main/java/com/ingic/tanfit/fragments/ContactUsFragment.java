@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -75,5 +76,6 @@ public class ContactUsFragment extends BaseFragment {
 
     @OnClick(R.id.btn_visit_website)
     public void onViewClicked() {
+        UIHelper.showShortToastInCenter(getDockActivity(),"Will be implemented in beta");
     }
 }

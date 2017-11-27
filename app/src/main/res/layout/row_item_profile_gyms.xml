@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/mainFrame"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-20dp"
-        android:layout_gravity="center_vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_gymImage"
@@ -15,6 +11,5 @@
             android:layout_height="@dimen/x70"
             android:src="@drawable/image3" />
 
-    </RelativeLayout>
 
 </LinearLayout>

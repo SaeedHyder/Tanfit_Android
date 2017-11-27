@@ -80,7 +80,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     private MainActivity mContext;
-    private boolean loading;
+    public boolean loading;
     private ImageSetter imageSetter;
     private ResideMenu resideMenu;
     private float lastTranslate = 0.0f;
@@ -235,9 +235,9 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         if (type.equals(SideMenuChooser.DRAWER.getValue())) {
 
 
-            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams((int) getResources().getDimension(R.dimen.x300), (int) DrawerLayout.LayoutParams.MATCH_PARENT);
+//            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams((int) getResources().getDimension(R.dimen.x300), (int) DrawerLayout.LayoutParams.MATCH_PARENT);
 
-
+            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams((int) DrawerLayout.LayoutParams.MATCH_PARENT, (int) DrawerLayout.LayoutParams.MATCH_PARENT);
             if (direction.equals(SideMenuDirection.LEFT.getValue())) {
                 params.gravity = Gravity.LEFT;
                 sideMneuFragmentContainer.setLayoutParams(params);
@@ -247,7 +247,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
             }
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-            sideMenuFragment = SideMenuFragment.newInstance();
+            sideMenuFragment = MyProfileFragment.newInstance();
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction();
             transaction.replace(getSideMenuFrameLayoutId(), sideMenuFragment).commit();
@@ -287,9 +287,9 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     public void initFragment() {
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         if (prefHelper.isLogin()) {
-            replaceDockableFragment(MyProfileFragment.newInstance(), "HomeFragment");
+            replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
         } else {
-            replaceDockableFragment(MyProfileFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
         }
     }
 
@@ -353,7 +353,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         mContext = this;
         Log.i("Screen Density", ScreenHelper.getDensity(this) + "");
 
-        sideMenuType = SideMenuChooser.RESIDE_MENU.getValue();
+        sideMenuType = SideMenuChooser.DRAWER.getValue();
         sideMenuDirection = SideMenuDirection.LEFT.getValue();
 
         settingSideMenu(sideMenuType, sideMenuDirection);

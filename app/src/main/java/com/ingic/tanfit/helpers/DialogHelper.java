@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.ui.views.AnyTextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 
@@ -32,6 +33,21 @@ public class DialogHelper {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.dialog.setContentView(layoutID);
+        Button okbutton = (Button) dialog.findViewById(R.id.btn_yes);
+        okbutton.setOnClickListener(onokclicklistener);
+        Button cancelbutton = (Button) dialog.findViewById(R.id.btn_No);
+        cancelbutton.setOnClickListener(oncancelclicklistener);
+        return this.dialog;
+    }
+
+    public Dialog subcriptionDialoge(int layoutID,String Title,String Description, View.OnClickListener onokclicklistener, View.OnClickListener oncancelclicklistener) {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        this.dialog.setContentView(layoutID);
+        AnyTextView title=(AnyTextView)dialog.findViewById(R.id.txt_title);
+        AnyTextView description=(AnyTextView)dialog.findViewById(R.id.txt_description);
+        title.setText(Title);
+        description.setText(Description);
         Button okbutton = (Button) dialog.findViewById(R.id.btn_yes);
         okbutton.setOnClickListener(onokclicklistener);
         Button cancelbutton = (Button) dialog.findViewById(R.id.btn_No);

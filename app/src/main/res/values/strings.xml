@@ -61,7 +61,7 @@
 
     <string name="search_hint">Search Ads, User or Category</string>
     <string name="password_sent">Your password will be sent to your \nemail address</string>
-    <string name="change_password">CHANGE PASSWORD</string>
+    <string name="change_password">Change Password</string>
     <string name="reason_for_rejection">REASON</string>
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
@@ -160,7 +160,10 @@
     <string name="book_now">Book Now</string>
     <string name="location">Location</string>
     <string name="logout">Logout</string>
+    <string name="Cancel">Cancel Subcription</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="are_you_sure_you_want_to_pause_subcription">Are you sure you want to Pause Subcription?</string>
+    <string name="are_you_sure_you_want_to_cancel_subcription">Are you sure you want to cancel Subcription?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="about">About</string>
@@ -223,6 +226,8 @@
     <string name="settings">Settings</string>
     <string name="about_us">About Us</string>
     <string name="contact_us">Contact Us</string>
+    <string name="resume">Resume</string>
+    <string name="pauseSubscription">Pause Subscription</string>
 
 
 </resources>

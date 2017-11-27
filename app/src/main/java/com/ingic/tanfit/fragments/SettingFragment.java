@@ -77,6 +77,7 @@ public class SettingFragment extends BaseFragment {
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
+        titleBar.showBackButton();
         titleBar.setSubHeading(getString(R.string.settings));
     }
 

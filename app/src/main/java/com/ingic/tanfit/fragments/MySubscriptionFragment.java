@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.helpers.DialogHelper;
+import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -23,8 +25,10 @@ public class MySubscriptionFragment extends BaseFragment {
 
     @BindView(R.id.txt_subscription_package)
     AnyTextView txtSubscriptionPackage;
+    @BindView(R.id.edit_days)
+    AnyEditTextView editDays;
     @BindView(R.id.btn_visit_website)
-    Button btnVisitWebsite;
+    Button btnCancel;
     @BindView(R.id.txt_days_left)
     AnyTextView txtDaysLeft;
     Unbinder unbinder;
@@ -74,7 +78,46 @@ public class MySubscriptionFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.btn_visit_website)
-    public void onViewClicked() {
+
+    @OnClick({R.id.btn_pause, R.id.btn_visit_website})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_pause:
+                final DialogHelper dialogHelper = new DialogHelper(getDockActivity());
+                dialogHelper.subcriptionDialoge(R.layout.pause_subscription_dialoge, getString(R.string.pauseSubscription), getString(R.string.are_you_sure_you_want_to_pause_subcription), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnPause.setText(R.string.resume);
+                        dialogHelper.hideDialog();
+
+                    }
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogHelper.hideDialog();
+                    }
+                });
+                dialogHelper.showDialog();
+
+                break;
+            case R.id.btn_visit_website:
+                final DialogHelper cancel = new DialogHelper(getDockActivity());
+                cancel.subcriptionDialoge(R.layout.pause_subscription_dialoge, getString(R.string.cancel_subscription), getString(R.string.are_you_sure_you_want_to_cancel_subcription), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        cancel.hideDialog();
+
+                    }
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cancel.hideDialog();
+                    }
+                });
+                cancel.showDialog();
+
+                break;
+        }
     }
 }
