@@ -121,7 +121,7 @@
                         android:layout_weight="0.92"
                         android:background="@color/transparent"
                         android:hint="@string/password"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:maxLength="25"
                         android:maxLines="1"

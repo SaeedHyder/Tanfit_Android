@@ -201,5 +201,6 @@
     <string name="gps_question">Location is Disabled.Do you want to enable it</string>
     <string name="gps_yes">Yes</string>
     <string name="gps_no">No</string>
+    <string name="search">Search</string>
 
 </resources>

@@ -68,6 +68,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile project(':nineoldandroids-library-2.4.0')
+    compile project(':horizontal-picker')
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.kbeanie:image-chooser-library:1.5.8@aar'

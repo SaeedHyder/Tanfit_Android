@@ -96,7 +96,7 @@ public class TitleBar extends RelativeLayout {
 	public void showMenuButton() {
 		btnLeft.setVisibility(View.VISIBLE);
 		btnLeft.setOnClickListener(menuButtonListener);
-		btnLeft.setImageResource(R.drawable.ic_launcher);
+		btnLeft.setImageResource(R.drawable.profileimage);
 	}
 
 	public void setSubHeading(String heading) {

@@ -133,8 +133,9 @@ public class LoginFragment extends BaseFragment {
                     animateSeekbarToZero(seekBar);
                 } else {
                     if (isValidated()) {
+                        prefHelper.setLoginStatus(true);
                         getDockActivity().popBackStackTillEntry(0);
-                        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
+                        getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
                     } else
                         animateSeekbarToZero(seekBar);
                 }
