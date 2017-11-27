@@ -36,6 +36,7 @@
     <color name="app_gray">#e7e8e9</color>
     <color name="app_light_gray">#f7f5f7</color>
     <color name="app_text_gray">#898989</color>
+    <color name="border_gray_light">#ececec</color>
     <color name="app_green_dark">#1ac458</color>
     <color name="timer_red">#e5868a</color>
     <color name="app_green">#1bc559</color>
@@ -53,8 +54,11 @@
     <color name="app_font_blue">#1E87E4</color>
     <color name="app_font_green">#19C657</color>
     <color name="signup_color_green">#19C557</color>
+    <color name="black_text">#545456</color>
+    <color name="light_gray_border">#f0f0f0</color>
     <color name="seekbar_background_color">#F0F7FE</color>
     <color name="background_grey">#F6F6F6</color>
     <color name="app_font_black">#595667</color>
     <color name="home_header_background">#1B72E2</color>
+
 </resources>

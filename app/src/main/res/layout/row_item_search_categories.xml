@@ -10,6 +10,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/ll_company"
         android:layout_width="@dimen/x150"
         android:layout_height="wrap_content"
         android:orientation="vertical"

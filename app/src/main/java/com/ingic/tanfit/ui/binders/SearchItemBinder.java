@@ -3,9 +3,11 @@ package com.ingic.tanfit.ui.binders;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.SearchRecyclerEnt;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.viewbinders.abstracts.RecyclerViewBinder;
 import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
@@ -21,10 +23,12 @@ import butterknife.ButterKnife;
 public class SearchItemBinder extends RecyclerViewBinder<SearchRecyclerEnt> {
 
     private ImageLoader imageLoader;
+    private RecyclerViewItemListener recyclerViewItemListener;
 
-    public SearchItemBinder() {
+    public SearchItemBinder(RecyclerViewItemListener recyclerViewItemListener) {
         super(R.layout.row_item_search_categories);
         imageLoader = ImageLoader.getInstance();
+        this.recyclerViewItemListener=recyclerViewItemListener;
     }
 
     @Override
@@ -33,8 +37,18 @@ public class SearchItemBinder extends RecyclerViewBinder<SearchRecyclerEnt> {
     }
 
     @Override
-    public void bindView(SearchRecyclerEnt entity, int position, Object viewHolder, Context context) {
+    public void bindView(SearchRecyclerEnt entity, final int position, final Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
+
+        holder.llCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewItemListener.onRecyclerItemClicked(viewHolder,position);
+            }
+        });
+
+
+
 
     }
 
@@ -44,6 +58,10 @@ public class SearchItemBinder extends RecyclerViewBinder<SearchRecyclerEnt> {
         AnyTextView txtGymName;
         @BindView(R.id.txt_gym_address)
         AnyTextView txtGymAddress;
+        @BindView(R.id.ll_company)
+        LinearLayout llCompany;
+
+
 
         ViewHolder(View view) {
             super(view);

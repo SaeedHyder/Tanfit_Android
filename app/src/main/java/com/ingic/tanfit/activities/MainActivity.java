@@ -1,7 +1,6 @@
 package com.ingic.tanfit.activities;
 
 
-import android.content.Intent;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,21 +26,13 @@ import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.LocationModel;
-import com.ingic.tanfit.fragments.ClassDetailFragment;
-import com.ingic.tanfit.fragments.ContactUsFragment;
-import com.ingic.tanfit.fragments.FavoriteFragment;
-import com.ingic.tanfit.fragments.FitnessClassesFragment;
-import com.ingic.tanfit.fragments.HomeFragment;
-import com.ingic.tanfit.fragments.LoginFragment;
 import com.ingic.tanfit.fragments.MainFragment;
+import com.ingic.tanfit.fragments.MyProfileFragment;
 import com.ingic.tanfit.fragments.NotificationsFragment;
-import com.ingic.tanfit.fragments.SearchFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
-import com.ingic.tanfit.fragments.SubscriptionFragment;
-import com.ingic.tanfit.fragments.SubscriptionPagerItem;
-import com.ingic.tanfit.fragments.WelcomeFragment;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.SideMenuChooser;
 import com.ingic.tanfit.global.SideMenuDirection;
@@ -65,6 +56,7 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends DockActivity implements OnClickListener, ImageChooserListener {
+    private final static String TAG = "ICA";
     public TitleBar titleBar;
     @BindView(R.id.sideMneuFragmentContainer)
     public FrameLayout sideMneuFragmentContainer;
@@ -88,6 +80,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     private String thumbnailFilePath;
     private String thumbnailSmallFilePath;
     private boolean isActivityResultOver = false;
+
     public void setImageSetter(ImageSetter imageSetter) {
         this.imageSetter = imageSetter;
     }
@@ -211,6 +204,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     public View getDrawerView() {
         return getLayoutInflater().inflate(getSideMenuFrameLayoutId(), null);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -225,6 +219,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         }
 
     }
+
     private void settingSideMenu(String type, String direction) {
 
         if (type.equals(SideMenuChooser.DRAWER.getValue())) {
@@ -284,7 +279,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         if (prefHelper.isLogin()) {
             replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
         } else {
-            replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(MyProfileFragment.newInstance(), "LoginFragment");
         }
     }
 
@@ -430,10 +425,13 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
     private void notImplemented() {
         UIHelper.showLongToastInCenter(this, "Coming Soon");
-    }    @Override
+    }
+
+    @Override
     public void onClick(View view) {
 
     }
+
     private void reinitializeImageChooser() {
         imageChooserManager = new ImageChooserManager(this, chooserType, true);
         Bundle bundle = new Bundle();
@@ -476,7 +474,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
             e.printStackTrace();
         }
     }
-    private final static String TAG = "ICA";
+
     @Override
     public void onImageChosen(final ChosenImage image) {
         runOnUiThread(new Runnable() {

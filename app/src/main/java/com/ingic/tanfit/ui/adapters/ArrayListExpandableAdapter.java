@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+
 
 import com.ingic.tanfit.ui.viewbinders.abstracts.ExpandableListViewBinder;
 
@@ -16,22 +18,29 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
 
     protected ExpandableListViewBinder<T, E> viewBinder;
 
+    protected ExpandableListView elvInprogress;
+
 
     private ArrayList<T> headerCollection = new ArrayList<>();
-    private HashMap<T, T> ChildCollection = new HashMap<>();
+    private HashMap<T, ArrayList<E>> ChildCollection = new HashMap<>();
 
-    public ArrayListExpandableAdapter(Activity context, ArrayList<T> headerCollection, HashMap<T, T> listDataChild,
-                                      ExpandableListViewBinder<T, E> viewBinder) {
+    public ArrayListExpandableAdapter(Activity context, ArrayList<T> headerCollection, HashMap<T, ArrayList<E>> listDataChild,
+                                      ExpandableListViewBinder<T, E> viewBinder, ExpandableListView elvInprogress) {
         mContext = context;
         this.headerCollection = headerCollection;
         this.ChildCollection = listDataChild;
         this.viewBinder = viewBinder;
+        this.elvInprogress=elvInprogress;
+
     }
+
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 1;
+        return this.ChildCollection.get(this.headerCollection.get(groupPosition)).size();
     }
+
+
 
     @Override
     public int getGroupCount() {
@@ -45,7 +54,7 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this.ChildCollection.get(this.headerCollection.get(groupPosition));
+        return this.ChildCollection.get(this.headerCollection.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -69,7 +78,8 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
         }
 
         final E childItem = (E) getChild(groupPosition, childPosition);
-        viewBinder.bindChildView(childItem, childPosition, 0, convertView, mContext);
+
+        viewBinder.bindChildView(childItem, childPosition, groupPosition,this.ChildCollection.get(this.headerCollection.get(groupPosition)).size(), convertView, mContext);
 
         return convertView;
 
@@ -87,7 +97,9 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
         }
 
         T groupItem = (T) getGroup(groupPosition);
-        viewBinder.bindGroupView(groupItem, groupPosition, 0, convertView, mContext);
+
+    //    elvInprogress.expandGroup(groupPosition);
+        viewBinder.bindGroupView(groupItem, groupPosition, 0, this.ChildCollection.get(this.headerCollection.get(groupPosition)).size(),  convertView, mContext,isExpanded);
 
         return convertView;
 

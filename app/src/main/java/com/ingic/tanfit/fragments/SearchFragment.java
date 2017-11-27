@@ -3,10 +3,12 @@ package com.ingic.tanfit.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.InflateException;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -26,6 +28,7 @@ import com.ingic.tanfit.entities.MapScreenItem;
 import com.ingic.tanfit.entities.SearchRecyclerEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.map.abstracts.GoogleMapOptions;
 import com.ingic.tanfit.map.abstracts.MapMarkerItemBinder;
 import com.ingic.tanfit.ui.binders.SearchItemBinder;
@@ -46,7 +49,7 @@ import me.bendik.simplerangeview.SimpleRangeView;
 /**
  * Created by saeedhyder on 11/23/2017.
  */
-public class SearchFragment extends BaseFragment implements OnMapReadyCallback {
+public class SearchFragment extends BaseFragment implements OnMapReadyCallback,RecyclerViewItemListener {
 
 
     SupportMapFragment mapFragment;
@@ -112,11 +115,17 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback {
         if (mapFragment == null) {
             initMap();
         }
+
+
         setRecyclerViewData();
         setRangeBar();
         setGpsIcon();
 
+
+
     }
+
+
 
     private void setGpsIcon() {
 
@@ -173,7 +182,7 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback {
         userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image1, "Troh Gym", "Meimi Beach FL USA"));
         userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image1, "Troh Gym", "Meimi Beach FL USA"));
 
-        lv_companies.BindRecyclerView(new SearchItemBinder(), userCollections,
+        lv_companies.BindRecyclerView(new SearchItemBinder(this), userCollections,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
                 , new DefaultItemAnimator());
 
@@ -205,10 +214,11 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback {
         mapCollection = new ArrayList<>();
 
         mapCollection.add(new MapScreenItem("25.204849","55.270783",R.drawable.circle2marker));
-        mapCollection.add(new MapScreenItem("25.209740","55.274330",R.drawable.circle2marker));
+        mapCollection.add(new MapScreenItem("25.209740","55.274330",R.drawable.circle1marker));
         mapCollection.add(new MapScreenItem("25.218322","55.309210",R.drawable.circle2marker));
-        mapCollection.add(new MapScreenItem("25.259935","55.292387",R.drawable.circle2marker));
+        mapCollection.add(new MapScreenItem("25.259935","55.292387",R.drawable.circle1marker));
         mapCollection.add(new MapScreenItem("25.276391","55.362768",R.drawable.circle2marker));
+        mapCollection.add(new MapScreenItem("25.208397","55.271852",R.drawable.circle1marker));
        /* try {
             for (UserProfile user : resultuser) {
                 if (!user.getGym_latitude().isEmpty()) {
@@ -288,4 +298,9 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback {
     }
 
 
+    @Override
+    public void onRecyclerItemClicked(Object Ent, int position) {
+
+        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(),"ClassDetailFragment");
+    }
 }
