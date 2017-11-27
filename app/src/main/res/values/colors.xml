@@ -55,12 +55,10 @@
     <color name="app_font_green">#19C657</color>
     <color name="signup_color_green">#19C557</color>
     <color name="black_text">#545456</color>
-
     <color name="light_gray_border">#f0f0f0</color>
-
     <color name="seekbar_background_color">#F0F7FE</color>
     <color name="background_grey">#F6F6F6</color>
     <color name="app_font_black">#595667</color>
-
+    <color name="home_header_background">#1B72E2</color>
 
 </resources>

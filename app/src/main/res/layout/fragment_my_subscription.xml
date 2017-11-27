@@ -67,27 +67,52 @@
             <com.ingic.tanfit.ui.views.AnyTextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
                 android:layout_marginTop="@dimen/x5"
+                android:layout_weight="0.9"
                 android:gravity="center_vertical"
                 android:text="@string/you_can_pause_your_subscription_for"
                 android:textColor="@color/app_text_gray"
                 android:textSize="@dimen/x12"
                 app:typeface="@string/font_normal" />
 
-
-            <com.ingic.tanfit.ui.views.AnyEditTextView
-                android:id="@+id/edit_days"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/box2sub"
+                android:layout_weight="0.3"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="5 Days"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/x13"
-                app:typeface="@string/font_normal" />
+                android:background="@drawable/box2sub"
+                android:orientation="horizontal">
+
+            <!--    android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"-->
+
+                <com.ingic.tanfit.ui.views.AnyEditTextView
+                    android:id="@+id/edit_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="5"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:layout_marginEnd="@dimen/x5"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/x13"
+                    app:typeface="@string/font_normal" />
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/days"
+                    android:textColor="@color/app_blue"
+                    android:textSize="@dimen/x13"
+                    app:typeface="@string/font_normal" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -122,8 +147,8 @@
         android:layout_marginBottom="@dimen/x10"
         android:layout_marginEnd="@dimen/x10"
         android:layout_marginStart="@dimen/x10"
-        android:gravity="center_vertical"
         android:background="@drawable/boxsub"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="@dimen/x20"
 
@@ -139,17 +164,15 @@
             app:typeface="@string/font_bold" />
 
 
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x5"
-                android:gravity="center_vertical"
-                android:text="We regret you want to cancel your subscription"
-                android:textColor="@color/app_text_gray"
-                android:textSize="@dimen/x12"
-                app:typeface="@string/font_normal" />
-
-
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x5"
+            android:gravity="center_vertical"
+            android:text="We regret you want to cancel your subscription"
+            android:textColor="@color/app_text_gray"
+            android:textSize="@dimen/x12"
+            app:typeface="@string/font_normal" />
 
 
         <Button

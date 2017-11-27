@@ -109,6 +109,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
                 , new DefaultItemAnimator());
 
+
     }
 
     @Override
@@ -127,7 +128,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                getMainActivity().popFragment();
+                getMainActivity().closeDrawer();
                 break;
             case R.id.btnLogout:
                 final DialogHelper dialogHelper = new DialogHelper(getDockActivity());
@@ -180,6 +181,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     public class OverlapDecoration extends RecyclerView.ItemDecoration {
 
         private final int vertOverlap = -90;
+
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

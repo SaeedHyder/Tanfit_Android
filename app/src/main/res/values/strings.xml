@@ -204,6 +204,7 @@
     <string name="gps_question">Location is Disabled.Do you want to enable it</string>
     <string name="gps_yes">Yes</string>
     <string name="gps_no">No</string>
+    <string name="search">Search</string>
     <string name="delete_account">Delete Account</string>
     <string name="notifications_settings">Notifications Settings</string>
     <string name="language">Language</string>
@@ -228,6 +229,5 @@
     <string name="contact_us">Contact Us</string>
     <string name="resume">Resume</string>
     <string name="pauseSubscription">Pause Subscription</string>
-
-
+    <string name="days">Days</string>
 </resources>

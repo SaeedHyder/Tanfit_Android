@@ -27,7 +27,9 @@ public class TabViewPagerAdapter extends FragmentStatePagerAdapter {
         return null;
     }
 
-
+    public String getItemTitle(int position){
+        return mFragmentTitleList.get(position);
+    }
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
