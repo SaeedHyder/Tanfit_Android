@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_blue"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/x10"
+        android:paddingEnd="@dimen/x15"
+        android:paddingStart="@dimen/x15"
+        android:paddingTop="@dimen/x10">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x5">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profileImage"
+                android:layout_width="@dimen/x50"
+                android:layout_height="@dimen/x50"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/image"
+                />
+
+            <ImageView
+                android:id="@+id/dummy_bg"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
+                android:src="@drawable/white_circle"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x5"
+                android:layout_toStartOf="@+id/btn_subscribe"/>
+
+            <ImageView
+                android:id="@+id/btn_subscribe_detail"
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20"
+                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/dummy_bg"
+                android:layout_alignBottom="@+id/dummy_bg"
+                android:layout_alignStart="@+id/dummy_bg"
+                android:layout_alignEnd="@+id/dummy_bg"
+                android:scaleType="centerInside"
+                android:layout_toStartOf="@+id/btn_subscribe"
+                android:src="@drawable/subscribe"/>
+
+            <Button
+                android:id="@+id/btn_subscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/white_button_background"
+                android:text="@string/subscribe"
+                android:textAllCaps="false"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yoga CLass"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x20"
+                app:typeface="@string/font_normal"/>
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_title"
+                android:text="I.R IRAN Tehran Vali Asr St Something House 25"
+                android:textColor="@color/gym_detail_address_color"
+                android:textSize="@dimen/x10"
+                app:typeface="@string/font_normal"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

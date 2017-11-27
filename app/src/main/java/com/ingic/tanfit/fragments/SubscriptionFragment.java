@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.ui.adapters.ViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -30,6 +32,7 @@ public class SubscriptionFragment extends BaseFragment {
     private ViewPagerAdapter adapter;
     private int positionOfPager;
     private ArrayList<SubscriptionPagerItem> pagesArray;
+    private SetChildTitlebar childTitlebar;
 
 
     Unbinder unbinder;
@@ -60,7 +63,10 @@ public class SubscriptionFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        childTitlebar = (MainFragment)getParentFragment();
+        if (childTitlebar != null) {
+            childTitlebar.setChildTitlebar( getString(R.string.subscription_plans), AppConstants.SUBSCRIPTION_FRAGMENT_TAG);
+        }
         setViewPager();
 
     }

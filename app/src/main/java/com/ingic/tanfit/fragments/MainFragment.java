@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -22,13 +24,14 @@ import butterknife.Unbinder;
 /**
  * Created on 11/24/2017.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements SetChildTitlebar {
     @BindView(R.id.viewpager)
     FrameLayout viewpager;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     Unbinder unbinder;
     private TabViewPagerAdapter adapter;
+    private TitleBar titleBar;
     private int[] tabIcons = {R.drawable.home, R.drawable.search, R.drawable.subscription};
 
     public static MainFragment newInstance() {
@@ -51,9 +54,9 @@ public class MainFragment extends BaseFragment {
     @Override
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
-        titleBar.hideButtons();
-        titleBar.showMenuButton();
-        titleBar.setSubHeading(getString(R.string.home));
+        this.titleBar = titleBar;
+
+
     }
 
     @Override
@@ -190,5 +193,35 @@ public class MainFragment extends BaseFragment {
         });
         // viewpager.setCurrentItem(0);
         setTabIcon(tabLayout.getTabAt(0));
+    }
+
+    @Override
+    public void setChildTitlebar(String heading, int Tag) {
+        switch (Tag) {
+            case AppConstants.HOME_FRAGMENT_TAG:
+                titleBar.invalidate();
+                titleBar.showTitleBar();
+                titleBar.hideButtons();
+                titleBar.showFilterButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        willbeimplementedinBeta();
+                    }
+                });
+                titleBar.showMenuButton();
+                titleBar.setSubHeading(heading);
+                break;
+            case AppConstants.SEARCH_FRAGMENT_TAG:
+                titleBar.hideTitleBar();
+                break;
+            case AppConstants.SUBSCRIPTION_FRAGMENT_TAG:
+                titleBar.showTitleBar();
+                titleBar.hideButtons();
+                titleBar.showMenuButton();
+                titleBar.setSubHeading(heading);
+                break;
+
+        }
+
     }
 }

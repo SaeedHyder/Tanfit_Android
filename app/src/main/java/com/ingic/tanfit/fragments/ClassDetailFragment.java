@@ -1,12 +1,20 @@
 package com.ingic.tanfit.fragments;
 
 import android.os.Bundle;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.SpecialFeatureEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
@@ -30,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by saeedhyder on 11/21/2017.
  */
-public class ClassDetailFragment extends BaseFragment {
+public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallback {
     @BindView(R.id.iv_profileImage)
     CircleImageView ivProfileImage;
     @BindView(R.id.txt_title)
@@ -47,17 +55,20 @@ public class ClassDetailFragment extends BaseFragment {
     AnyTextView txtDate;
     @BindView(R.id.btn_book_now)
     Button btnBookNow;
+    @BindView(R.id.btn_cancel_booking)
+    Button btnCancelBooking;
     @BindView(R.id.gv_special_features)
     ExpandableGridView gvSpecialFeatures;
     @BindView(R.id.btn_viewStudioPage)
     Button btnViewStudioPage;
-    Unbinder unbinder;
     @BindView(R.id.gv_amelities)
     ExpandableGridView gvAmelities;
-    @BindView(R.id.map)
-    ImageView map;
+    //    @BindView(R.id.map)
+//    ImageView map;
     ImageLoader imageLoader;
-
+    private GoogleMap mMap;
+    private View viewParent;
+    private SupportMapFragment mapFragment;
     private ArrayListAdapter<SpecialFeatureEnt> adapter;
     private ArrayList<SpecialFeatureEnt> userCollectionSpecialities = new ArrayList<>();
 
@@ -77,37 +88,75 @@ public class ClassDetailFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         adapter = new ArrayListAdapter<SpecialFeatureEnt>(getDockActivity(), new speacialFeatureItemBinder(getDockActivity(), prefHelper));
         adapterAmenities = new ArrayListAdapter<SpecialFeatureEnt>(getDockActivity(), new speacialFeatureItemBinder(getDockActivity(), prefHelper));
-        imageLoader=ImageLoader.getInstance();
+        imageLoader = ImageLoader.getInstance();
         if (getArguments() != null) {
         }
 
     }
 
     @Override
+    public void setTitleBar(TitleBar titleBar) {
+        super.setTitleBar(titleBar);
+        titleBar.hideButtons();
+        titleBar.showBackButton();
+        titleBar.setSubHeading("");
+        titleBar.showHeartButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showShortToastInCenter(getDockActivity(), "will be implemented in beta");
+            }
+        });
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_class_detail, container, false);
+     /*   View view = inflater.inflate(R.layout.fragment_class_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
-        return view;
+        return view;*/
+        if (viewParent != null) {
+            ViewGroup parent = (ViewGroup) viewParent.getParent();
+            if (parent != null)
+                parent.removeView(viewParent);
+        }
+        try {
+            viewParent = inflater.inflate(R.layout.fragment_class_detail, container, false);
+
+        } catch (InflateException e) {
+            e.printStackTrace();
+        }
+        ButterKnife.bind(this, viewParent);
+        return viewParent;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        if (mapFragment == null) {
+            initMap();
+        }
         setSpecialFeatures();
         setAmenitiesData();
-        setMapLocation();
 
+
+    }
+
+    private void initMap() {
+        mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     private void setMapLocation() {
 
-        String lat="25.212706";
-        String lng="55.283592";
+        String lat = "25.212706";
+        String lng = "55.283592";
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.location2);
+        mMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(lat), Double.valueOf(lng))).icon(icon));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(lat), Double.valueOf(lng)), AppConstants.zoomIn));
 
-        String mapURL="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lng+"&zoom=14&" +
-                "&scale=2&size=500x300&maptype=roadmap&markers=color:blue|"+lat+","+lng+"&key=AIzaSyCDylplefNyWlLDoBL_n2VFjwlMWvq3sBg";
-        imageLoader.displayImage(mapURL,map);
+//        String mapURL="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lng+"&zoom=14&" +
+//                "&scale=2&size=500x300&maptype=roadmap&markers=color:blue|"+lat+","+lng+"&key=AIzaSyCDylplefNyWlLDoBL_n2VFjwlMWvq3sBg";
+//        imageLoader.displayImage(mapURL, map);
     }
 
     private void setAmenitiesData() {
@@ -143,33 +192,25 @@ public class ClassDetailFragment extends BaseFragment {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void setTitleBar(TitleBar titleBar) {
-        super.setTitleBar(titleBar);
-        titleBar.hideButtons();
-        titleBar.showBackButton();
-        titleBar.setSubHeading("");
-        titleBar.showHeartButton(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIHelper.showShortToastInCenter(getDockActivity(), "will be implemented in beta");
-            }
-        });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.btn_book_now, R.id.btn_viewStudioPage})
+    @OnClick({R.id.btn_book_now, R.id.btn_viewStudioPage,R.id.btn_cancel_booking})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_book_now:
+                btnBookNow.setVisibility(View.GONE);
+                btnCancelBooking.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_viewStudioPage:
                 break;
+            case R.id.btn_cancel_booking:
+                btnBookNow.setVisibility(View.VISIBLE);
+                btnCancelBooking.setVisibility(View.GONE);
+                break;
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        setMapLocation();
     }
 }
