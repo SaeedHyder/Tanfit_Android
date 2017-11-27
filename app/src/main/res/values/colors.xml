@@ -60,5 +60,6 @@
     <color name="background_grey">#F6F6F6</color>
     <color name="app_font_black">#595667</color>
     <color name="home_header_background">#1B72E2</color>
+    <color name="gym_detail_address_color">#81ABF4</color>
 
 </resources>

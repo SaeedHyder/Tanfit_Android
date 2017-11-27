@@ -230,4 +230,7 @@
     <string name="resume">Resume</string>
     <string name="pauseSubscription">Pause Subscription</string>
     <string name="days">Days</string>
+    <string name="cancel_booking">Cancel Booking</string>
+    <string name="subscribe">Subscribe</string>
+
 </resources>

@@ -14,6 +14,7 @@ public class TitleBar extends RelativeLayout {
 
 	private TextView txtTitle;
 	private ImageView btnLeft;
+	private ImageView btnLeft2;
 	private ImageView btnRight2;
 	private ImageView btnRight;
 	private AnyTextView txtBadge;
@@ -57,6 +58,7 @@ public class TitleBar extends RelativeLayout {
 		btnRight = (ImageView) this.findViewById(R.id.btnRight);
 		btnRight2 = (ImageView) this.findViewById(R.id.btnRight2);
 		btnLeft = (ImageView) this.findViewById(R.id.btnLeft);
+		btnLeft2 = (ImageView) this.findViewById(R.id.btn_left2);
 		txtBadge = (AnyTextView) findViewById(R.id.txtBadge);
 		txtEnd = (AnyTextView) findViewById(R.id.txt_skip);
 
@@ -72,6 +74,7 @@ public class TitleBar extends RelativeLayout {
 	public void hideButtons() {
 		txtTitle.setVisibility(View.INVISIBLE);
 		btnLeft.setVisibility(View.INVISIBLE);
+		btnLeft2.setVisibility(View.INVISIBLE);
 		btnRight.setVisibility(View.INVISIBLE);
 		btnRight2.setVisibility(View.INVISIBLE);
 		txtBadge.setVisibility(View.GONE);
@@ -80,9 +83,10 @@ public class TitleBar extends RelativeLayout {
 	}
 
 	public void showBackButton() {
-		btnLeft.setVisibility(View.VISIBLE);
-		btnLeft.setImageResource(R.drawable.back_btn);
-		btnLeft.setOnClickListener(backButtonListener);
+		btnLeft.setVisibility(View.INVISIBLE);
+		btnLeft2.setVisibility(View.VISIBLE);
+		btnLeft2.setImageResource(R.drawable.back_btn);
+		btnLeft2.setOnClickListener(backButtonListener);
 
 	}
 
@@ -92,8 +96,15 @@ public class TitleBar extends RelativeLayout {
 		btnRight2.setOnClickListener(heart);
 
 	}
+	public void showFilterButton(OnClickListener filter) {
+		btnRight2.setVisibility(View.VISIBLE);
+		btnRight2.setImageResource(R.drawable.filter);
+		btnRight2.setOnClickListener(filter);
+
+	}
 
 	public void showMenuButton() {
+		btnLeft2.setVisibility(View.GONE);
 		btnLeft.setVisibility(View.VISIBLE);
 		btnLeft.setOnClickListener(menuButtonListener);
 		btnLeft.setImageResource(R.drawable.profileimage);

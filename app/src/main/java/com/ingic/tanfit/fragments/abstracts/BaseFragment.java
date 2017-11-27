@@ -166,9 +166,8 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
     public void onResume() {
         super.onResume();
         //	setTitleBar( ((MainActivity) getDockActivity()).titleBar );
-
         if (getDockActivity().getDrawerLayout() != null) {
-            getDockActivity().releaseDrawer();
+            getDockActivity().lockDrawer();
         }
     }
 

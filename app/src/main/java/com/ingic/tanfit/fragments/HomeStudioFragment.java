@@ -13,6 +13,7 @@ import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.fitnessEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.binders.HomeStudioBinder;
@@ -68,6 +69,7 @@ public class HomeStudioFragment extends BaseFragment implements DatePickerListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         datePicker
                 .setListener(this)
                 .setDays(120)

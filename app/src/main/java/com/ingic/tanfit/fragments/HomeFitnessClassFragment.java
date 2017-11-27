@@ -13,6 +13,7 @@ import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.fitnessEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
@@ -39,6 +40,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     Unbinder unbinder;
     private ArrayListAdapter<fitnessEnt> adapter;
     private ArrayList<fitnessEnt> userCollection;
+
 
     public static HomeFitnessClassFragment newInstance() {
         Bundle args = new Bundle();

@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -34,6 +36,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     private TabViewPagerAdapter adapter;
+    private SetChildTitlebar childTitlebar;
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -55,10 +58,21 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        childTitlebar = (MainFragment)getParentFragment();
+
         setViewPager();
         setViewInTabLayout();
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (childTitlebar != null) {
+            childTitlebar.setChildTitlebar(getString(R.string.home), AppConstants.HOME_FRAGMENT_TAG);
+        }
+    }
+
     private void setViewInTabLayout() {
 
         LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
