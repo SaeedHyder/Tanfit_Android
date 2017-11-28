@@ -33,6 +33,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
     private TabViewPagerAdapter adapter;
     private TitleBar titleBar;
     private int[] tabIcons = {R.drawable.home, R.drawable.search, R.drawable.subscription};
+    private int startWithTab = 0;
+    private int tabTag = 0;
 
     public static MainFragment newInstance() {
         Bundle args = new Bundle();
@@ -40,6 +42,10 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setStartWithTab(int startWithTab) {
+        this.startWithTab = startWithTab;
     }
 
     @Override
@@ -54,7 +60,12 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
     @Override
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
-        this.titleBar = titleBar;
+        if (this.titleBar == null) {
+            this.titleBar = titleBar;
+            setChildTitlebar("", tabTag);
+        } else {
+            this.titleBar = titleBar;
+        }
 
 
     }
@@ -178,6 +189,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 setTabIcon(tab);
             }
 
@@ -192,35 +204,40 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
             }
         });
         // viewpager.setCurrentItem(0);
-        setTabIcon(tabLayout.getTabAt(0));
+        setTabIcon(tabLayout.getTabAt(startWithTab));
+        TabLayout.Tab tab = tabLayout.getTabAt(startWithTab);
+        tab.select();
+        startWithTab = 0;
     }
 
     @Override
     public void setChildTitlebar(String heading, int Tag) {
-        switch (Tag) {
-            case AppConstants.HOME_FRAGMENT_TAG:
-                titleBar.invalidate();
-                titleBar.showTitleBar();
-                titleBar.hideButtons();
-                titleBar.showFilterButton(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        willbeimplementedinBeta();
-                    }
-                });
-                titleBar.showMenuButton();
-                titleBar.setSubHeading(heading);
-                break;
-            case AppConstants.SEARCH_FRAGMENT_TAG:
-                titleBar.hideTitleBar();
-                break;
-            case AppConstants.SUBSCRIPTION_FRAGMENT_TAG:
-                titleBar.showTitleBar();
-                titleBar.hideButtons();
-                titleBar.showMenuButton();
-                titleBar.setSubHeading(heading);
-                break;
+        tabTag = Tag;
+        if (titleBar != null) {
+            switch (Tag) {
+                case AppConstants.HOME_FRAGMENT_TAG:
+                    titleBar.showTitleBar();
+                    titleBar.hideButtons();
+                    titleBar.showFilterButton(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            willbeimplementedinBeta();
+                        }
+                    });
+                    titleBar.showMenuButton();
+                    titleBar.setSubHeading(getString(R.string.home));
+                    break;
+                case AppConstants.SEARCH_FRAGMENT_TAG:
+                    titleBar.hideTitleBar();
+                    break;
+                case AppConstants.SUBSCRIPTION_FRAGMENT_TAG:
+                    titleBar.showTitleBar();
+                    titleBar.hideButtons();
+                    titleBar.showMenuButton();
+                    titleBar.setSubHeading(getString(R.string.subscription_plans));
+                    break;
 
+            }
         }
 
     }
