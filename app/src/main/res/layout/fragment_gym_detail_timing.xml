@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:windowBackground"
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x50"
+            android:orientation="horizontal">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txt_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.9"
+                android:alpha="0.8"
+                android:gravity="center"
+                android:text="@string/timings"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x20"
+                app:typeface="@string/font_normal"/>
+
+            <ImageView
+                android:id="@+id/btn_close"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:src="@drawable/cross"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/grey"/>
+
+
+        <com.ingic.tanfit.ui.views.CustomRecyclerView
+            android:id="@+id/rv_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x10"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@color/transparent"
+            android:visibility="visible"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x50"
+            android:orientation="horizontal">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:paddingEnd="@dimen/x5"
+                android:paddingStart="@dimen/x10"
+                android:text="@string/men"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x20"
+                app:typeface="@string/font_bold"/>
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:paddingEnd="@dimen/x5"
+                android:paddingStart="@dimen/x10"
+                android:text="@string/women"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x20"
+                app:typeface="@string/font_bold"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/grey"/>
+
+        <ExpandableListView
+            android:id="@+id/elv_booking_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:divider="@null"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:listheader="@layout/row_item"
+            android:groupIndicator="@null"
+
+            />
+    </LinearLayout>
+</ScrollView>

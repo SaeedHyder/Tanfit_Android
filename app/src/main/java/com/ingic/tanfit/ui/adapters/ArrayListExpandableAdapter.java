@@ -34,7 +34,6 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
 
     }
 
-
     @Override
     public int getChildrenCount(int groupPosition) {
         return this.ChildCollection.get(this.headerCollection.get(groupPosition)).size();
@@ -98,7 +97,7 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
 
         T groupItem = (T) getGroup(groupPosition);
 
-    //    elvInprogress.expandGroup(groupPosition);
+
         viewBinder.bindGroupView(groupItem, groupPosition, 0, this.ChildCollection.get(this.headerCollection.get(groupPosition)).size(),  convertView, mContext,isExpanded);
 
         return convertView;

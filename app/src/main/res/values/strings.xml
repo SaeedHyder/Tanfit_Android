@@ -107,7 +107,7 @@
     <string name="default_hint_text">Where are you going?</string>
 
     <string name="connection_lost">No Internet Found</string>
-
+    <integer name="type_feature">0</integer>
 
     <!--FONTS-->
     <string name="font_normal">Poppins-Regular_1.ttf</string>
@@ -232,6 +232,11 @@
     <string name="days">Days</string>
     <string name="cancel_booking">Cancel Booking</string>
     <string name="subscribe">Subscribe</string>
+    <string name="gym">Gym</string>
+    <string name="gallery">Gallery</string>
+    <string name="timings">Timings</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
     <string name="show_filters">Show Filters</string>
 
 </resources>
