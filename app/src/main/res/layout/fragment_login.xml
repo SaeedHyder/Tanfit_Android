@@ -84,7 +84,7 @@
                     android:layout_marginStart="@dimen/x10"
                     android:paddingEnd="@dimen/x5"
                     android:layout_marginTop="@dimen/x10"
-                    android:background="@drawable/black_border"
+                    android:background="@drawable/boxsignup1"
                     android:hint="@string/email_address"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
@@ -109,7 +109,7 @@
                     android:layout_marginEnd="@dimen/x10"
                     android:layout_marginStart="@dimen/x10"
                     android:layout_marginTop="@dimen/x10"
-                    android:background="@drawable/black_border"
+                    android:background="@drawable/boxsignup1"
                     android:orientation="horizontal"
                     android:paddingEnd="@dimen/x5"
                     android:paddingStart="@dimen/x5">

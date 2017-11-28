@@ -83,7 +83,7 @@ public class WelcomeFragment extends BaseFragment {
         testData.add("3");
         testData.add("4");
         adapter = new CardArrayAdapter<String>(getDockActivity(), R.layout.row_item_card,
-                new WelcomeItemBinder(getDockActivity(), prefHelper), testData);
+                new WelcomeItemBinder(getDockActivity(), prefHelper,testData.size()), testData);
      /*   final ArrayListAdapter<String> adapter = new ArrayListAdapter<String>(testData, getDockActivity(),
                 new WelcomeItemBinder(getDockActivity(),prefHelper));*/
         swipeDeck.setContentResource(R.layout.row_item_card);

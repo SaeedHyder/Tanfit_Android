@@ -91,9 +91,9 @@ public class LoginFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 6 && !hasImageSpan()) {
+                if (s.toString().length() > 5 && !hasImageSpan()) {
                     passwordTick.setVisibility(View.VISIBLE);
-                } else if (s.toString().length() < 6 && hasImageSpan()) {
+                } else if (s.toString().length() < 5 && hasImageSpan()) {
                     passwordTick.setVisibility(View.GONE);
                 }
             }
