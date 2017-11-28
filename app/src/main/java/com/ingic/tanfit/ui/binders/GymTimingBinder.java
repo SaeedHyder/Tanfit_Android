@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  */
 
 public class GymTimingBinder extends ExpandableListViewBinder<String, TimingEnt> {
-    public GymTimingBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper) {
+    public GymTimingBinder() {
         super(R.layout.row_item_timing_head, R.layout.row_item_timing_child);
     }
 

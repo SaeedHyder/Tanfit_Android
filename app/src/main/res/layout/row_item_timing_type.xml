@@ -3,23 +3,26 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+
               android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/frame_img"
         android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/x5"
+        android:layout_marginEnd="@dimen/x5"
         android:layout_marginTop="@dimen/x5"
         android:background="@drawable/square_background_timing_transparent"
         >
 
         <ImageView
             android:id="@+id/img_gym"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/x40"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/x30"
             android:src="@drawable/gym_grey"/>
     </FrameLayout>
 

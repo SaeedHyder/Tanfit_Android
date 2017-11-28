@@ -157,9 +157,13 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_subscribe_detail:
-                getDockActivity().addDockableFragment(GymDetailTimingFragment.newInstance(),"GymDetailTimingFragment");
+                getDockActivity().addAndShowDialogFragment(GymDetailTimingFragment.newInstance());
                 break;
             case R.id.btn_subscribe:
+                getDockActivity().popBackStackTillEntry(0);
+                MainFragment mainFragment = MainFragment.newInstance();
+                mainFragment.setStartWithTab(AppConstants.TAB_SUBSCRIBE);
+                getDockActivity().replaceDockableFragment(mainFragment);
                 break;
             case R.id.btn_group:
                 willbeimplementedinBeta();

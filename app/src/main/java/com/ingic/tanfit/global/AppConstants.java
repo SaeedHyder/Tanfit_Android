@@ -15,6 +15,9 @@ public class AppConstants {
     public static final String PUSH_NOTIFICATION = "pushNotification";
     public static final String CHILD_TYPE_LIST = "list";
     public static final String CHILD_TYPE_GALLERY = "gallery";
+    public static final int TAB_SUBSCRIBE = 2;
+    public static final int TAB_SEARCH = 1;
+    public static final int TAB_HOME = 0;
     public static String twitter = "twitter";
     public static int INTENT_ID = 100;
     // id to handle the notification in the notification tray

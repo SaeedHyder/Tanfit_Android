@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 public class TimingTypeBinder extends RecyclerViewBinder<TimingTypeEnt> implements View.OnClickListener {
     private ImageLoader imageLoader;
     private RecyclerViewTimingClickListner recyclerViewItemListener;
-    private int previousSelectedPosition = -1;
+    private int previousSelectedPosition = 0;
 
     public TimingTypeBinder(RecyclerViewTimingClickListner recyclerViewItemListener) {
         super(R.layout.row_item_timing_type);
@@ -43,12 +43,15 @@ public class TimingTypeBinder extends RecyclerViewBinder<TimingTypeEnt> implemen
             previousSelectedPosition = position;
             holder.frameImg.setBackground(context.getResources().getDrawable(R.drawable.square_timing_background_green));
             holder.imgGym.setImageResource(entity.getImageWhiteRes());
+            holder.txtType.setText(entity.getType());
             holder.txtType.setTextColor(context.getResources().getColor(R.color.app_font_green));
-            entity.setSelected(true);
+            entity.setSelected(false);
         } else {
             holder.frameImg.setBackground(context.getResources().getDrawable(R.drawable.square_background_timing_transparent));
             holder.imgGym.setImageResource(entity.getImageGreyRes());
             holder.txtType.setTextColor(context.getResources().getColor(R.color.app_font_black));
+            holder.txtType.setText(entity.getType());
+            entity.setSelected(true);
         }
         holder.itemView.setTag(position);
         holder.itemView.setOnClickListener(this);

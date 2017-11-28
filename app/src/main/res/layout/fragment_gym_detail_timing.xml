@@ -3,6 +3,10 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:paddingStart="@dimen/x1_"
+            android:scrollbars="none"
+            android:paddingEnd="@dimen/x1_"
             android:background="?android:windowBackground"
             android:orientation="vertical">
 
@@ -95,16 +99,13 @@
             android:layout_height="@dimen/x1"
             android:background="@color/grey"/>
 
-        <ExpandableListView
+        <com.ingic.tanfit.ui.views.CustomExpandableListView
             android:id="@+id/elv_booking_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="visible"
             android:divider="@null"
-            xmlns:tools="http://schemas.android.com/tools"
-            tools:listheader="@layout/row_item"
             android:groupIndicator="@null"
-
             />
     </LinearLayout>
 </ScrollView>

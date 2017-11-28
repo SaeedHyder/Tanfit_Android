@@ -71,6 +71,13 @@ public class SubscriptionFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (childTitlebar != null) {
+            childTitlebar.setChildTitlebar( getString(R.string.subscription_plans), AppConstants.SUBSCRIPTION_FRAGMENT_TAG);
+        }
+    }
 
     private void setViewPager() {
 
