@@ -1,24 +1,18 @@
 package com.ingic.tanfit.fragments;
 
-import android.animation.LayoutTransition;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +26,7 @@ import com.ingic.tanfit.entities.MapScreenItem;
 import com.ingic.tanfit.entities.SearchRecyclerEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.map.abstracts.GoogleMapOptions;
@@ -288,21 +283,23 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     }
 
 
-    @OnClick({R.id.btn_apply, R.id.img_gps,R.id.btn_showFilters})
+    @OnClick({R.id.btn_apply, R.id.img_gps, R.id.btn_showFilters})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_apply:
-
+                UIHelper.hideSoftKeyboard(getDockActivity(), view);
                 llFilters.setVisibility(View.GONE);
                 lv_companies.setVisibility(View.VISIBLE);
                 btnShowFilters.setVisibility(View.VISIBLE);
                 bindview();
                 break;
             case R.id.img_gps:
+                UIHelper.hideSoftKeyboard(getDockActivity(), view);
                 getLocation(autoComplete);
                 break;
 
             case R.id.btn_showFilters:
+                UIHelper.hideSoftKeyboard(getDockActivity(), view);
                 btnShowFilters.setVisibility(View.GONE);
                 llFilters.setVisibility(View.VISIBLE);
                 break;
@@ -310,10 +307,19 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
 
         }
 
-}
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
+    }
 
     @Override
     public void onRecyclerItemClicked(Object Ent, int position) {

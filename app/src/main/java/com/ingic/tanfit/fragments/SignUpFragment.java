@@ -197,8 +197,7 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
         switch (view.getId()) {
             case R.id.btn_submit:
                 if (isValidated()) {
-                    getDockActivity().popBackStackTillEntry(0);
-                    getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+                   getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(),"VerificationEmailFragment");
                 }
                 break;
             case R.id.btn_fbSignup:

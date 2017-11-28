@@ -9,6 +9,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:layout_marginBottom="@dimen/x10"
         android:layout_centerInParent="true">
 
         <LinearLayout
@@ -22,7 +24,7 @@
                 android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x20"
+                android:layout_marginTop="@dimen/x10"
                 android:gravity="center_horizontal"
                 android:text="PREMIUM"
                 android:textColor="@color/white"
@@ -57,11 +59,11 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="@dimen/x15"
                 android:layout_marginStart="@dimen/x15"
-                android:layout_marginTop="@dimen/x15"
+                android:layout_marginTop="@dimen/x10"
                 android:gravity="center_horizontal"
                 android:text="Unlimited* Classes PER MONTH"
                 android:textColor="@color/app_golden"
-                android:textSize="@dimen/x30"
+                android:textSize="@dimen/x22"
                 app:typeface="@string/font_normal" />
 
             <com.ingic.tanfit.ui.views.AnyTextView

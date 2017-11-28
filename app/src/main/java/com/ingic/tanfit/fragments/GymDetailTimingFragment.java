@@ -1,12 +1,15 @@
 package com.ingic.tanfit.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
@@ -53,6 +56,7 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
 
         GymDetailTimingFragment fragment = new GymDetailTimingFragment();
         fragment.setArguments(args);
+        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         return fragment;
     }
 
@@ -73,6 +77,7 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.fragment_gym_detail_timing, container, false);
 
         unbinder = ButterKnife.bind(this, view);
@@ -88,6 +93,7 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
                 getResources().getDisplayMetrics().widthPixels - widthmargin,
                 getResources().getDisplayMetrics().heightPixels - margin
         );
+
     }
 
     @Override

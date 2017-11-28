@@ -81,11 +81,11 @@ public class StudiosFragment extends BaseFragment {
 
         userCollection = new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.image,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.image,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.image,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.image,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.image,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
 
         if (userCollection.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);

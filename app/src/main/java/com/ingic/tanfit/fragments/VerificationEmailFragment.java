@@ -121,7 +121,8 @@ public class VerificationEmailFragment extends BaseFragment {
                 if (txtPinEntry.getText().toString().length() < 4) {
                     UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.correct_verification_code));
                 } else {
-                    getDockActivity().replaceDockableFragment(HomeFragment.newInstance(), "HomeFragment");
+                    getDockActivity().popBackStackTillEntry(0);
+                    getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
                 }
 
                 break;

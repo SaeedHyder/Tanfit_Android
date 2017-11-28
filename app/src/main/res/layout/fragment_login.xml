@@ -152,7 +152,7 @@
                     android:layout_marginEnd="@dimen/x10"
                     android:layout_marginStart="@dimen/x10"
                     android:layout_marginTop="@dimen/x10"
-                    android:background="@drawable/seekbar"
+                    android:background="@drawable/login_background"
                     >
 
                     <SeekBar
