@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_men_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:paddingEnd="@dimen/x5"
+            android:paddingStart="@dimen/x10"
+            android:text="4 am to 8 pm"
+            android:textColor="@color/app_font_black"
+            android:textSize="@dimen/x15"
+            app:typeface="@string/font_normal"/>
+
+        <View
+            android:layout_width="@dimen/x1"
+            android:layout_height="match_parent"
+            android:background="@color/grey"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_women_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:paddingEnd="@dimen/x5"
+            android:paddingStart="@dimen/x11"
+            android:text="4 am to 8 pm"
+            android:textColor="@color/app_font_black"
+            android:textSize="@dimen/x15"
+            app:typeface="@string/font_normal"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="@color/grey"/>
+</LinearLayout>

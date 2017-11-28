@@ -75,7 +75,8 @@ public class BookingHistoryFragment extends BaseFragment {
         collectionGroup.add("Yoga Class");
         collectionGroup.add("Spinning Class");
 
-        collectionChild.add(new CurrentBookingEnt("December 13,2018","Fitness Center 55","IR IRAN Tehran Vali Asr St Something House 2554 Apartment Theus"));
+        collectionChild.add(new CurrentBookingEnt("December 13,2018","Fitness Center 55",
+                "IR IRAN Tehran Vali Asr St Something House 2554 Apartment Theus"));
 
         listDataChild.put(collectionGroup.get(0),collectionChild);
         listDataChild.put(collectionGroup.get(1),collectionChild);

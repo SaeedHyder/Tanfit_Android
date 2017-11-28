@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -37,6 +38,15 @@ public class DialogHelper {
         okbutton.setOnClickListener(onokclicklistener);
         Button cancelbutton = (Button) dialog.findViewById(R.id.btn_No);
         cancelbutton.setOnClickListener(oncancelclicklistener);
+        return this.dialog;
+    }
+    public Dialog openImageinBig(int layoutID, int imageRes) {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        this.dialog.setContentView(layoutID);
+        ImageView okbutton = (ImageView) dialog.findViewById(R.id.img_bigview);
+        okbutton.setImageResource(imageRes);
+
         return this.dialog;
     }
 

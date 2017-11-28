@@ -13,6 +13,8 @@ public class AppConstants {
     public static final String TOPIC_GLOBAL = "global";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String PUSH_NOTIFICATION = "pushNotification";
+    public static final String CHILD_TYPE_LIST = "list";
+    public static final String CHILD_TYPE_GALLERY = "gallery";
     public static String twitter = "twitter";
     public static int INTENT_ID = 100;
     // id to handle the notification in the notification tray
