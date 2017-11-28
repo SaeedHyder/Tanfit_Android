@@ -16,6 +16,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <Button
+            android:id="@+id/btn_showFilters"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x30"
+            android:background="@color/app_green"
+            android:text="@string/show_filters"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/ll_filters"
             android:clickable="true"

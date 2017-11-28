@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/image3" />
+            android:src="@drawable/image5" />
 
         <ImageView
             android:id="@+id/btnBack"
@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x10"
             android:padding="@dimen/x8"
-            android:scaleType="fitXY"
             android:src="@drawable/back_btn"
             android:visibility="visible" />
 

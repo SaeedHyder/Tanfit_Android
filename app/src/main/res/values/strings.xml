@@ -237,5 +237,6 @@
     <string name="timings">Timings</string>
     <string name="men">Men</string>
     <string name="women">Women</string>
+    <string name="show_filters">Show Filters</string>
 
 </resources>

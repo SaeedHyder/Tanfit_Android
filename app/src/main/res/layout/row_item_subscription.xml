@@ -80,7 +80,7 @@
                 app:typeface="@string/font_normal" />
 
             <Button
-                android:id="@+id/btn_viewStudioPage"
+                android:id="@+id/btn_SubcribeNow"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_below="@+id/txt_description2"

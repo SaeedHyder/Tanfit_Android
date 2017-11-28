@@ -39,6 +39,8 @@ public class ProfileItemBinder extends RecyclerViewBinder<ProfileEnt> {
     public void bindView(final ProfileEnt entity, final int position, Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
 
+        imageLoader.displayImage(entity.getImage(),holder.ivGymImage);
+
         holder.mainFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

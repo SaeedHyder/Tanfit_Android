@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ingic.tanfit.R;
@@ -63,7 +64,17 @@ public class FitnessClassesFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setFitnessData();
+        itemListner();
 
+    }
+
+    private void itemListner() {
+        lvFitnessClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(),"ClassDetailFragment");
+            }
+        });
     }
 
     private void setFitnessData() {

@@ -10,11 +10,13 @@ import android.widget.RelativeLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -31,8 +33,8 @@ public class SubscriptionPagerItem extends BaseFragment {
     AnyTextView txtDescription;
     @BindView(R.id.txt_description2)
     AnyTextView txtDescription2;
-    @BindView(R.id.btn_viewStudioPage)
-    Button btnViewStudioPage;
+    @BindView(R.id.btn_SubcribeNow)
+    Button btnSubcribeNow;
     @BindView(R.id.bottom)
     RelativeLayout bottom;
     Unbinder unbinder;
@@ -77,5 +79,10 @@ public class SubscriptionPagerItem extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.btn_SubcribeNow)
+    public void onViewClicked() {
+        UIHelper.showShortToastInCenter(getDockActivity(),getString(R.string.implemented_beta));
     }
 }
