@@ -1,5 +1,7 @@
 package com.ingic.tanfit.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -60,7 +62,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     Unbinder unbinder;
 
     private ArrayList<ProfileEnt> userCollections;
-    ;
+    OverlapDecoration overlapDecoration;
 
     public static MyProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -91,26 +93,27 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
         setProfileData();
 
+
     }
 
 
     private void setProfileData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH+R.drawable.image7));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH+R.drawable.image6));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH+R.drawable.image5));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
 
+        overlapDecoration = new OverlapDecoration(-110);
 
-        rvGyms.addItemDecoration(new OverlapDecoration(-110));
+        rvGyms.addItemDecoration(overlapDecoration);
         rvGyms.setLayoutManager(new LinearLayoutManager(getDockActivity()));
 
 
         rvGyms.BindRecyclerView(new ProfileItemBinder(this), userCollections,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
                 , new DefaultItemAnimator());
-
-
+        recyclerHorizontlListner();
     }
 
     @Override
@@ -179,13 +182,51 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
+    public void recyclerHorizontlListner() {
+
+       /* rvGyms.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//           @Override
+//           public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//               super.onScrollStateChanged(recyclerView, newState);
+//               if (overlapDecoration != null)
+//                   rvGyms.removeItemDecoration(overlapDecoration);
+//
+//               overlapDecoration = new OverlapDecoration(0);
+//               rvGyms.addItemDecoration(overlapDecoration);
+//               rvGyms.notifyDataSetChanged();
+//           }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dx > 0) {
+                    if (overlapDecoration != null)
+                        rvGyms.removeItemDecoration(overlapDecoration);
+
+                    overlapDecoration = new OverlapDecoration(-110);
+                    rvGyms.addItemDecoration(overlapDecoration);
+                    rvGyms.notifyDataSetChanged();
+                } else if (dx < 0) {
+                    if (overlapDecoration != null)
+                        rvGyms.removeItemDecoration(overlapDecoration);
+
+                    overlapDecoration = new OverlapDecoration(0);
+                    rvGyms.addItemDecoration(overlapDecoration);
+                    rvGyms.notifyDataSetChanged();
+                }
+            }
+        });*/
+
+    }
+
     public class OverlapDecoration extends RecyclerView.ItemDecoration {
 
         private final int vertOverlap = -110;
-        private int padding=0;
+        private int padding = 0;
 
         public OverlapDecoration(int padding) {
-            this.padding=padding;
+            this.padding = padding;
         }
 
 
