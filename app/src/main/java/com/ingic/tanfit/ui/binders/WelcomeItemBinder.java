@@ -25,13 +25,14 @@ public class WelcomeItemBinder extends ViewBinder<String> {
     private DockActivity dockActivity;
     private BasePreferenceHelper prefHelper;
     private ImageLoader imageLoader;
+    private int listSize;
 
-
-    public WelcomeItemBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper) {
+    public WelcomeItemBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper, int size) {
         super(R.layout.row_item_card);
         this.dockActivity = dockActivity;
         this.prefHelper = prefHelper;
         this.imageLoader = ImageLoader.getInstance();
+        listSize = size;
     }
 
     @Override
@@ -45,12 +46,11 @@ public class WelcomeItemBinder extends ViewBinder<String> {
         final ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.logo.setImageResource(R.drawable.logo);
         viewHolder.ivMainImage.setImageResource(R.drawable.gym);
-        viewHolder.pageIndicatorView.setSelection(position);
+        viewHolder.pageIndicatorView.setSelectedColor(R.color.black);
+        viewHolder.pageIndicatorView.setUnselectedColor(R.color.red);
+        viewHolder.pageIndicatorView.setCount(listSize);
         viewHolder.pageIndicatorView.setSelection(position);
 
-        viewHolder.pageIndicatorView.setCount(4);
-        viewHolder.pageIndicatorView.setSelectedColor(R.color.app_blue);
-        viewHolder.pageIndicatorView.setUnselectedColor(R.color.app_text_gray);
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.logo);
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.ivMainImage);
         viewHolder.txtHeading.setText("Donec ultrices scelerisque nisi");

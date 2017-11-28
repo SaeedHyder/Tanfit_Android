@@ -77,7 +77,7 @@ public class ForgotPasswordEmailEnter extends BaseFragment {
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         if (isValidated()) {
-        getDockActivity().replaceDockableFragment(ForgotPasswordReset.newInstance(),"ForgotPasswordEmailSend");
+        getDockActivity().replaceDockableFragment(ForgotPasswordEmailSend.newInstance(),"ForgotPasswordEmailSend");
         }
     }
 }
