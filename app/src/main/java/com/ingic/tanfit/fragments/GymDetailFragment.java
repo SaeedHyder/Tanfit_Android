@@ -118,9 +118,9 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     private void setRecyclerViewData() {
 
         userCollectionsGallery = new ArrayList<>();
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image1, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image1, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image1, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image8, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image9, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image8, "Troh Gym"));
 
         rvGallery.BindRecyclerView(new GymGalleryItemBinder(this), userCollectionsGallery,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)

@@ -4,10 +4,14 @@
         android:id="@android:id/background"
         android:drawable="@color/transparent" >
     </item>
+    <item  android:id="@android:id/secondaryProgress">
+        <clip
+            android:drawable="@color/seekbar_background_color" />
+    </item>
 
     <item
         android:id="@android:id/progress" >
         <clip
-            android:drawable="@drawable/dotted_transparent" />
+            android:drawable="@color/seekbar_background_color" />
     </item>
 </layer-list>
