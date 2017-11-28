@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center_horizontal"
+    android:paddingTop="@dimen/x10"
     android:orientation="horizontal">
 
 
@@ -18,10 +19,9 @@
     android:layout_weight="1"
     card_view:cardCornerRadius="@dimen/x4"
     card_view:cardElevation="@dimen/x10"
-    card_view:cardUseCompatPadding="false"
-    android:layout_margin="@dimen/x1"
-    
-
+    card_view:cardUseCompatPadding="true"
+    card_view:cardPreventCornerOverlap="true"
+    android:layout_margin="@dimen/x2"
 
     >
 
