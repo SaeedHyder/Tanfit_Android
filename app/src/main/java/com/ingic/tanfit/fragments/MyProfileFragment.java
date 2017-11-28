@@ -104,7 +104,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
 
-        overlapDecoration = new OverlapDecoration(-110);
+        overlapDecoration = new OverlapDecoration(-70);
 
         rvGyms.addItemDecoration(overlapDecoration);
         rvGyms.setLayoutManager(new LinearLayoutManager(getDockActivity()));
@@ -140,6 +140,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
                     @Override
                     public void onClick(View v) {
                         prefHelper.setLoginStatus(false);
+                        getMainActivity().popBackStackTillEntry(0);
                         getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
                         dialogHelper.hideDialog();
                     }

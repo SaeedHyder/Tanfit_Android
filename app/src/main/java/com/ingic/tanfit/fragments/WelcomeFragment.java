@@ -133,6 +133,7 @@ public class WelcomeFragment extends BaseFragment {
         titleBar.showSkipText(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getMainActivity().popBackStackTillEntry(0);
                 getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
             }
         });
@@ -149,7 +150,7 @@ public class WelcomeFragment extends BaseFragment {
             case R.id.btn_next:
                 if (swipeDeck != null) {
                     if (swipeDeck.getCurrIndex() == testData.size() - 1) {
-
+                        getMainActivity().popBackStackTillEntry(0);
                         getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
                     } else {
                         swipeDeck.discardTop(2);
