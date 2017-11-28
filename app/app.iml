@@ -194,6 +194,7 @@
     <orderEntry type="library" name="com.kbeanie:image-chooser-library-1.5.8" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-wallet-10.0.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-clearcut-10.0.1" level="project" />
+    <orderEntry type="library" name="com.romandanylyk:pageindicatorview-0.2.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-analytics-10.0.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-cast-10.0.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-places-10.0.1" level="project" />

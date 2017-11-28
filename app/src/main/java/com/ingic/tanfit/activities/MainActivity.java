@@ -34,6 +34,7 @@ import com.ingic.tanfit.fragments.MainFragment;
 import com.ingic.tanfit.fragments.MyProfileFragment;
 import com.ingic.tanfit.fragments.NotificationsFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
+import com.ingic.tanfit.fragments.WelcomeFragment;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.SideMenuChooser;
 import com.ingic.tanfit.global.SideMenuDirection;
@@ -286,7 +287,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         if (prefHelper.isLogin()) {
             replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
         } else {
-            replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+            replaceDockableFragment(WelcomeFragment.newInstance(), "WelcomeFragment");
         }
     }
 
