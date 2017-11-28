@@ -3,7 +3,7 @@
        android:shape="line">
 
     <stroke
-        android:width="@dimen/x3"
+        android:width="@dimen/x5"
         android:color="@color/seekbar_background_color"
         android:dashGap="@dimen/x30"
         android:dashWidth="@dimen/x3"/>
