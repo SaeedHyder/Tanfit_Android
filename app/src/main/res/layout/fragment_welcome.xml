@@ -34,11 +34,11 @@
     <com.wenchao.cardstack.CardStack
         android:id="@+id/swipe_deck"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/x10"
+        android:layout_marginTop="@dimen/x5"
         android:layout_height="0dp"
         android:layout_weight="0.9"
         android:clipChildren="false"
-        android:clipToPadding="false"
+        android:clipToPadding="true"
         android:gravity="center"
         app:card_gravity="bottom"
 

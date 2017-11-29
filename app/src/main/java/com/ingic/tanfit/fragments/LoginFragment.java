@@ -75,6 +75,7 @@ public class LoginFragment extends BaseFragment {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         setListener();
+
     }
 
     private void setListener() {

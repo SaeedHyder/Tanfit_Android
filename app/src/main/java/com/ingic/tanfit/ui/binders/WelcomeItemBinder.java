@@ -1,5 +1,6 @@
 package com.ingic.tanfit.ui.binders;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -40,16 +41,18 @@ public class WelcomeItemBinder extends ViewBinder<String> {
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void bindView(String entity, int position, int grpPosition, View view, Activity activity) {
 
         final ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.logo.setImageResource(R.drawable.logo);
         viewHolder.ivMainImage.setImageResource(R.drawable.gym);
-        viewHolder.pageIndicatorView.setSelectedColor(R.color.black);
-        viewHolder.pageIndicatorView.setUnselectedColor(R.color.red);
+        /*viewHolder.pageIndicatorView.setSelectedColor(R.color.red);
+        viewHolder.pageIndicatorView.setUnselectedColor(R.color.black);
         viewHolder.pageIndicatorView.setCount(listSize);
-        viewHolder.pageIndicatorView.setSelection(position);
+        viewHolder.pageIndicatorView.setSelection(position);*/
+
 
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.logo);
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.ivMainImage);
