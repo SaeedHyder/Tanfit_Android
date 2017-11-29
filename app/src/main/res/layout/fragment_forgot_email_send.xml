@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
               android:background="@drawable/app_background_blue_white"
               android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="@dimen/x160"
-        android:layout_height="@dimen/x160"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/x60"
+        android:layout_marginTop="@dimen/x20"
         android:background="@drawable/circle">
 
         <ImageView
-            android:layout_width="@dimen/x80"
-            android:layout_height="@dimen/x80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@drawable/mail_icon"
             />
@@ -29,7 +34,7 @@
         android:gravity="center_horizontal"
         android:text="@string/forgot_password_email_send_heading"
         android:textColor="@color/app_blue"
-        android:textSize="@dimen/x20"
+        android:textSize="@dimen/x18"
         app:typeface="@string/font_normal"/>
 
     <com.ingic.tanfit.ui.views.AnyTextView
@@ -69,3 +74,4 @@
         android:textColor="@color/white"
         />
 </LinearLayout>
+</ScrollView>
