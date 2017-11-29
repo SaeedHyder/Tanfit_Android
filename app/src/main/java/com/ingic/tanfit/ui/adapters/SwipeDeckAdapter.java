@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.global.AppConstants;

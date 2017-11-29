@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rd.PageIndicatorView;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.rd.PageIndicatorView;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,10 +49,8 @@ public class WelcomeItemBinder extends ViewBinder<String> {
         final ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.logo.setImageResource(R.drawable.logo);
         viewHolder.ivMainImage.setImageResource(R.drawable.gym);
-        /*viewHolder.pageIndicatorView.setSelectedColor(R.color.red);
-        viewHolder.pageIndicatorView.setUnselectedColor(R.color.black);
         viewHolder.pageIndicatorView.setCount(listSize);
-        viewHolder.pageIndicatorView.setSelection(position);*/
+        viewHolder.pageIndicatorView.setSelection(position);
 
 
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.logo);
