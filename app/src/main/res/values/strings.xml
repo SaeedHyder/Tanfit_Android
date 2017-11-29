@@ -50,7 +50,7 @@
     <string name="imgdesc_signin">Sign In</string>
     <string name="back_to_login"><u>Back to Login</u></string>
     <string name="remember_me">remember me</string>
-    <string name="login">Login</string>
+    <string name="login">LOGIN</string>
     <string name="user_name">User Name</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
