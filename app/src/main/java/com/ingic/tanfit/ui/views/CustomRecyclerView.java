@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
+import com.ingic.tanfit.interfaces.RecyclerScrollListener;
 import com.ingic.tanfit.ui.adapters.RecyclerViewAdapter;
 import com.ingic.tanfit.ui.viewbinders.abstracts.RecyclerViewBinder;
 
@@ -16,6 +18,7 @@ import java.util.List;
  */
 
 public class CustomRecyclerView<T> extends RecyclerView {
+    float x1, x2, y1, y2, dx, dy;
     private RecyclerViewAdapter<T> mRecyclerViewAdapter;
     private ArrayList<T> userCollection;
     private RecyclerViewBinder<T> viewBinder;
@@ -32,7 +35,7 @@ public class CustomRecyclerView<T> extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
-    public void BindRecyclerView( RecyclerViewBinder<T> viewBinder,
+    public void BindRecyclerView(RecyclerViewBinder<T> viewBinder,
                                  ArrayList<T> DataColloction, LayoutManager layoutManager, ItemAnimator animator) {
         this.userCollection = new ArrayList<>();
         mRecyclerViewAdapter = new RecyclerViewAdapter<>
@@ -42,6 +45,7 @@ public class CustomRecyclerView<T> extends RecyclerView {
         this.setLayoutManager(layoutManager);
         this.setItemAnimator(animator);
         this.setAdapter(mRecyclerViewAdapter);
+        mRecyclerViewAdapter.notifyItemRangeChanged(0, DataColloction.size());
     }
 
     public T getItemFromList(int index) {
@@ -114,5 +118,6 @@ public class CustomRecyclerView<T> extends RecyclerView {
     public RecyclerViewAdapter getAdapter() {
         return mRecyclerViewAdapter;
     }
+
 
 }

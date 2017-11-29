@@ -1,13 +1,12 @@
 package com.ingic.tanfit.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import com.ingic.tanfit.entities.ProfileEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.helpers.DialogHelper;
+import com.ingic.tanfit.interfaces.OnSwipeListener;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.binders.ProfileItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
@@ -29,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 /**
  * Created by saeedhyder on 11/25/2017.
@@ -60,9 +61,9 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     @BindView(R.id.txt_contactUs)
     AnyTextView txtContactUs;
     Unbinder unbinder;
-
-    private ArrayList<ProfileEnt> userCollections;
     OverlapDecoration overlapDecoration;
+    LinearLayoutManager layoutManager;
+    private ArrayList<ProfileEnt> userCollections;
 
     public static MyProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -81,6 +82,12 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     }
 
     @Override
+    public void setTitleBar(TitleBar titleBar) {
+        super.setTitleBar(titleBar);
+        titleBar.hideTitleBar();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_myprofile, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -96,6 +103,11 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     private void setProfileData() {
 
@@ -103,29 +115,26 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
 
         overlapDecoration = new OverlapDecoration(Math.round(getResources().getDimension(R.dimen.x40_)));
 
         rvGyms.addItemDecoration(overlapDecoration);
-        rvGyms.setLayoutManager(new LinearLayoutManager(getDockActivity()));
+
+        layoutManager = new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false);
 
 
         rvGyms.BindRecyclerView(new ProfileItemBinder(this), userCollections,
-                new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
-                , new DefaultItemAnimator());
-        recyclerHorizontlListner();
-    }
-
-    @Override
-    public void setTitleBar(TitleBar titleBar) {
-        super.setTitleBar(titleBar);
-        titleBar.hideTitleBar();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+                layoutManager, new SlideInRightAnimator());
+        //recyclerHorizontlListner();
     }
 
     @OnClick({R.id.btnBack, R.id.btnLogout, R.id.txt_bookingHistory, R.id.txt_manageSubscription, R.id.txt_MyFavorites, R.id.txt_changePassword, R.id.txt_settings, R.id.txt_aboutUs, R.id.txt_contactUs})
@@ -183,6 +192,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
+
     public void recyclerHorizontlListner() {
 
        /* rvGyms.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -218,22 +228,87 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
                 }
             }
         });*/
-       
+
+        final GestureDetector detector = new GestureDetector(getDockActivity(), new OnSwipeListener() {
+
+            @Override
+            public boolean onSwipe(Direction direction) {
+                if (direction == Direction.left) {
+                    //do your stuff
+
+
+                    overlapDecoration.setPadding(Math.round(getResources().getDimension(R.dimen.x5)));
+                    rvGyms.invalidateItemDecorations();
+
+                }
+
+                if (direction == Direction.right) {
+                    //do your stuff
+                    overlapDecoration.setPadding(Math.round(getResources().getDimension(R.dimen.x40_)));
+                    rvGyms.invalidateItemDecorations();
+                }
+                return true;
+            }
+
+
+        });
+        rvGyms.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                detector.onTouchEvent(e);
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+       /* rvGyms.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dx > 10) {
+                    overlapDecoration.setPadding(Math.round(getResources().getDimension(R.dimen.x40_)));
+                    rvGyms.invalidateItemDecorations();
+                } else if (dx < -10) {
+                    overlapDecoration.setPadding(Math.round(getResources().getDimension(R.dimen.x5)));
+                    rvGyms.invalidateItemDecorations();
+                }
+            }
+        });*/
+
 
     }
 
     public class OverlapDecoration extends RecyclerView.ItemDecoration {
 
         private final int vertOverlap = -110;
+        int negativePadding = Math.round(getResources().getDimension(R.dimen.x40_));
+        int positivePadding = Math.round(getResources().getDimension(R.dimen.x5));
         private int padding = 0;
 
         public OverlapDecoration(int padding) {
             this.padding = padding;
         }
 
+        public void setPadding(int padding) {
+            this.padding = padding;
+        }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(final Rect outRect, final View view, RecyclerView parent, RecyclerView.State state) {
             final int itemPosition = parent.getChildAdapterPosition(view);
             if (itemPosition == 0) {
                 return;
