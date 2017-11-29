@@ -1,104 +1,101 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/x24"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        android:layout_marginTop="@dimen/x10"
-        android:gravity="center"
-        card_view:cardCornerRadius="@dimen/x4"
-        card_view:cardElevation="@dimen/x10"
-        card_view:cardUseCompatPadding="true"
 
-        >
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:layout_marginTop="@dimen/x5"
-                android:layout_marginBottom="@dimen/x5"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo" />
-
-
-            <ImageView
-                android:id="@+id/iv_mainImage"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x250"
-                android:layout_gravity="center"
-                android:layout_centerInParent="true"
-                android:adjustViewBounds="false"
-                android:scaleType="centerInside"
-                android:src="@drawable/gym" />
-
-
-            <com.rd.PageIndicatorView
-                android:id="@+id/pageIndicatorView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x5"
-                android:layout_marginBottom="@dimen/x5"
-                android:layout_gravity="center_horizontal"
-                card_view:piv_padding="@dimen/x3"
-                card_view:piv_radius="@dimen/x4"
-                card_view:piv_selectedColor="@color/app_blue"
-                card_view:piv_unselectedColor="@color/app_text_light_gray" />
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center"
+            card_view:cardCornerRadius="@dimen/x4"
+            card_view:cardElevation="@dimen/x15"
+            card_view:cardUseCompatPadding="false"
+            android:layout_margin="@dimen/x2">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.2"
-                android:gravity="top"
-                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                >
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x5"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/logo" />
 
-                <TextView
-                    android:id="@+id/txt_heading"
+
+                <ImageView
+                    android:id="@+id/iv_mainImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x200"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="false"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/gym" />
+
+
+                <com.rd.PageIndicatorView
+                    android:id="@+id/pageIndicatorView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    card_view:piv_padding="@dimen/x3"
+                    card_view:piv_radius="@dimen/x4"
+                    card_view:piv_selectedColor="@color/app_blue"
+                    card_view:piv_unselectedColor="@color/app_text_light_gray" />
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:layout_marginStart="@dimen/x2"
-                    android:layout_marginEnd="@dimen/x2"
-                    android:layout_marginBottom="@dimen/x3"
-                    android:text="Donec ultrices scelerisque nisi"
-                    android:textColor="@color/app_blue"
-                    android:textSize="@dimen/x20"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txt_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/x10"
-                    android:layout_marginEnd="@dimen/x3"
-                    android:layout_marginStart="@dimen/x3"
-                    android:gravity="center_horizontal"
-                    android:text="Nulla ei orci aliquam,condimentum tellus eaac,cursus tellius,In magna eros luctus non."
-                    android:textSize="@dimen/x14" />
+                    <TextView
+                        android:id="@+id/txt_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/x2"
+                        android:layout_marginStart="@dimen/x2"
+                        android:gravity="center_horizontal"
+                        android:text="Donec ultrices scelerisque nisi"
+                        android:textColor="@color/app_blue"
+                        android:textSize="@dimen/x16"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/txt_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/x10"
+                        android:layout_marginEnd="@dimen/x3"
+                        android:layout_marginStart="@dimen/x3"
+                        android:gravity="center_horizontal"
+                        android:text="Nulla ei orci aliquam,condimentum tellus eaac,cursus tellius,In magna eros luctus non."
+                        android:textSize="@dimen/x14" />
+
+
+                </LinearLayout>
 
             </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
