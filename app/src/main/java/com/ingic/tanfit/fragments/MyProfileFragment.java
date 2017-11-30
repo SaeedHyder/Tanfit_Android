@@ -116,14 +116,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
         userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
+
 
         overlapDecoration = new OverlapDecoration(Math.round(getResources().getDimension(R.dimen.x40_)));
 

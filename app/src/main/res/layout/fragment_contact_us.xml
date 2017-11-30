@@ -28,7 +28,7 @@
             android:text="@string/address"
             android:textColor="@color/app_blue"
             android:textSize="@dimen/x18"
-            app:typeface="@string/font_bold" />
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:id="@+id/txt_address"
@@ -52,7 +52,7 @@
             android:text="Have a Question?"
             android:textColor="@color/app_blue"
             android:textSize="@dimen/x18"
-            app:typeface="@string/font_bold" />
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:id="@+id/txt_question"

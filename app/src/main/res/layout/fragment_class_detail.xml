@@ -157,44 +157,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x10"
-            android:background="@color/white"
-            android:orientation="vertical">
 
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x40"
-                android:layout_marginStart="@dimen/x10"
-                android:gravity="center_vertical"
-                android:text="@string/description"
-                android:textColor="@color/black"
-                android:textSize="@dimen/x16"
-                app:typeface="@string/font_bold"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x1"
-
-                android:background="@color/grey"/>
-
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/x10"
-                android:layout_marginEnd="@dimen/x10"
-                android:layout_marginStart="@dimen/x10"
-                android:layout_marginTop="@dimen/x5"
-                android:gravity="center_vertical"
-                android:text="@string/small_lorem_ipsum"
-                android:textColor="@color/dark_grey"
-                android:textSize="@dimen/x12"
-                app:typeface="@string/font_normal"/>
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -483,6 +446,45 @@
                  android:background="@color/dark_grey"/>
 
          </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:layout_marginStart="@dimen/x10"
+                android:gravity="center_vertical"
+                android:text="@string/description"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x16"
+                app:typeface="@string/font_bold"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+
+                android:background="@color/grey"/>
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginEnd="@dimen/x10"
+                android:layout_marginStart="@dimen/x10"
+                android:layout_marginTop="@dimen/x5"
+                android:gravity="center_vertical"
+                android:text="@string/small_lorem_ipsum"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_normal"/>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

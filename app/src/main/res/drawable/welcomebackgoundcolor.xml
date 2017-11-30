@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:bottom="@dimen/x250">
+        <shape android:shape="rectangle" >
+            <size android:height="@dimen/x100" />
+            <solid android:color="@color/app_blue" />
+        </shape>
+    </item>
+
+    <item android:top="@dimen/x250">
+        <shape android:shape="rectangle" >
+            <size android:height="@dimen/x100" />
+            <solid android:color="@color/app_gray" />
+        </shape>
+    </item>
+
+</layer-list>

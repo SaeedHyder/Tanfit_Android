@@ -12,6 +12,7 @@
         app:tabSelectedTextColor="@color/app_blue"
         app:tabIndicatorColor="@color/app_green"
         app:tabGravity="fill"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabMode="fixed"
         style="@style/MyCustomTextAppearance"
         android:elevation="8dp"
