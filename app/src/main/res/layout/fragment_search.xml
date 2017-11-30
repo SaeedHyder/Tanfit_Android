@@ -135,7 +135,7 @@
                 app:fixedLineThickness="@dimen/x3"
                 app:fixedThumbLabelColor="@color/transparent"
                 app:fixedThumbRadius="@dimen/x7"
-                app:innerRangePaddingRight="@dimen/x30"
+                app:innerRangePaddingRight="@dimen/x38"
                 app:labelColor="@color/transparent"
                 app:lineThickness="@dimen/x3"
                 app:movable="true"
@@ -146,6 +146,8 @@
                 app:showTicks="false"
                 app:start="0"
                 app:startFixed="0"
+
+
 
                 />
 

@@ -57,8 +57,7 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     Button btnApply;
     @BindView(R.id.lv_companies)
     CustomRecyclerView lv_companies;
-    @BindView(R.id.rangeview)
-    SimpleRangeView rangeView;
+
     @BindView(R.id.autoComplete)
     AutoCompleteLocation autoComplete;
     @BindView(R.id.img_gps)
@@ -67,6 +66,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     LinearLayout llFilters;
     @BindView(R.id.btn_showFilters)
     Button btnShowFilters;
+    @BindView(R.id.rangeview)
+    SimpleRangeView rangeview;
 
     private SetChildTitlebar childTitlebar;
     private ArrayList<MapScreenItem> mapCollection = new ArrayList<>();
@@ -164,26 +165,57 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         });
     }
 
+    public static String padRight(String s, int n) {
+        return String.format("%1$-" + n + "s", s).replace(' ', '*');
+    }
+
+    public static String padLeft(String s, int n) {
+        return String.format("%1$" + n + "s", s).replace(' ', '*');
+    }
+
+
     private void setRangeBar() {
-        rangeView.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
+        rangeview.setMinDistanceBetweenLabels(20f);
+        rangeview.setMinDistance(3);
+
+
+        rangeview.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+            @Override
+            public void onRangeChanged(SimpleRangeView simpleRangeView, int i, int i1) {
+
+                       /* if(i1-i==2 || i1-i==1){
+
+
+                        }
+                        else {
+                            rangeview.setShowLabels(true);
+                        }*/
+
+            }
+        });
+
+        rangeview.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
             @Nullable
             @Override
             public String getLabelTextForPosition(@NotNull SimpleRangeView rangeView, int pos, @NotNull SimpleRangeView.State state) {
+
                 if (pos < 11) {
-                    return String.valueOf((pos + 1) + " am");
+                    return String.valueOf((pos + 1) + "am");
                 } else if (pos + 1 == 12) {
 
-                    return String.valueOf((pos + 1) + " pm");
+                    return String.valueOf((pos + 1) + "pm");
                 } else if (pos + 1 == 24) {
 
-                    return String.valueOf((pos + 1) - 12 + " am");
+                    return String.valueOf((pos + 1) - 12 + "am");
 
                 } else {
-                    return String.valueOf((pos + 1) - 12 + " pm");
+                    return String.valueOf((pos + 1) - 12 + "pm");
                 }
 
             }
         });
+
+
     }
 
     private void setRecyclerViewData() {
@@ -326,4 +358,6 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
 
         getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
     }
+
+
 }

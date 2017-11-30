@@ -1,4 +1,4 @@
-package com.ingic.tanfit.fragments
+package com.ingic.tanfit.range_bar;
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
