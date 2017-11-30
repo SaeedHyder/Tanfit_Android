@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="@dimen/x10"
         android:layout_marginStart="@dimen/x5"
-        android:layout_marginEnd="@dimen/x5"
         android:layout_marginTop="@dimen/x5"
         android:background="@drawable/square_background_timing_transparent"
         >
@@ -32,6 +32,8 @@
         android:layout_height="@dimen/x40"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/x5"
+        android:layout_marginStart="@dimen/x5"
+        android:layout_marginEnd="@dimen/x10"
         android:text="@string/gym"
         android:textColor="@color/app_font_black"
         android:textSize="@dimen/x18"

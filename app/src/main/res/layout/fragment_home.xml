@@ -30,7 +30,7 @@
             android:layout_marginStart="@dimen/x10"
             android:layout_toEndOf="@+id/img_clock"
             android:gravity="center_vertical"
-            android:text="Burn Type:Upper Body"
+            android:text="Burn: Upper Body"
             android:textColor="@color/white"
             android:textSize="@dimen/x14"
             app:typeface="@string/font_bold"/>
@@ -57,6 +57,8 @@
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabIndicatorColor="@color/app_green"
         app:tabMode="fixed"
+        style="@style/MyCustomTextAppearance"
+
         app:tabSelectedTextColor="@color/app_blue"
         />
     <android.support.v4.view.ViewPager
@@ -64,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+
         >
     </android.support.v4.view.ViewPager>
 

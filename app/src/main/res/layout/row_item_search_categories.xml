@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/x5"
             android:layout_marginBottom="@dimen/x3"
-            android:text="Meimi Beach FL USA"
+            android:text="Meimi Beach, FL, USA"
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/app_text_gray"

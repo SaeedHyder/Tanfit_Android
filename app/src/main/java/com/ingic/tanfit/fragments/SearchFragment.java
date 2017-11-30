@@ -221,9 +221,9 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     private void setRecyclerViewData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image8, "Troh Gym", "Meimi Beach FL USA"));
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image9, "Troh Gym", "Meimi Beach FL USA"));
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.images10, "Troh Gym", "Meimi Beach FL USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image8, "Troh Gym", "Meimi Beach, FL, USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image9, "Troh Gym", "Meimi Beach, FL, USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.images10, "Troh Gym", "Meimi Beach, FL, USA"));
 
         lv_companies.BindRecyclerView(new SearchItemBinder(this), userCollections,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)

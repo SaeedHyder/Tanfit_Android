@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/x10"
             android:layout_marginTop="@dimen/x10"
+            android:layout_marginStart="@dimen/x10"
             android:background="@color/transparent"
             android:visibility="visible"/>
 
@@ -76,6 +77,7 @@
                 android:gravity="start"
                 android:paddingEnd="@dimen/x5"
                 android:paddingStart="@dimen/x10"
+                android:layout_marginStart="@dimen/x10"
                 android:text="@string/men"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x20"
@@ -89,6 +91,7 @@
                 android:gravity="start"
                 android:paddingEnd="@dimen/x5"
                 android:paddingStart="@dimen/x10"
+                android:layout_marginStart="@dimen/x10"
                 android:text="@string/women"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x20"
