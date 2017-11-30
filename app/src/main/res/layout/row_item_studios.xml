@@ -16,6 +16,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x8"
             android:layout_gravity="center_vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -28,6 +29,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/x8"
+            android:layout_marginEnd="@dimen/x8"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -99,10 +102,10 @@
 
                 <com.ingic.tanfit.ui.views.AnyTextView
                     android:id="@+id/txt_pilates"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginTop="@dimen/x2"
+                    android:layout_marginEnd="@dimen/x8"
                     android:drawableLeft="@drawable/yoga"
                     android:drawablePadding="@dimen/x5"
                     android:text="@string/pilates"
@@ -112,9 +115,9 @@
 
                 <com.ingic.tanfit.ui.views.AnyTextView
                     android:id="@+id/txt_TRX"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/x8"
                     android:layout_marginTop="@dimen/x2"
                     android:drawableLeft="@drawable/trx"
                     android:drawablePadding="@dimen/x5"
@@ -125,9 +128,9 @@
 
                 <com.ingic.tanfit.ui.views.AnyTextView
                     android:id="@+id/txt_yoga"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/x8"
                     android:layout_marginTop="@dimen/x2"
                     android:drawableLeft="@drawable/yoga"
                     android:drawablePadding="@dimen/x5"
@@ -138,13 +141,13 @@
 
                 <com.ingic.tanfit.ui.views.AnyTextView
                     android:id="@+id/txt_spinning"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginTop="@dimen/x2"
+                   android:layout_marginEnd="@dimen/x3"
                     android:drawableLeft="@drawable/spinning"
                     android:drawablePadding="@dimen/x5"
-                    android:text="@string/yoga"
+                    android:text="@string/spinning"
                     android:textColor="@color/app_text_gray"
                     android:textSize="@dimen/x12"
                     app:typeface="@string/font_normal" />

@@ -76,6 +76,7 @@
             android:layout_marginTop="@dimen/x10"
             android:text="@string/my_gyms"
             android:textColor="@color/app_blue"
+            android:layout_marginBottom="@dimen/x10"
             android:textSize="@dimen/x16"
             app:typeface="@string/font_normal" />
 

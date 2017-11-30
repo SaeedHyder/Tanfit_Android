@@ -12,6 +12,7 @@
         android:gravity="start|center_vertical"
         android:paddingEnd="@dimen/x5"
         android:paddingStart="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
         android:text="monday"
         android:textColor="@color/app_font_blue"
         android:textSize="@dimen/x20"

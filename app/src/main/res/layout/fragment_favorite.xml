@@ -13,6 +13,7 @@
         app:tabIndicatorColor="@color/app_green"
         app:tabGravity="fill"
         app:tabMode="fixed"
+        style="@style/MyCustomTextAppearance"
         android:elevation="8dp"
         />
 
