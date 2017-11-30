@@ -73,7 +73,7 @@ public class FavoriteFragment extends BaseFragment {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(Color.GRAY);
         drawable.setSize(1, 1);
-        linearLayout.setDividerPadding(10);
+//        linearLayout.setDividerPadding(10);
         linearLayout.setDividerDrawable(drawable);
     }
 

@@ -52,7 +52,6 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -81,7 +80,7 @@ public class HomeFragment extends BaseFragment {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(Color.GRAY);
         drawable.setSize(1, 1);
-        linearLayout.setDividerPadding(10);
+//        linearLayout.setDividerPadding(10);
         linearLayout.setDividerDrawable(drawable);
     }
     private void setViewPager() {
