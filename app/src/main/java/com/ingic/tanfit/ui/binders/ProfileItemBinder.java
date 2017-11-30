@@ -27,7 +27,7 @@ public class ProfileItemBinder extends RecyclerViewBinder<ProfileEnt> {
     public ProfileItemBinder(RecyclerViewItemListener itemListener) {
         super(R.layout.row_item_profile_gyms);
         imageLoader = ImageLoader.getInstance();
-        this.itemListener=itemListener;
+        this.itemListener = itemListener;
     }
 
     @Override
@@ -38,16 +38,20 @@ public class ProfileItemBinder extends RecyclerViewBinder<ProfileEnt> {
     @Override
     public void bindView(final ProfileEnt entity, final int position, Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
+        if (holder.ivGymImage.getTag() != null) {
 
-        imageLoader.displayImage(entity.getImage(),holder.ivGymImage);
+        } else {
+            imageLoader.displayImage(entity.getImage(), holder.ivGymImage);
+            holder.ivGymImage.setTag(1);
 
-        holder.mainFrame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemListener.onRecyclerItemClicked(entity,position);
-            }
-        });
-
+            //holder.ivGymImage.setImageResource(R.drawable.image6);
+            holder.mainFrame.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemListener.onRecyclerItemClicked(entity, position);
+                }
+            });
+        }
     }
 
     static class ViewHolder extends BaseViewHolder {
