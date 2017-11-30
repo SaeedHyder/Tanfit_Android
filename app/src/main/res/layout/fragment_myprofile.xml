@@ -92,7 +92,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/x1"
-        android:layout_marginTop="@dimen/x10"
+        android:layout_marginTop="@dimen/x20"
         android:background="@color/border_gray_light" />
 
     <com.ingic.tanfit.ui.views.AnyTextView

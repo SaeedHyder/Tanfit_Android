@@ -66,6 +66,8 @@ public class SubscriptionPagerItem extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        txtDescription.setText("Unlimited* Classes"+System.getProperty("line.separator")+"PER MONTH");
+
     }
 
     @Override

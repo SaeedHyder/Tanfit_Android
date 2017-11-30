@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:elevation="8dp"
         app:tabGravity="fill"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabIndicatorColor="@color/app_green"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/app_blue"
