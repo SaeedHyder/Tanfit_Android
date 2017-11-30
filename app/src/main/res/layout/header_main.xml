@@ -72,9 +72,10 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/x15"
         android:gravity="center"
-        android:text="Skip"
+        android:text="@string/skiptitle"
         android:textColor="@color/white"
         android:textSize="@dimen/x18"
+        android:textAllCaps="true"
         android:visibility="visible"
         app:typeface="OpenSans-Regular.ttf"/>
 

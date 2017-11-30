@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:rsb="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -120,6 +121,7 @@
             <me.bendik.simplerangeview.SimpleRangeView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/rangeview"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 app:activeLabelColor="@color/transparent"
                 app:activeLineColor="@color/app_green"
@@ -128,14 +130,15 @@
                 app:activeThumbFocusRadius="@dimen/x8"
                 app:activeThumbLabelColor="@color/black"
                 app:activeThumbRadius="@dimen/x7"
-                app:count="23"
+                app:fixedThumbColor="@color/transparent"
+                app:count="24"
                 app:end="23"
                 app:endFixed="23"
                 app:fixedLabelColor="@color/transparent"
                 app:fixedLineThickness="@dimen/x3"
                 app:fixedThumbLabelColor="@color/transparent"
                 app:fixedThumbRadius="@dimen/x7"
-                app:innerRangePaddingRight="@dimen/x38"
+
                 app:labelColor="@color/transparent"
                 app:lineThickness="@dimen/x3"
                 app:movable="true"
@@ -146,10 +149,27 @@
                 app:showTicks="false"
                 app:start="0"
                 app:startFixed="0"
+                android:visibility="visible"
+                />
 
-
+            <com.ingic.tanfit.ui.views.RangeSeekBar
+                android:id="@+id/hourRangeBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:defaultColor="@color/white"
+                app:activeColor="@color/white"
+                app:activateOnDefaultValues="true"
+                app:valuesAboveThumbs="true"
+                app:showLabels="false"
+                app:barHeight="@dimen/x2"
+                app:singleThumb="false"
+                app:absoluteMinValue="0"
+                app:absoluteMaxValue="1000"
+               android:visibility="gone"
 
                 />
+
 
 
             <Button
@@ -157,8 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_below="@+id/txt_description2"
-                android:layout_marginEnd="@dimen/x10"
-                android:layout_marginStart="@dimen/x10"
+
                 android:layout_marginTop="@dimen/x15"
                 android:background="@color/app_blue"
                 android:text="Apply"

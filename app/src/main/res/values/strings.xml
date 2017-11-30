@@ -238,5 +238,6 @@
     <string name="men">Men</string>
     <string name="women">Women</string>
     <string name="show_filters">Show Filters</string>
+    <string name="skiptitle">SKIP</string>
 
 </resources>

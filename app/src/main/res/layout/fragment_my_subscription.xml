@@ -35,7 +35,7 @@
             android:text="Basic"
             android:textColor="@color/white"
             android:textSize="@dimen/x18"
-            app:typeface="@string/font_bold" />
+            app:typeface="@string/font_normal" />
 
 
     </LinearLayout>
@@ -57,7 +57,7 @@
             android:text="@string/need_a_short_break"
             android:textColor="@color/app_blue"
             android:textSize="@dimen/x18"
-            app:typeface="@string/font_bold" />
+            app:typeface="@string/font_normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,7 +131,7 @@
             android:id="@+id/txt_days_left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x10"
+            android:layout_marginTop="@dimen/x13"
             android:layout_marginBottom="@dimen/x5"
             android:alpha="0.8"
             android:gravity="center_vertical"
@@ -162,7 +162,7 @@
             android:text="@string/cancel_subscription"
             android:textColor="@color/app_blue"
             android:textSize="@dimen/x18"
-            app:typeface="@string/font_bold" />
+            app:typeface="@string/font_normal" />
 
 
         <com.ingic.tanfit.ui.views.AnyTextView

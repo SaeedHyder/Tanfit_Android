@@ -144,6 +144,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
     private String getCurrentAddress(double lat, double lng) {
         try {
+
             Geocoder geocoder;
             List<Address> addresses;
             geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());

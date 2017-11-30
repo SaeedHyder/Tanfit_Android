@@ -36,6 +36,7 @@ import com.ingic.tanfit.ui.views.AutoCompleteLocation;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
+import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,6 +69,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     Button btnShowFilters;
     @BindView(R.id.rangeview)
     SimpleRangeView rangeview;
+
+
 
     private SetChildTitlebar childTitlebar;
     private ArrayList<MapScreenItem> mapCollection = new ArrayList<>();
@@ -137,6 +140,12 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         setRecyclerViewData();
         setRangeBar();
         setGpsIcon();
+        setRangeSeekBar();
+
+
+    }
+
+    private void setRangeSeekBar() {
 
 
     }
@@ -177,6 +186,7 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     private void setRangeBar() {
         rangeview.setMinDistanceBetweenLabels(20f);
         rangeview.setMinDistance(3);
+        rangeview.setEnd(23);
 
 
         rangeview.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {

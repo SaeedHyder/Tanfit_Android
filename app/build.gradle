@@ -86,6 +86,7 @@ dependencies {
     compile 'com.android.support:support-compat:25.3.0'
     compile 'com.android.support:support-core-ui:25.3.0'
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
+    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 
 
 
