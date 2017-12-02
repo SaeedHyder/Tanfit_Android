@@ -34,9 +34,9 @@ import com.ingic.tanfit.map.abstracts.MapMarkerItemBinder;
 import com.ingic.tanfit.ui.binders.SearchItemBinder;
 import com.ingic.tanfit.ui.views.AutoCompleteLocation;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
+import com.ingic.tanfit.ui.views.RangeSeekBar;
 import com.ingic.tanfit.ui.views.TitleBar;
 
-import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +69,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     Button btnShowFilters;
     @BindView(R.id.rangeview)
     SimpleRangeView rangeview;
-
+    @BindView(R.id.hourRangeBar)
+    RangeSeekBar hourRangeBar;
 
 
     private SetChildTitlebar childTitlebar;
@@ -147,6 +148,12 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
 
     private void setRangeSeekBar() {
 
+        hourRangeBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Number minValue, Number maxValue) {
+            UIHelper.showShortToastInCenter(getDockActivity(),"min val"+minValue+" : "+"max val"+maxValue);
+            }
+        });
 
     }
 
@@ -368,6 +375,7 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
 
         getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
     }
+
 
 
 }

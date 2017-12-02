@@ -149,7 +149,7 @@
                 app:showTicks="false"
                 app:start="0"
                 app:startFixed="0"
-                android:visibility="visible"
+                android:visibility="gone"
                 />
 
             <com.ingic.tanfit.ui.views.RangeSeekBar
@@ -157,16 +157,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                app:defaultColor="@color/white"
-                app:activeColor="@color/white"
+                app:defaultColor="@color/app_green"
+                app:thumbNormal="@drawable/circlesearch"
+                app:thumbPressed="@drawable/circlesearch"
+                app:activeColor="@color/app_green"
                 app:activateOnDefaultValues="true"
                 app:valuesAboveThumbs="true"
                 app:showLabels="false"
+                app:textAboveThumbsColor="@color/black"
                 app:barHeight="@dimen/x2"
                 app:singleThumb="false"
-                app:absoluteMinValue="0"
-                app:absoluteMaxValue="1000"
-               android:visibility="gone"
+                app:absoluteMinValue="1"
+                app:absoluteMaxValue="24"
+               android:visibility="visible"
 
                 />
 
