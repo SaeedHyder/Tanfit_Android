@@ -78,7 +78,7 @@
                     android:id="@+id/txt_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Yoga CLass"
+                    android:text="@string/max_gym_yoga"
                     android:textColor="@color/white"
                     android:textSize="@dimen/x20"
                     app:typeface="@string/font_normal"/>
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt_title"
-                    android:text="I.R IRAN Tehran Vali Asr St Something House 25"
+                    android:text="2487 S Orange Ave,Orlando FL 35806"
                     android:textColor="@color/gym_detail_address_color"
                     android:textSize="@dimen/x10"
                     app:typeface="@string/font_normal"/>

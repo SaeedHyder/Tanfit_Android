@@ -82,11 +82,11 @@ public class HomeStudioFragment extends BaseFragment implements DatePickerListen
 
         userCollection = new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 1","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 2","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 3","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 4","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 5","Bespoke Ride","Al Quoz","08:00","60 min"));
 
         if (userCollection.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);
@@ -103,7 +103,7 @@ public class HomeStudioFragment extends BaseFragment implements DatePickerListen
         lvStudios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(),"ClassDetailFragment");
+                getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(),"GymDetailFragment");
             }
         });
     }

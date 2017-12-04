@@ -95,9 +95,9 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
         userCollection = new ArrayList<>();
 
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "08:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "08:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.spinning, "Spinning", "136.1 Yoga Studio", "Al Quoz", "08:00", "60 min"));
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
 
         if (userCollection.size() <= 0) {
