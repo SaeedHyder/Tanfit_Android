@@ -118,7 +118,7 @@
                  custom:tickHeight="@dimen/x3"
 
                  />-->
-            <me.bendik.simplerangeview.SimpleRangeView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.ingic.tanfit.range_bar.SimpleRangeView
                 android:id="@+id/rangeview"
                 android:layout_width="match_parent"
 
@@ -132,13 +132,10 @@
                 app:activeThumbRadius="@dimen/x7"
                 app:fixedThumbColor="@color/transparent"
                 app:count="24"
-                app:end="23"
-                app:endFixed="23"
                 app:fixedLabelColor="@color/transparent"
                 app:fixedLineThickness="@dimen/x3"
                 app:fixedThumbLabelColor="@color/transparent"
                 app:fixedThumbRadius="@dimen/x7"
-
                 app:labelColor="@color/transparent"
                 app:lineThickness="@dimen/x3"
                 app:movable="true"
@@ -151,13 +148,37 @@
                 app:startFixed="0"
                 android:visibility="gone"
                 />
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:id="@+id/txt_starttext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1am"
+                    android:padding="@dimen/x5"
+                    android:textColor="@color/app_font_black"
+                    android:layout_alignParentStart="true"
+                    android:textSize="@dimen/x12"
+                    app:typeface="@string/font_bold" />
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:id="@+id/txt_endtext"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/x5"
+                    android:layout_height="wrap_content"
+                    android:text="12am"
+                    android:textColor="@color/app_font_black"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="@dimen/x12"
+                    app:typeface="@string/font_bold" />
+            </RelativeLayout>
             <com.ingic.tanfit.ui.views.RangeSeekBar
                 android:id="@+id/hourRangeBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                app:defaultColor="@color/app_green"
+                app:defaultColor="@color/grey"
                 app:thumbNormal="@drawable/circlesearch"
                 app:thumbPressed="@drawable/circlesearch"
                 app:activeColor="@color/app_green"

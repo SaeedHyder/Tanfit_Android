@@ -31,7 +31,9 @@ import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.map.abstracts.GoogleMapOptions;
 import com.ingic.tanfit.map.abstracts.MapMarkerItemBinder;
+import com.ingic.tanfit.range_bar.SimpleRangeView;
 import com.ingic.tanfit.ui.binders.SearchItemBinder;
+import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.AutoCompleteLocation;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.RangeSeekBar;
@@ -45,7 +47,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.bendik.simplerangeview.SimpleRangeView;
+
 
 /**
  * Created by saeedhyder on 11/23/2017.
@@ -71,6 +73,10 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     SimpleRangeView rangeview;
     @BindView(R.id.hourRangeBar)
     RangeSeekBar hourRangeBar;
+    @BindView(R.id.txt_starttext)
+    AnyTextView txtStarttext;
+    @BindView(R.id.txt_endtext)
+    AnyTextView txtEndtext;
 
 
     private SetChildTitlebar childTitlebar;
@@ -87,6 +93,14 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         return fragment;
     }
 
+    public static String padRight(String s, int n) {
+        return String.format("%1$-" + n + "s", s).replace(' ', '*');
+    }
+
+    public static String padLeft(String s, int n) {
+        return String.format("%1$" + n + "s", s).replace(' ', '*');
+    }
+
     public void setChildTitlebar(SetChildTitlebar childTitlebar) {
         this.childTitlebar = childTitlebar;
     }
@@ -97,6 +111,18 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         if (getArguments() != null) {
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
     }
 
     @Override
@@ -139,7 +165,7 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
             childTitlebar.setChildTitlebar(null, AppConstants.SEARCH_FRAGMENT_TAG);
         }
         setRecyclerViewData();
-        setRangeBar();
+       // setRangeBar();
         setGpsIcon();
         setRangeSeekBar();
 
@@ -147,11 +173,19 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     }
 
     private void setRangeSeekBar() {
-
         hourRangeBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Number minValue, Number maxValue) {
-            UIHelper.showShortToastInCenter(getDockActivity(),"min val"+minValue+" : "+"max val"+maxValue);
+
+                if ((maxValue.intValue() - minValue.intValue() <= 1)) {
+                    if (maxValue.intValue() == 24) {
+                        bar.setSelectedMinValue(minValue.intValue() - 1);
+                    } else if (minValue.intValue() == 1) {
+                        bar.setSelectedMaxValue(maxValue.intValue() + 1);
+                    } else {
+                        bar.setSelectedMaxValue(maxValue.intValue() + 1);
+                    }
+                }
             }
         });
 
@@ -180,15 +214,6 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
             }
         });
     }
-
-    public static String padRight(String s, int n) {
-        return String.format("%1$-" + n + "s", s).replace(' ', '*');
-    }
-
-    public static String padLeft(String s, int n) {
-        return String.format("%1$" + n + "s", s).replace(' ', '*');
-    }
-
 
     private void setRangeBar() {
         rangeview.setMinDistanceBetweenLabels(20f);
@@ -331,7 +356,6 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         mMap = googleMap;
     }
 
-
     @OnClick({R.id.btn_apply, R.id.img_gps, R.id.btn_showFilters})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -359,23 +383,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
-    }
-
-    @Override
     public void onRecyclerItemClicked(Object Ent, int position) {
 
         getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
     }
-
-
-
 }
