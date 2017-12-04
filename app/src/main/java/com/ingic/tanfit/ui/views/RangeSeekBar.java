@@ -87,21 +87,18 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private static final int LINE_HEIGHT_IN_DP = 1;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint shadowPaint = new Paint();
-
-    private Bitmap thumbImage;
-    private Bitmap thumbPressedImage;
-    private Bitmap thumbDisabledImage;
-
-    private float thumbHalfWidth;
-    private float thumbHalfHeight;
-
-    private float padding;
     protected T absoluteMinValue, absoluteMaxValue, absoluteStepValue;
     protected NumberType numberType;
     protected double absoluteMinValuePrim, absoluteMaxValuePrim, absoluteStepValuePrim;
     protected double normalizedMinValue = 0d;
     protected double normalizedMaxValue = 1d;
     protected double minDeltaForDefault = 0;
+    private Bitmap thumbImage;
+    private Bitmap thumbPressedImage;
+    private Bitmap thumbDisabledImage;
+    private float thumbHalfWidth;
+    private float thumbHalfHeight;
+    private float padding;
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
@@ -295,7 +292,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     public void setTextAboveThumbsColor(int textAboveThumbsColor) {
         this.textAboveThumbsColor = textAboveThumbsColor;
-        invalidate();
+        // invalidate();
     }
 
     public void setTextAboveThumbsColorResource(@ColorRes int resId) {
@@ -376,10 +373,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         return roundOffValueToStep(normalizedToValue(normalizedMinValue));
     }
 
-    public boolean isDragging() {
-        return isDragging;
-    }
-
     /**
      * Sets the currently selected minimum value. The widget will be invalidated and redrawn.
      *
@@ -392,6 +385,10 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         } else {
             setNormalizedMinValue(valueToNormalized(value));
         }
+    }
+
+    public boolean isDragging() {
+        return isDragging;
     }
 
     /**
@@ -450,11 +447,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         }
 
         int pointerIndex;
-
         final int action = event.getAction();
         switch (action & MotionEvent.ACTION_MASK) {
 
             case MotionEvent.ACTION_DOWN:
+
                 // Remember where the motion event started
                 activePointerId = event.getPointerId(event.getPointerCount() - 1);
                 pointerIndex = event.findPointerIndex(activePointerId);
@@ -468,7 +465,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 }
 
                 setPressed(true);
-                invalidate();
+                  invalidate();
                 onStartTrackingTouch();
                 trackTouchEvent(event);
                 attemptClaimDrag();
@@ -476,25 +473,25 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (pressedThumb != null) {
-
                     if (isDragging) {
                         trackTouchEvent(event);
                     } else {
                         // Scroll to follow the motion event
                         pointerIndex = event.findPointerIndex(activePointerId);
                         final float x = event.getX(pointerIndex);
-
-                        if (Math.abs(x - downMotionX) > scaledTouchSlop) {
+                        if (Math.abs(x - downMotionX) > scaledTouchSlop
+                                ) {
                             setPressed(true);
-                            invalidate();
+                             invalidate();
                             onStartTrackingTouch();
                             trackTouchEvent(event);
                             attemptClaimDrag();
                         }
                     }
 
-                    if (notifyWhileDragging && listener != null) {
-                        listener.onRangeSeekBarValuesChanged(this, getSelectedMinValue(), getSelectedMaxValue());
+                        if (notifyWhileDragging && listener != null) {
+                            listener.onRangeSeekBarValuesChanged(this, getSelectedMinValue(), getSelectedMaxValue());
+
                     }
 
 
@@ -514,9 +511,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 }
 
                 pressedThumb = null;
-                invalidate();
-                if (listener != null) {
-                    listener.onRangeSeekBarValuesChanged(this, getSelectedMinValue(), getSelectedMaxValue());
+                 invalidate();
+
+                    if (listener != null) {
+                        listener.onRangeSeekBarValuesChanged(this, getSelectedMinValue(), getSelectedMaxValue());
+
                 }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN: {
@@ -540,6 +539,29 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 break;
         }
         return true;
+    }
+
+    /**
+     * Overridden to save instance state when device orientation changes. This method is called automatically if you assign an id to the RangeSeekBar widget using the {@link #setId(int)} method. Other members of this class than the normalized min and max values don't need to be saved.
+     */
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable("SUPER", super.onSaveInstanceState());
+        bundle.putDouble("MIN", normalizedMinValue);
+        bundle.putDouble("MAX", normalizedMaxValue);
+        return bundle;
+    }
+
+    /**
+     * Overridden to restore instance state when device orientation changes. This method is called automatically if you assign an id to the RangeSeekBar widget using the {@link #setId(int)} method.
+     */
+    @Override
+    protected void onRestoreInstanceState(Parcelable parcel) {
+        final Bundle bundle = (Bundle) parcel;
+        super.onRestoreInstanceState(bundle.getParcelable("SUPER"));
+        normalizedMinValue = bundle.getDouble("MIN");
+        normalizedMaxValue = bundle.getDouble("MAX");
     }
 
     private void onSecondaryPointerUp(MotionEvent ev) {
@@ -626,7 +648,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         if (showLabels) {
             // draw min and max labels
             String minLabel = "1 am";
-            String maxLabel = "12 pm";
+            String maxLabel = "12 am";
             minMaxLabelSize = Math.max(paint.measureText(minLabel), paint.measureText(maxLabel));
             float minMaxHeight = textOffset + thumbHalfHeight + textSize / 3;
             canvas.drawText(minLabel, 0, minMaxHeight, paint);
@@ -678,6 +700,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             String maxText;
             if (minValue < 12) {
                 minText = String.valueOf(minValue) + textUnitam;
+            } else if (minValue == 12) {
+                minText = String.valueOf(minValue) + textUnitpm;
             } else {
                 minText = String.valueOf(minValue - 12) + textUnitpm;
             }
@@ -692,7 +716,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             float maxTextWidth = paint.measureText(maxText);
             // keep the position so that the labels don't get cut off
             float minPosition = Math.max(0f, normalizedToScreen(normalizedMinValue) - minTextWidth * 0.5f);
-            float maxPosition = Math.min((getWidth() - maxTextWidth), normalizedToScreen(normalizedMaxValue) - maxTextWidth* 0.5f);
+            float maxPosition = Math.min((getWidth() - maxTextWidth), normalizedToScreen(normalizedMaxValue) - maxTextWidth * 0.5f);
 
             if (!singleThumb) {
                 // check if the labels overlap, or are too close to each other
@@ -721,29 +745,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     protected String valueToString(T value) {
         return String.valueOf(value);
-    }
-
-    /**
-     * Overridden to save instance state when device orientation changes. This method is called automatically if you assign an id to the RangeSeekBar widget using the {@link #setId(int)} method. Other members of this class than the normalized min and max values don't need to be saved.
-     */
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        final Bundle bundle = new Bundle();
-        bundle.putParcelable("SUPER", super.onSaveInstanceState());
-        bundle.putDouble("MIN", normalizedMinValue);
-        bundle.putDouble("MAX", normalizedMaxValue);
-        return bundle;
-    }
-
-    /**
-     * Overridden to restore instance state when device orientation changes. This method is called automatically if you assign an id to the RangeSeekBar widget using the {@link #setId(int)} method.
-     */
-    @Override
-    protected void onRestoreInstanceState(Parcelable parcel) {
-        final Bundle bundle = (Bundle) parcel;
-        super.onRestoreInstanceState(bundle.getParcelable("SUPER"));
-        normalizedMinValue = bundle.getDouble("MIN");
-        normalizedMaxValue = bundle.getDouble("MAX");
     }
 
     /**
@@ -817,8 +818,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      * @param value The new normalized min value to set.
      */
     private void setNormalizedMinValue(double value) {
+
         normalizedMinValue = Math.max(0d, Math.min(1d, Math.min(value, normalizedMaxValue)));
+
         invalidate();
+
     }
 
     /**
@@ -827,6 +831,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      * @param value The new normalized max value to set.
      */
     private void setNormalizedMaxValue(double value) {
+
         normalizedMaxValue = Math.max(0d, Math.min(1d, Math.max(value, normalizedMinValue)));
         invalidate();
     }
@@ -877,7 +882,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             // prevent division by zero, simply return 0.
             return 0d;
         } else {
-            double  result = (screenCoord - padding) / (width - 2 * padding);
+            double result = (screenCoord - padding) / (width - 2 * padding);
             return Math.min(1d, Math.max(0d, result));
         }
     }

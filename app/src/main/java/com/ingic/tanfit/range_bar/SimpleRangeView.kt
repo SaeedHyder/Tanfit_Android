@@ -74,9 +74,9 @@ open class SimpleRangeView @JvmOverloads constructor(
             innerRangePaddingRight = value
         }
 
-    var count by redraw(DEFAULT_COUNT) {  closestValidPosition(it) }
-    var start by redraw(DEFAULT_START) {  closestValidPosition(it) }
-    var end by redraw(DEFAULT_END) {  closestValidPosition(it) }
+    var count by redraw(DEFAULT_COUNT) { closestValidPosition(it) }
+    var start by redraw(DEFAULT_START) { closestValidPosition(it) }
+    var end by redraw(DEFAULT_END) { closestValidPosition(it) }
     var minDistance by redraw(DEFAULT_MINIMAL_DISTANCE)
 
     var startFixed by redraw(DEFAULT_START_FIXED)
@@ -209,7 +209,7 @@ open class SimpleRangeView @JvmOverloads constructor(
         innerRangePaddingRight = DEFAULT_INNER_RANGE_PADDING_RIGHT * scale
     }
 
-    private fun defaultValIfZero(value : Float, defValue: Float) = if (value == 0f) defValue else value
+    private fun defaultValIfZero(value: Float, defValue: Float) = if (value == 0f) defValue else value
 
     private fun initPaints() {
         paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -327,7 +327,7 @@ open class SimpleRangeView @JvmOverloads constructor(
     protected open fun drawTicks(canvas: Canvas) {
         if (showTicks) {
             val left = if (showFixedLine) startFixed else start
-            val right = if (showFixedLine) endFixed else Math.min(end+1, count)
+            val right = if (showFixedLine) endFixed else Math.min(end + 1, count)
 
             for (i in 0 until left) {
                 val x = getPositionX(i)
@@ -353,7 +353,7 @@ open class SimpleRangeView @JvmOverloads constructor(
         }
 
         if (showActiveTicks) {
-            for (i in start+1 until end) {
+            for (i in start + 1 until end) {
                 val x = getPositionX(i)
                 canvas.drawCircle(x, getPositionY(), tickRadius, paintActiveTick)
             }
@@ -366,13 +366,13 @@ open class SimpleRangeView @JvmOverloads constructor(
     protected open fun drawLabels(canvas: Canvas) {
         if (showLabels) {
             val left = if (showFixedLine) startFixed else start
-            val right = if (showFixedLine) endFixed else Math.min(end+1, count)
+            val right = if (showFixedLine) endFixed else Math.min(end + 1, count)
 
             for (i in 0..count) {
                 val x = getPositionX(i)
-                when(i) {
+                when (i) {
                     start, end -> drawLabel(canvas, x, i, State.ACTIVE_THUMB, paintActiveThumbText)
-                    in start+1 until end -> drawLabel(canvas, x, i, State.ACTIVE, paintActiveText)
+                    in start + 1 until end -> drawLabel(canvas, x, i, State.ACTIVE, paintActiveText)
                     startFixed, endFixed -> drawLabel(canvas, x, i, State.FIXED_THUMB, paintFixedThumbText)
                     in startFixed until start, in end until endFixed -> drawLabel(canvas, x, i, State.FIXED, paintFixedText)
                     in 0 until left, in right until count -> drawLabel(canvas, x, i, State.NORMAL, paintText)
@@ -405,7 +405,7 @@ open class SimpleRangeView @JvmOverloads constructor(
     }
 
     protected open fun drawLine(canvas: Canvas, x: Float, y: Float, w: Float, h: Float, paint: Paint) {
-        canvas.drawRect(x, y, x+w, y+h, paint)
+        canvas.drawRect(x, y, x + w, y + h, paint)
     }
 
     protected open fun drawFixedLine(canvas: Canvas, x: Float, y: Float, w: Float, h: Float) {
@@ -437,7 +437,8 @@ open class SimpleRangeView @JvmOverloads constructor(
             //set Text
             val text = onRangeLabelsListener?.getLabelTextForPosition(this, pos, state)
             if (text != null) {
-                canvas.drawText(text, x, getPositionY() + labelMarginBottom, paint)
+
+                canvas.drawText(text, x + paint.measureText(text), getPositionY() + labelMarginBottom, paint)
             }
         }
     }
@@ -517,12 +518,12 @@ open class SimpleRangeView @JvmOverloads constructor(
                         val xS = Math.abs(tmpX - start)
                         val xE = Math.abs(tmpX - end)
 
-                        if (xS < xE && ((end-tmpX) >= minDistance)) {
+                        if (xS < xE && ((end - tmpX) >= minDistance)) {
                             start = tmpX
                             isStartPressed = true
                             fadeIn(currentLeftFocusRadiusPx, activeThumbFocusRadius)
                             onTrackRangeListener?.onStartRangeChanged(this, start)
-                        } else if (xS >= xE && ((tmpX-start) >= minDistance)) {
+                        } else if (xS >= xE && ((tmpX - start) >= minDistance)) {
                             end = tmpX
                             isEndPressed = true
                             fadeIn(currentRightFocusRadiusPx, activeThumbFocusRadius)
@@ -568,7 +569,7 @@ open class SimpleRangeView @JvmOverloads constructor(
             }
 
             if (pos >= count) {
-                return count-1
+                return count - 1
             }
         }
         return pos
@@ -576,15 +577,15 @@ open class SimpleRangeView @JvmOverloads constructor(
 
     private fun isPressed(pos: Int) = (pos == start && isStartPressed) || (pos == end && isEndPressed)
     private fun validatePosition(pos: Int) = if (showFixedLine) pos in startFixed..endFixed else pos in 0..(count - 1)
-    private fun validatePositionForStart(pos: Int) = validatePosition(pos) && (pos <= end-minDistance)
-    private fun validatePositionForEnd(pos: Int) = validatePosition(pos) && (pos >= start+minDistance)
+    private fun validatePositionForStart(pos: Int) = validatePosition(pos) && (pos <= end - minDistance)
+    private fun validatePositionForEnd(pos: Int) = validatePosition(pos) && (pos >= start + minDistance)
 
-    private fun getPositionByXCoord(x: Float) = ((x-innerRangePaddingLeft) / stepPx).toInt()
+    private fun getPositionByXCoord(x: Float) = ((x - innerRangePaddingLeft) / stepPx).toInt()
 
     private fun isInTargetZone(pos: Int, x: Float, y: Float): Boolean {
         val xDiff = Math.abs(x - getPositionX(pos))
         val yDiff = Math.abs(y - getPositionY())
-        return  xDiff <= activeThumbRadius && yDiff <= activeThumbRadius
+        return xDiff <= activeThumbRadius && yDiff <= activeThumbRadius
     }
 
     private fun getTextRect(text: String, paint: Paint): Rect {
@@ -640,7 +641,7 @@ open class SimpleRangeView @JvmOverloads constructor(
 
     private fun calcDesiredHeight(): Int {
         val h = calcMaxHeight() / 2
-        val labelHeight =  Math.max(if (showLabels && onRangeLabelsListener != null) labelMarginBottom+labelFontSize else 0f, h)
+        val labelHeight = Math.max(if (showLabels && onRangeLabelsListener != null) labelMarginBottom + labelFontSize else 0f, h)
         return (h + labelHeight).toInt()
     }
 
@@ -653,7 +654,7 @@ open class SimpleRangeView @JvmOverloads constructor(
         lineYActive = posY - activeLineThickness / 2.0f
         lineYFixed = posY - fixedLineThickness / 2.0f
 
-        stepPx = (w - (innerRangePaddingLeft+innerRangePaddingRight)) / (count-1)
+        stepPx = (w - (innerRangePaddingLeft + innerRangePaddingRight)) / (count - 1)
     }
 
 
