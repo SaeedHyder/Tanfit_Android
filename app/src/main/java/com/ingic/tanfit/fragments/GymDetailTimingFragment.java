@@ -116,8 +116,8 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
         collectionGroup.add("Friday");
         collectionGroup.add("Saturday");
 
-        collectionChild.add(new TimingEnt("4 am to 12 pm ", "12 am to 4 pm"));
-        collectionChild.add(new TimingEnt("4 am to 12 pm ", "12 am to 4 pm"));
+        collectionChild.add(new TimingEnt("8 am to 12 pm ", "12 am to 4 pm"));
+        collectionChild.add(new TimingEnt("4 pm to 8 pm ", "8 pm to 9 pm"));
         collectionChild.add(new TimingEnt("4 am to 12 pm ", "12 am to 4 pm"));
 
         listDataChild.put(collectionGroup.get(0), collectionChild);

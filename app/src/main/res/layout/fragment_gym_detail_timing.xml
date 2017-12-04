@@ -18,6 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/x50"
+            android:layout_marginEnd="@dimen/x10"
+            android:layout_marginStart="@dimen/x10"
             android:orientation="horizontal">
 
             <com.ingic.tanfit.ui.views.AnyTextView
@@ -27,6 +29,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.9"
                 android:alpha="0.8"
+                android:paddingStart="@dimen/x10"
                 android:gravity="center"
                 android:text="@string/timings"
                 android:textColor="@color/black"
@@ -35,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/btn_close"
-                android:layout_marginEnd="@dimen/x3"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -46,6 +49,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
+            android:alpha="0.4"
             android:background="@color/grey"/>
 
 
@@ -62,6 +66,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
+            android:alpha="0.4"
             android:background="@color/grey"/>
 
         <LinearLayout
@@ -79,9 +84,9 @@
                 android:paddingStart="@dimen/x10"
                 android:layout_marginStart="@dimen/x10"
                 android:text="@string/men"
-                android:textColor="@color/black"
-                android:textSize="@dimen/x20"
-                app:typeface="@string/font_bold"/>
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/x19"
+                app:typeface="@string/font_bold_roboto"/>
 
             <com.ingic.tanfit.ui.views.AnyTextView
                 android:layout_width="0dp"
@@ -93,14 +98,15 @@
                 android:paddingStart="@dimen/x10"
                 android:layout_marginStart="@dimen/x10"
                 android:text="@string/women"
-                android:textColor="@color/black"
-                android:textSize="@dimen/x20"
-                app:typeface="@string/font_bold"/>
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/x19"
+                app:typeface="@string/font_bold_roboto"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
+            android:alpha="0.4"
             android:background="@color/grey"/>
 
         <com.ingic.tanfit.ui.views.CustomExpandableListView

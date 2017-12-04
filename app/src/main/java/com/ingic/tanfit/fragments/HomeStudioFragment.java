@@ -82,11 +82,11 @@ public class HomeStudioFragment extends BaseFragment implements DatePickerListen
 
         userCollection = new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 1","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 2","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 3","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 4","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Fitness Center Name 5","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.studioimage1,"Fitness Center Name 1","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio3,"Fitness Center Name 2","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio4,"Fitness Center Name 3","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.studioimage1,"Fitness Center Name 4","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio3,"Fitness Center Name 5","Bespoke Ride","Al Quoz","08:00","60 min"));
 
         if (userCollection.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);

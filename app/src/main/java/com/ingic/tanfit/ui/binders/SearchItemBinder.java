@@ -41,6 +41,8 @@ public class SearchItemBinder extends RecyclerViewBinder<SearchRecyclerEnt> {
     public void bindView(SearchRecyclerEnt entity, final int position, final Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
         imageLoader.displayImage(entity.getImage(),holder.image);
+        holder.txtGymName.setText(entity.getGymName()+"");
+        holder.txtGymAddress.setText(entity.getGymAddress()+"");
 
         holder.llCompany.setOnClickListener(new View.OnClickListener() {
             @Override

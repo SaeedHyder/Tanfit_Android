@@ -49,7 +49,7 @@ public class TimingTypeBinder extends RecyclerViewBinder<TimingTypeEnt> implemen
         } else {
             holder.frameImg.setBackground(context.getResources().getDrawable(R.drawable.square_background_timing_transparent));
             holder.imgGym.setImageResource(entity.getImageGreyRes());
-            holder.txtType.setTextColor(context.getResources().getColor(R.color.app_font_black));
+            holder.txtType.setTextColor(context.getResources().getColor(R.color.category_list_grey));
             holder.txtType.setText(entity.getType());
             entity.setSelected(true);
         }

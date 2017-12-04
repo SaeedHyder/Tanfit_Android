@@ -15,6 +15,7 @@ import com.ingic.tanfit.entities.SpecialFeatureEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.helpers.DialogHelper;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.GymGalleryItemBinder;
@@ -22,6 +23,7 @@ import com.ingic.tanfit.ui.binders.speacialFeatureItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.ExpandableGridView;
+import com.ingic.tanfit.ui.views.TitleBar;
 
 import java.util.ArrayList;
 
@@ -103,8 +105,8 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
         userCollectionyoga = new ArrayList<>();
 
         userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.treadmil, getDockActivity().getResources().getString(R.string.treadmil)));
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music, getDockActivity().getResources().getString(R.string.music)));
+        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.steam_room, getString(R.string.steamroom)));
+        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music,getString(R.string.music)));
         userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));
 
 
@@ -118,9 +120,11 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     private void setRecyclerViewData() {
 
         userCollectionsGallery = new ArrayList<>();
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image8, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image9, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.image8, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage1, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage2, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage6, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage7, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage8, "Troh Gym"));
 
         rvGallery.BindRecyclerView(new GymGalleryItemBinder(this), userCollectionsGallery,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
@@ -178,5 +182,19 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
                 willbeimplementedinBeta();
                 break;
         }
+    }
+
+    @Override
+    public void setTitleBar(TitleBar titleBar) {
+        super.setTitleBar(titleBar);
+        titleBar.hideButtons();
+        titleBar.showBackButton();
+        titleBar.setSubHeading("");
+        titleBar.showHeartButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showShortToastInCenter(getDockActivity(), "will be implemented in beta");
+            }
+        });
     }
 }

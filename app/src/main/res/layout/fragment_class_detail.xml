@@ -35,7 +35,7 @@
                     android:id="@+id/iv_profileImage"
                     android:layout_width="@dimen/x80"
                     android:layout_height="@dimen/x60"
-                    android:src="@drawable/image"
+                    android:src="@drawable/studioimage1"
                     />
 
                 <RelativeLayout

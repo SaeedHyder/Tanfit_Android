@@ -36,6 +36,6 @@
         android:layout_marginEnd="@dimen/x10"
         android:text="@string/gym"
         android:textColor="@color/app_font_black"
-        android:textSize="@dimen/x18"
+        android:textSize="@dimen/x16"
         app:typeface="@string/font_normal"/>
 </LinearLayout>

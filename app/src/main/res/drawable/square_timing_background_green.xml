@@ -6,4 +6,7 @@
         android:color="@color/app_font_green" >
     </solid>
 
+    <corners
+        android:radius="@dimen/x5"/>
+
 </shape>

@@ -22,12 +22,13 @@
             android:paddingStart="@dimen/x10"
             android:text="4 am to 8 pm"
             android:textColor="@color/app_font_black"
-            android:textSize="@dimen/x15"
+            android:textSize="@dimen/x13"
             app:typeface="@string/font_normal"/>
 
         <View
             android:layout_width="@dimen/x1"
             android:layout_height="match_parent"
+            android:alpha="0.4"
             android:background="@color/grey"/>
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -42,12 +43,13 @@
             android:paddingStart="@dimen/x11"
             android:text="4 am to 8 pm"
             android:textColor="@color/app_font_black"
-            android:textSize="@dimen/x15"
+            android:textSize="@dimen/x13"
             app:typeface="@string/font_normal"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/x1"
+        android:alpha="0.4"
         android:background="@color/grey"/>
 </LinearLayout>

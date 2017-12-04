@@ -15,10 +15,11 @@
         android:layout_marginStart="@dimen/x10"
         android:text="monday"
         android:textColor="@color/app_font_blue"
-        android:textSize="@dimen/x20"
+        android:textSize="@dimen/x18"
         app:typeface="@string/font_normal"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/x1"
+        android:alpha="0.4"
         android:background="@color/grey"/>
 </LinearLayout>

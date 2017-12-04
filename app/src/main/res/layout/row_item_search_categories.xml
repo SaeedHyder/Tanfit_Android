@@ -34,7 +34,7 @@
             android:ellipsize="end"
             android:textColor="@color/app_blue"
             android:textSize="@dimen/x15"
-            app:typeface="@string/font_bold_roboto" />
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:id="@+id/txt_gym_address"
