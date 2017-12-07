@@ -9,6 +9,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.activities.DockActivity;
+import com.rohitarya.picasso.facedetection.transformation.FaceCenterCrop;
+import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
+import com.squareup.picasso.Picasso;
 
 public class TitleBar extends RelativeLayout {
 
@@ -103,11 +107,20 @@ public class TitleBar extends RelativeLayout {
 
 	}
 
-	public void showMenuButton() {
+	public void showMenuButton(DockActivity dockActivity) {
 		btnLeft2.setVisibility(View.GONE);
 		btnLeft.setVisibility(View.VISIBLE);
 		btnLeft.setOnClickListener(menuButtonListener);
-		btnLeft.setImageResource(R.drawable.profileimage);
+	//	btnLeft.setImageResource(R.drawable.profileimage12);
+
+		PicassoFaceDetector.initialize(dockActivity);
+		Picasso
+				.with(dockActivity)
+				.load(R.drawable.profileimage12)
+
+				.transform(new FaceCenterCrop((int)getResources().getDimension(R.dimen.x40), (int)getResources().getDimension(R.dimen.x40))) //in pixels. You can also use FaceCenterCrop(width, height, unit) to provide width, height in DP.
+				.into(btnLeft);
+
 	}
 
 	public void setSubHeading(String heading) {

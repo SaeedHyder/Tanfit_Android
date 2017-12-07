@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
+
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
 import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
 import com.ingic.tanfit.R;
@@ -18,6 +20,10 @@ import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.AnimateGifMode;
+import com.medialablk.easygifview.EasyGifView;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
@@ -26,9 +32,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+
 
 /**
- * Created on 11/25/2017.
+ * Created on gym_image_11/25/2017.
  */
 public class HomeFitnessClassFragment extends BaseFragment implements DatePickerListener {
     @BindView(R.id.datePicker)
@@ -38,6 +47,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     @BindView(R.id.lv_fitnessClasses)
     ListView lvFitnessClasses;
     Unbinder unbinder;
+
     private ArrayListAdapter<fitnessEnt> adapter;
     private ArrayList<fitnessEnt> userCollection;
 
@@ -88,19 +98,21 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
                 .init();
         datePicker.setDate(new DateTime());
         setFitnessData();
+
+
+
     }
 
     private void setFitnessData() {
 
         userCollection = new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "08:00", "60 min"));
-      //  userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.spinninghome, "Spinning", "136.1 Yoga Studio", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "08:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "08:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
 
 
         if (userCollection.size() <= 0) {

@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by saeedhyder on 11/25/2017.
+ * Created by saeedhyder on gym_image_11/25/2017.
  */
 public class BookingHistoryTabLayFragment extends BaseFragment {
     @BindView(R.id.tab_layout)
@@ -70,7 +70,7 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(Color.GRAY);
         drawable.setSize(1, 1);
-//        linearLayout.setDividerPadding(10);
+//        linearLayout.setDividerPadding(gym_image_10);
         linearLayout.setDividerDrawable(drawable);
     }
 

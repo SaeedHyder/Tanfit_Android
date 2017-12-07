@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 8/10/2017.
+ * Created on 8/gym_image_10/2017.
  */
 
 public class CustomRecyclerView<T> extends RecyclerView {

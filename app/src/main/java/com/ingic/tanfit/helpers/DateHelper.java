@@ -513,7 +513,7 @@ public class DateHelper {
 		Date begin;
 
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-		//"Fri Mar 07 16:34:38 GMT+05:00 2014"
+		//"Fri Mar 07 16:34:38 GMT+search_image_1:00 2014"
 		DateFormat sdfNew = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
 
 		String systemTime = sdf.format(new Date()).toString();

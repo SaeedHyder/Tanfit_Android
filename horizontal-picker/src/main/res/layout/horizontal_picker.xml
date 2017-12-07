@@ -3,7 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:paddingBottom="8dp">
+    android:paddingTop="@dimen/x2"
+   >
+
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,13 +43,13 @@
         <com.github.jhonnyx2012.horizontalpicker.HorizontalPickerRecyclerView
         android:id="@+id/rvDays"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="17dp">
+            >
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -58,7 +61,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_day_hover"
                 android:layout_height="match_parent"
-                android:visibility="invisible" />
+                android:visibility="gone" />
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_weight="3"
@@ -66,5 +69,12 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:paddingTop="@dimen/x2"
+        android:background="@color/dark_grey"
+        android:alpha="0.1"/>
 
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.ingic.tanfit.interfaces;
 
 /**
- * Created on 10/19/2017.
+ * Created on gym_image_10/19/2017.
  */
 
 public interface RecyclerViewItemListener {

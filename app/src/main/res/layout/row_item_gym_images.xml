@@ -10,11 +10,11 @@
         android:id="@+id/img_pic"
         android:layout_width="@dimen/x110"
         android:layout_height="@dimen/x110"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:layout_marginTop="@dimen/x10"
         android:layout_marginBottom="@dimen/x10"
         android:layout_marginStart="@dimen/x5"
         android:layout_marginEnd="@dimen/x5"
-        android:src="@drawable/image1"/>
+        android:src="@drawable/gym_image_8"/>
 
 </LinearLayout>

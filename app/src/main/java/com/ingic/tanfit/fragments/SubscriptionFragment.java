@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by saeedhyder on 11/23/2017.
+ * Created by saeedhyder on gym_image_11/23/2017.
  */
 public class SubscriptionFragment extends BaseFragment {
 
