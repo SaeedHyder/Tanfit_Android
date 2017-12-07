@@ -121,7 +121,6 @@
             <com.ingic.tanfit.range_bar.SimpleRangeView
                 android:id="@+id/rangeview"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 app:activeLabelColor="@color/transparent"
                 app:activeLineColor="@color/app_green"
