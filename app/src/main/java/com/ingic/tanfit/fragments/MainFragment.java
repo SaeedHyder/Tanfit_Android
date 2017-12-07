@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created on 11/24/2017.
+ * Created on gym_image_11/24/2017.
  */
 public class MainFragment extends BaseFragment implements SetChildTitlebar {
     @BindView(R.id.viewpager)
@@ -224,7 +224,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
                             willbeimplementedinBeta();
                         }
                     });
-                    titleBar.showMenuButton();
+                    titleBar.showMenuButton(getDockActivity());
                     titleBar.setSubHeading(getString(R.string.home));
                     break;
                 case AppConstants.SEARCH_FRAGMENT_TAG:
@@ -233,7 +233,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
                 case AppConstants.SUBSCRIPTION_FRAGMENT_TAG:
                     titleBar.showTitleBar();
                     titleBar.hideButtons();
-                    titleBar.showMenuButton();
+                    titleBar.showMenuButton(getDockActivity());
                     titleBar.setSubHeading(getString(R.string.subscription_plans));
                     break;
 

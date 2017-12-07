@@ -4,7 +4,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:background="@color/app_gray"
+            android:background="@color/gray_background"
             android:orientation="vertical"
     >
 
@@ -22,25 +22,25 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/x10"
+                android:layout_height="@dimen/x75"
                 android:layout_marginEnd="@dimen/x15"
                 android:layout_marginStart="@dimen/x15"
                 android:layout_marginTop="@dimen/x10"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/x5"
                 android:paddingTop="@dimen/x5">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profileImage"
-                    android:layout_width="@dimen/x80"
-                    android:layout_height="@dimen/x60"
-                    android:src="@drawable/studioimage1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/max_gym_image"
                     />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/x10"
+                   >
 
                     <com.ingic.tanfit.ui.views.AnyTextView
                         android:id="@+id/txt_title"
@@ -128,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x40"
 
-                    android:background="@color/app_green"
+                    android:background="@drawable/rounded_button_green"
                     android:text="@string/book_now"
                     android:textAllCaps="false"
                     android:textColor="@color/white"/>
@@ -162,7 +162,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x10"
+
             android:background="@color/white"
             android:orientation="vertical">
 
@@ -559,7 +559,7 @@
             android:layout_marginEnd="@dimen/x15"
             android:layout_marginStart="@dimen/x15"
             android:layout_marginTop="@dimen/x10"
-            android:background="@color/app_blue"
+            android:background="@drawable/rounded_button"
             android:text="@string/view_studio_page"
             android:textAllCaps="false"
             android:textColor="@color/white"/>

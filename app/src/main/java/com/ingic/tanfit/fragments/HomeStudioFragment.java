@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created on 11/25/2017.
+ * Created on gym_image_11/25/2017.
  */
 public class HomeStudioFragment extends BaseFragment implements DatePickerListener {
     @BindView(R.id.datePicker)
@@ -82,11 +82,15 @@ public class HomeStudioFragment extends BaseFragment implements DatePickerListen
 
         userCollection = new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.studioimage1,"Fitness Center Name 1","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio3,"Fitness Center Name 2","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio4,"Fitness Center Name 3","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.studioimage1,"Fitness Center Name 4","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio3,"Fitness Center Name 5","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_1,"Fitness Center Name 1","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_2,"Fitness Center Name 2","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_3,"Fitness Center Name 3","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_4,"Fitness Center Name 4","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_1,"Fitness Center Name 5","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_2,"Fitness Center Name 6","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_3,"Fitness Center Name 7","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_4,"Fitness Center Name 8","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+// userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gymstudio3,"Fitness Center Name 5","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
 
         if (userCollection.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);

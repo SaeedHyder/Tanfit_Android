@@ -50,7 +50,7 @@ import butterknife.OnClick;
 
 
 /**
- * Created by saeedhyder on 11/23/2017.
+ * Created by saeedhyder on gym_image_11/23/2017.
  */
 public class SearchFragment extends BaseFragment implements OnMapReadyCallback, RecyclerViewItemListener {
 
@@ -263,9 +263,9 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     private void setRecyclerViewData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image8, "Troh Gym", "Meimi Beach, FL, USA"));
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.image9, "15 Mintues Body", "Meimi Beach, FL, USA"));
-        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.images10, "Troh Gym", "Meimi Beach, FL, USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.search_image_1, "Troh Gym", "Meimi Beach, FL, USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.search_image_2, "15 Mintues Body", "Meimi Beach, FL, USA"));
+        userCollections.add(new SearchRecyclerEnt(AppConstants.DRAWABLE_PATH + R.drawable.search_image_1, "Troh Gym", "Meimi Beach, FL, USA"));
 
         lv_companies.BindRecyclerView(new SearchItemBinder(this), userCollections,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)

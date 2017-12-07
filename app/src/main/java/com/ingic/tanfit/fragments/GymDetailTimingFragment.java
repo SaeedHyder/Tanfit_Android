@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
- * Created on 11/28/2017.
+ * Created on gym_image_11/28/2017.
  */
 public class GymDetailTimingFragment extends DialogFragment implements RecyclerViewTimingClickListner {
     @BindView(R.id.txt_title)

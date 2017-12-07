@@ -24,6 +24,9 @@ import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.ExpandableGridView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.rohitarya.picasso.facedetection.transformation.FaceCenterCrop;
+import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,7 +37,7 @@ import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created on 11/27/2017.
+ * Created on gym_image_11/27/2017.
  */
 public class GymDetailFragment extends BaseFragment implements RecyclerViewItemListener {
     @BindView(R.id.iv_profileImage)
@@ -98,6 +101,7 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
         setyogaData();
         setgymData();
         setRecyclerViewData();
+
     }
 
     private void setyogaData() {
@@ -120,11 +124,11 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     private void setRecyclerViewData() {
 
         userCollectionsGallery = new ArrayList<>();
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage1, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage2, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage6, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage7, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gymimage8, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_8, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_9, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_10, "Troh Gym"));
+        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_11, "Troh Gym"));
+
 
         rvGallery.BindRecyclerView(new GymGalleryItemBinder(this), userCollectionsGallery,
                 new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)

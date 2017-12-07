@@ -32,7 +32,7 @@ import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 /**
- * Created by saeedhyder on 11/25/2017.
+ * Created by saeedhyder on gym_image_11/25/2017.
  */
 public class MyProfileFragment extends BaseFragment implements RecyclerViewItemListener {
 
@@ -112,10 +112,10 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     private void setProfileData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image6));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image5));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.image7));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_1));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_2));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_3));
+        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_4));
 
 
         overlapDecoration = new OverlapDecoration(Math.round(getResources().getDimension(R.dimen.x40_)));
@@ -272,10 +272,10 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dx > 10) {
+                if (dx > gym_image_10) {
                     overlapDecoration.setPadding(Math.round(getResources().getDimension(R.dimen.x40_)));
                     rvGyms.invalidateItemDecorations();
-                } else if (dx < -10) {
+                } else if (dx < -gym_image_10) {
                     overlapDecoration.setPadding(Math.round(getResources().getDimension(R.dimen.x5)));
                     rvGyms.invalidateItemDecorations();
                 }

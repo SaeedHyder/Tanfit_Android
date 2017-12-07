@@ -1,7 +1,7 @@
 package com.ingic.tanfit.entities;
 
 /**
- * Created on 11/27/2017.
+ * Created on gym_image_11/27/2017.
  */
 
 public class GymFeatureEnt {

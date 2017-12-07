@@ -36,7 +36,7 @@ import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by saeedhyder on 11/21/2017.
+ * Created by saeedhyder on gym_image_11/21/2017.
  */
 public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallback {
     @BindView(R.id.iv_profileImage)

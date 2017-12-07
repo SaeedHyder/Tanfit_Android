@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/x30"
         android:layout_marginStart="@dimen/x30"
-        android:background="@color/app_blue"
+        android:background="@drawable/rounded_button"
         android:text="@string/sample_email"
         android:textAllCaps="false"
         android:textColor="@color/white"

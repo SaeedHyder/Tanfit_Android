@@ -31,4 +31,9 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="spinner_style">
+        <item name="android:background">@drawable/spinner_dropdown</item>
+
+    </style>
+
 </resources>

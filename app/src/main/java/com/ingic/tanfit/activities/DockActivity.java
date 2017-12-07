@@ -20,6 +20,7 @@ import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.interfaces.LoadingListener;
 import com.ingic.tanfit.residemenu.ResideMenu;
 import com.ingic.tanfit.ui.dialogs.DialogFactory;
+import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
 
 
 /**
@@ -59,6 +60,7 @@ public abstract class DockActivity extends AppCompatActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefHelper = new BasePreferenceHelper(this);
+
     }
 
     @Override

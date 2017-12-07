@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by saeedhyder on 11/22/2017.
+ * Created by saeedhyder on gym_image_11/22/2017.
  */
 public class FitnessClassesFragment extends BaseFragment {
     @BindView(R.id.txt_noresult)
@@ -81,11 +81,13 @@ public class FitnessClassesFragment extends BaseFragment {
 
         userCollection = new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.group_training,"Group Personal Training","Bespoke Ride","Al Quoz","08:00","60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
+        //  userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.spinninghome, "Spinning", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
+        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
 
         if (userCollection.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);
