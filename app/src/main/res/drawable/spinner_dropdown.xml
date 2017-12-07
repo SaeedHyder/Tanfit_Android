@@ -3,8 +3,14 @@
 
     <item>
         <layer-list>
-            <item>
-                <bitmap android:gravity="center_vertical|end" android:src="@drawable/down_arrow"/> // you can place your dropdown image</item>
+
+            <item android:drawable="@drawable/boxsignup1" />
+            <item
+                android:right="15dp">
+
+                <bitmap android:gravity="center_vertical|end" android:src="@drawable/down_arrow" />
+                // you can place your dropdown image
+            </item>
         </layer-list>
     </item>
 

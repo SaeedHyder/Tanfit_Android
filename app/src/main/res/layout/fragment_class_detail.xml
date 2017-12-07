@@ -46,7 +46,7 @@
                         android:id="@+id/txt_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Yoga CLass"
+                        android:text="Yoga Class"
                         android:textColor="@color/white"
                         android:textSize="@dimen/x20"
                         app:typeface="@string/font_normal"/>
