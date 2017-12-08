@@ -36,4 +36,9 @@
 
     </style>
 
+    <style name="CustomDialog" parent="AppBaseTheme" >
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
 </resources>

@@ -213,10 +213,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
         tab.select();
         startWithTab = 0;
     }
-    private ImageView getCustomView(int iconIndex){
-        return ((ImageView) LayoutInflater.from(tabLayout.getContext()).inflate(R.layout.custom_tab_view, null));
 
-    }
     @Override
     public void setChildTitlebar(String heading, int Tag) {
         tabTag = Tag;

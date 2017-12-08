@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/x10"
             android:layout_marginTop="@dimen/x10"
-            android:layout_marginStart="@dimen/x10"
+
             android:background="@color/transparent"
             android:visibility="visible"/>
 
