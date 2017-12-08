@@ -6,6 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.ui.adapters.CardArrayAdapter;
@@ -23,7 +29,7 @@ import butterknife.Unbinder;
 /**
  * Created by saeedhyder on 11/20/2017.
  */
-public class WelcomeFragment extends BaseFragment {
+public class WelcomeFragment extends BaseFragment  {
 
     final ArrayList<String> testData = new ArrayList<>();
     @BindView(R.id.swipe_deck)
@@ -31,6 +37,7 @@ public class WelcomeFragment extends BaseFragment {
     @BindView(R.id.btn_next)
     Button btnNext;
     Unbinder unbinder;
+
     private int previousPosition = 0;
     private CardArrayAdapter<String> adapter;
 
@@ -68,6 +75,8 @@ public class WelcomeFragment extends BaseFragment {
 
     }
 
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -83,7 +92,7 @@ public class WelcomeFragment extends BaseFragment {
         testData.add("3");
         testData.add("4");
         adapter = new CardArrayAdapter<String>(getDockActivity(), R.layout.row_item_card,
-                new WelcomeItemBinder(getDockActivity(), prefHelper,testData.size()), testData);
+                new WelcomeItemBinder(getDockActivity(), prefHelper, testData.size()), testData);
      /*   final ArrayListAdapter<String> adapter = new ArrayListAdapter<String>(testData, getDockActivity(),
                 new WelcomeItemBinder(getDockActivity(),prefHelper));*/
         swipeDeck.setContentResource(R.layout.row_item_card);
@@ -109,8 +118,16 @@ public class WelcomeFragment extends BaseFragment {
             @Override
             public void discarded(int i, int i1) {
 
+
+
+                if (swipeDeck != null && swipeDeck.getCurrIndex() == testData.size() - 2) {
+
+
+                }
+
                 if (swipeDeck != null && swipeDeck.getCurrIndex() == testData.size() - 1) {
                     swipeDeck.setCanSwipe(false);
+                    swipeDeck.setBackground(getResources().getDrawable(R.drawable.cardview1));
                     btnNext.setText(R.string.finish);
                     getMainActivity().titleBar.hideButtons();
                 }
@@ -138,7 +155,6 @@ public class WelcomeFragment extends BaseFragment {
             }
         });
     }
-
 
 
     @OnClick({R.id.swipe_deck, R.id.btn_next})

@@ -75,6 +75,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile project(':horizontal-picker')
     compile project(':pageindicatorview')
+    compile project(':library')
     compile 'com.google.firebase:firebase-messaging:gym_image_10.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.kbeanie:image-chooser-library:1.5.8@aar'

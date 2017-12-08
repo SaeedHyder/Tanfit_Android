@@ -363,8 +363,8 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
             @Override
             public void onClick(View v) {
-
-                if (sideMenuType.equals(SideMenuChooser.DRAWER.getValue()) && getDrawerLayout() != null) {
+               replaceDockableFragment(MyProfileFragment.newInstance(),"MyProfileFragment",false);
+                /*if (sideMenuType.equals(SideMenuChooser.DRAWER.getValue()) && getDrawerLayout() != null) {
                     if (sideMenuDirection.equals(SideMenuDirection.LEFT.getValue())) {
                         drawerLayout.openDrawer(Gravity.LEFT);
                     } else {
@@ -372,7 +372,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
                     }
                 } else {
                     resideMenu.openMenu(sideMenuDirection);
-                }
+                }*/
 
             }
         });

@@ -4,10 +4,12 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
@@ -186,6 +188,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]).setTag(0), 0, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]).setTag(1), 1, false);
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]).setTag(2), 2, false);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -209,7 +212,10 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
         tab.select();
         startWithTab = 0;
     }
+    private ImageView getCustomView(int iconIndex){
+        return ((ImageView) LayoutInflater.from(tabLayout.getContext()).inflate(R.layout.custom_tab_view, null));
 
+    }
     @Override
     public void setChildTitlebar(String heading, int Tag) {
         tabTag = Tag;
@@ -218,13 +224,13 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
                 case AppConstants.HOME_FRAGMENT_TAG:
                     titleBar.showTitleBar();
                     titleBar.hideButtons();
+                    titleBar.showMenuButton(getDockActivity());
                     titleBar.showFilterButton(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             willbeimplementedinBeta();
                         }
                     });
-                    titleBar.showMenuButton(getDockActivity());
                     titleBar.setSubHeading(getString(R.string.home));
                     break;
                 case AppConstants.SEARCH_FRAGMENT_TAG:

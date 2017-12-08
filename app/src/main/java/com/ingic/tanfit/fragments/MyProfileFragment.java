@@ -65,6 +65,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     LinearLayoutManager layoutManager;
     private ArrayList<ProfileEnt> userCollections;
 
+
     public static MyProfileFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -134,7 +135,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                getDockActivity().closeDrawer();
+                getDockActivity().popFragment();
                 break;
             case R.id.btnLogout:
                 final DialogHelper dialogHelper = new DialogHelper(getDockActivity());

@@ -242,6 +242,7 @@
     <orderEntry type="module" module-name="horizontal-picker" />
     <orderEntry type="module" module-name="commons-lang3-3.1" />
     <orderEntry type="module" module-name="pageindicatorview" />
+    <orderEntry type="module" module-name="library" />
     <orderEntry type="library" name="android-android-25" level="project" />
   </component>
 </module>

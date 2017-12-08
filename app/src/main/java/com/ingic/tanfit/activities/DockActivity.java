@@ -41,7 +41,7 @@ public abstract class DockActivity extends AppCompatActivity implements
     protected BasePreferenceHelper prefHelper;
 
     //For side menu
-    protected DrawerLayout drawerLayout;
+    public DrawerLayout drawerLayout;
     public MyProfileFragment sideMenuFragment;
 
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
@@ -91,6 +91,18 @@ public abstract class DockActivity extends AppCompatActivity implements
         android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();
         transaction.setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit, R.anim.fragment_popenter, R.anim.fragment_pop_exit);
+        transaction.replace(getDockFrameLayoutId(), frag);
+        transaction
+                .addToBackStack(
+                        getSupportFragmentManager().getBackStackEntryCount() == 0 ? KEY_FRAG_FIRST
+                                : null).commit();
+
+
+    }
+    public void replaceDockableFragment(BaseFragment frag, String Tag,boolean isanimae) {
+
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
         transaction.replace(getDockFrameLayoutId(), frag);
         transaction
                 .addToBackStack(

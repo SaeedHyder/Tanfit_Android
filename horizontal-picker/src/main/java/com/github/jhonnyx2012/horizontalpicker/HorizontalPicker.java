@@ -92,7 +92,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     @Override
     public void onDraggingPicker() {
         if(vHover.getVisibility()==INVISIBLE)
-            vHover.setVisibility(VISIBLE);
+            vHover.setVisibility(GONE);
     }
 
     @Override

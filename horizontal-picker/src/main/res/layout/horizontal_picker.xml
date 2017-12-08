@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:paddingTop="@dimen/x2"
+
    >
 
 
@@ -73,7 +73,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/x1"
-        android:paddingTop="@dimen/x2"
+        android:paddingTop="@dimen/x3"
         android:background="@color/dark_grey"
         android:alpha="0.1"/>
 

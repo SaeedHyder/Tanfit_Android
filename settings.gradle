@@ -1,1 +1,1 @@
-include ':app', ':commons-lang3-3.1', ':horizontal-picker', ':pageindicatorview'
+include ':app', ':commons-lang3-3.1', ':horizontal-picker', ':pageindicatorview', ':library'
