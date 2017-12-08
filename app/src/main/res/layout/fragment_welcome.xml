@@ -36,28 +36,32 @@
         android:id="@+id/swipe_deck"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/x10"
+        android:layout_marginBottom="@dimen/x5"
         android:layout_height="0dp"
         android:layout_weight="0.9"
         android:clipChildren="false"
         android:clipToPadding="true"
         android:gravity="center"
         app:card_gravity="bottom"
+        android:background="@drawable/walkthrough"
+        android:visibility="visible"
 
         />
 
-      <!--<com.daimajia.slider.library.SliderLayout
+    <!--  <com.daimajia.slider.library.SliderLayout
           android:id="@+id/imageSlider"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:layout_above="@+id/btn_next"
+          android:layout_height="0dp"
+          android:layout_weight="0.9"
           android:layout_alignParentStart="true"
-          android:layout_marginTop="@dimen/x15"
-          android:layout_marginBottom="@dimen/x30"
-          android:background="@color/white"
+          android:layout_marginTop="@dimen/x10"
+          android:layout_marginBottom="@dimen/x10"
+          android:background="@drawable/walkthrough"
           custom:auto_cycle="true"
           custom:indicator_visibility="visible"
           custom:pager_animation="Accordion"
-          custom:pager_animation_span="1100" />
+          custom:pager_animation_span="1100"
+          android:visibility="gone"/>
 
       <com.daimajia.slider.library.Indicators.PagerIndicator
           android:id="@+id/custom_indicator"

@@ -73,8 +73,8 @@ public class WelcomeItemBinder extends ViewBinder<String> {
         TextView txtHeading;
         @BindView(R.id.txt_description)
         TextView txtDescription;
-        @BindView(R.id.card_view)
-        CardView cardView;
+      /*  @BindView(R.id.card_view)
+        CardView cardView;*/
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

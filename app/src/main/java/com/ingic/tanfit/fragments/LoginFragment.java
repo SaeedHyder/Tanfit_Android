@@ -39,8 +39,7 @@ public class LoginFragment extends BaseFragment {
     SeekBar slidelogin;
     @BindView(R.id.forgot_password)
     AnyTextView forgotPassword;
-    @BindView(R.id.card_container)
-    CardView cardContainer;
+
     @BindView(R.id.btn_signup)
     AnyTextView btnSignup;
     @BindView(R.id.scrollview_bigdaddy)

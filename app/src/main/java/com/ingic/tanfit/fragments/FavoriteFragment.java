@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +30,17 @@ public class FavoriteFragment extends BaseFragment {
     ViewPager pager;
     Unbinder unbinder;
 
+
+
     private TabViewPagerAdapter adapter;
 
     public static FavoriteFragment newInstance() {
         Bundle args = new Bundle();
-
         FavoriteFragment fragment = new FavoriteFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class FavoriteFragment extends BaseFragment {
 
         adapter = new TabViewPagerAdapter( getChildFragmentManager() );
         if (getArguments() != null) {
+
         }
 
     }

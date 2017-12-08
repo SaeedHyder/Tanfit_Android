@@ -94,6 +94,14 @@ public class TitleBar extends RelativeLayout {
 
 	}
 
+	public void showBackSideMenuButton(OnClickListener back) {
+		btnLeft.setVisibility(View.INVISIBLE);
+		btnLeft2.setVisibility(View.VISIBLE);
+		btnLeft2.setImageResource(R.drawable.back_btn);
+		btnLeft2.setOnClickListener(back);
+
+	}
+
 	public void showHeartButton(OnClickListener heart) {
 		btnRight2.setVisibility(View.VISIBLE);
 		btnRight2.setImageResource(R.drawable.heart);
@@ -111,13 +119,12 @@ public class TitleBar extends RelativeLayout {
 		btnLeft2.setVisibility(View.GONE);
 		btnLeft.setVisibility(View.VISIBLE);
 		btnLeft.setOnClickListener(menuButtonListener);
-	//	btnLeft.setImageResource(R.drawable.profileimage12);
 
 		PicassoFaceDetector.initialize(dockActivity);
 		Picasso
 				.with(dockActivity)
 				.load(R.drawable.profileimage12)
-
+				.placeholder(R.drawable.profileimage12)
 				.transform(new FaceCenterCrop((int)getResources().getDimension(R.dimen.x40), (int)getResources().getDimension(R.dimen.x40))) //in pixels. You can also use FaceCenterCrop(width, height, unit) to provide width, height in DP.
 				.into(btnLeft);
 
