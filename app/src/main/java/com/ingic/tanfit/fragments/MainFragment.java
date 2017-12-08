@@ -185,6 +185,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar {
                 tabLayout.getTabAt(i).setText("");
             }
         }*/
+
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]).setTag(0), 0, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]).setTag(1), 1, false);
         tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]).setTag(2), 2, false);
