@@ -50,7 +50,7 @@ public class GymGalleryItemBinder extends RecyclerViewBinder<GymFeatureEnt> {
         ImageView imgPic;
 
         ViewHolder(View view) {
-            super(view);
+             super(view);
             ButterKnife.bind(this, view);
         }
 
