@@ -54,7 +54,7 @@ public class GymGalleryItemBinder extends RecyclerViewBinder<StudioImage> {
         ImageView imgPic;
 
         ViewHolder(View view) {
-            super(view);
+             super(view);
             ButterKnife.bind(this, view);
         }
 
