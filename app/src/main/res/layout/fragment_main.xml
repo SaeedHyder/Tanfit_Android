@@ -21,7 +21,6 @@
         android:layout_height="@dimen/x50"
         android:background="@drawable/border_top"
         app:tabGravity="fill"
-
         app:tabIndicatorColor="@color/transparent"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/transparent"
