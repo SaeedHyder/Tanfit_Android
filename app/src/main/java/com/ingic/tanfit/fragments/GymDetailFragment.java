@@ -7,28 +7,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.ingic.tanfit.R;
-import com.ingic.tanfit.entities.GymFeatureEnt;
-import com.ingic.tanfit.entities.SpecialFeatureEnt;
+import com.ingic.tanfit.entities.GymDetailListEnt;
+import com.ingic.tanfit.entities.IsFavoriteEnt;
+import com.ingic.tanfit.entities.Studio;
+import com.ingic.tanfit.entities.StudioFeature;
+import com.ingic.tanfit.entities.StudioImage;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.DialogHelper;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
+import com.ingic.tanfit.ui.adapters.ArrayListExpandableAdapter;
 import com.ingic.tanfit.ui.binders.GymGalleryItemBinder;
+import com.ingic.tanfit.ui.binders.StudioFeatureExpandedBinder;
 import com.ingic.tanfit.ui.binders.speacialFeatureItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
+import com.ingic.tanfit.ui.views.CustomExpandableListView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.ExpandableGridView;
 import com.ingic.tanfit.ui.views.TitleBar;
-import com.rohitarya.picasso.facedetection.transformation.FaceCenterCrop;
-import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,11 +74,26 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     Button btnFitness;
     @BindView(R.id.btn_personal)
     Button btnPersonal;
-    private ArrayListAdapter<SpecialFeatureEnt> adaptergym;
-    private ArrayList<SpecialFeatureEnt> userCollectiongym = new ArrayList<>();
-    private ArrayListAdapter<SpecialFeatureEnt> adapteryoga;
-    private ArrayList<SpecialFeatureEnt> userCollectionyoga = new ArrayList<>();
-    private ArrayList<GymFeatureEnt> userCollectionsGallery;
+    @BindView(R.id.elv_features)
+    CustomExpandableListView elvFeatures;
+    private ArrayListAdapter<StudioFeature> adaptergym;
+    private ArrayList<StudioFeature> userCollectiongym = new ArrayList<>();
+    private ArrayListAdapter<StudioFeature> adapteryoga;
+    private ArrayList<StudioFeature> userCollectionyoga = new ArrayList<>();
+    private ArrayList<StudioImage> userCollectionsGallery;
+
+    private ArrayListExpandableAdapter<String, ArrayList<StudioFeature>> adapter;
+    private ArrayList<String> collectionGroup;
+    private ArrayList<StudioFeature> collectionChild;
+    private HashMap<String, ArrayList<ArrayList<StudioFeature>>> listDataChild;
+    private ArrayList<GymDetailListEnt> featuresList;
+
+    private static String StudioEnt = "studioEnt";
+    private static String StudioIdKey = "StudioId";
+    private int StudioId;
+    private String jsonString;
+    private Studio enitity;
+    private ImageLoader imageLoader;
 
     public static GymDetailFragment newInstance() {
         Bundle args = new Bundle();
@@ -79,12 +103,45 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
         return fragment;
     }
 
+    public static GymDetailFragment newInstance(Studio studioData) {
+        Bundle args = new Bundle();
+        args.putString(StudioEnt, new Gson().toJson(studioData));
+        GymDetailFragment fragment = new GymDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    //FromClassDetail
+    public static GymDetailFragment newInstance(int studioId) {
+        Bundle args = new Bundle();
+        args.putInt(StudioIdKey, studioId);
+        GymDetailFragment fragment = new GymDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adaptergym = new ArrayListAdapter<SpecialFeatureEnt>(getDockActivity(), new speacialFeatureItemBinder(getDockActivity(), prefHelper));
-        adapteryoga = new ArrayListAdapter<SpecialFeatureEnt>(getDockActivity(), new speacialFeatureItemBinder(getDockActivity(), prefHelper));
+        imageLoader = ImageLoader.getInstance();
+        adaptergym = new ArrayListAdapter<StudioFeature>(getDockActivity(), new speacialFeatureItemBinder(getDockActivity(), prefHelper));
+        adapteryoga = new ArrayListAdapter<StudioFeature>(getDockActivity(), new speacialFeatureItemBinder(getDockActivity(), prefHelper));
         if (getArguments() != null) {
+            jsonString = getArguments().getString(StudioEnt);
+            StudioId = getArguments().getInt(StudioIdKey);
+        }
+        if (jsonString != null) {
+            enitity = new Gson().fromJson(jsonString, Studio.class);
+        }
+
+        if (enitity == null) {
+            for (Studio item : prefHelper.getNearestStuidos().getStudios()) {
+                if (item.getId() == StudioId) {
+                    enitity = item;
+                }
+            }
+
         }
     }
 
@@ -98,20 +155,125 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        serviceHelper.enqueueCall(headerWebService.isFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId()), WebServiceConstants.isFavoriteStudio);
+
+        prefHelper.setIsFromStudio(true);
+
+        setStudioData();
+        setFeatureList();
+
         setyogaData();
         setgymData();
         setRecyclerViewData();
 
     }
 
+    private void setFeatureList() {
+
+        featuresList = new ArrayList<>();
+        featuresList.add(new GymDetailListEnt("Gym", enitity.getStudioFeatures()));
+
+        if (enitity.getFitnessClasses().size() > 0) {
+            for (int i = 0; i < enitity.getFitnessClasses().size(); i++) {
+                featuresList.add(new GymDetailListEnt(enitity.getFitnessClasses().get(i).getClassNameEng(), enitity.getFitnessClasses().get(i).getFitnessClassFeatures()));
+            }
+        }
+
+        setExpandableListView(featuresList);
+
+    }
+
+    private void setExpandableListView(ArrayList<GymDetailListEnt> featuresList) {
+        elvFeatures.setExpanded(true);
+        collectionGroup = new ArrayList<>();
+        collectionChild = new ArrayList<>();
+        listDataChild = new HashMap<>();
+        ArrayList<ArrayList<StudioFeature>> childArrayCollection = new ArrayList<>();
+
+
+        for (int i = 0; i < featuresList.size(); i++) {
+
+            collectionGroup.add(featuresList.get(i).getFeatureHeader());
+            collectionChild.addAll(featuresList.get(i).getFeaturesList());
+            childArrayCollection.add(collectionChild);
+
+            listDataChild.put(collectionGroup.get(i), childArrayCollection);
+
+            collectionChild = new ArrayList<>();
+            childArrayCollection = new ArrayList<>();
+
+        }
+      /*  collectionGroup.add("Gym");
+        collectionGroup.add("Yoga");
+      *//*  collectionGroup.add("Wednesday");
+        collectionGroup.add("Thursday");
+        collectionGroup.add("Friday");
+        collectionGroup.add("Saturday");*//*
+        collectionChild.addAll(enitity.getStudioFeatures());
+
+      *//*  collectionChild.add(new TimingEnt("8 am to 12 pm ", "12 am to 4 pm"));
+        collectionChild.add(new TimingEnt("4 pm to 8 pm ", "8 pm to 9 pm"));
+        collectionChild.add(new TimingEnt("4 am to 12 pm ", "12 am to 4 pm"));*//*
+        sa.add(collectionChild);
+        listDataChild.put(collectionGroup.get(0), sa);
+        listDataChild.put(collectionGroup.get(1), sa);*/
+        //  listDataChild.put(collectionGroup.get(2), sa);
+        //  listDataChild.put(collectionGroup.get(3), sa);
+        //   listDataChild.put(collectionGroup.get(4), sa);
+        // listDataChild.put(collectionGroup.get(5), sa);
+
+
+        adapter = new ArrayListExpandableAdapter<String, ArrayList<StudioFeature>>(getActivity(), collectionGroup,
+                listDataChild, new StudioFeatureExpandedBinder(getDockActivity(), prefHelper),
+                null);
+        elvFeatures.setAdapter(adapter);
+        for (int i = 0; i < listDataChild.size(); i++) {
+            elvFeatures.expandGroup(i);
+        }
+        elvFeatures.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                return true; // This way the expander cannot be collapsed
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private void setStudioData() {
+        imageLoader.displayImage(enitity.getStudioLogo(), ivProfileImage);
+        txtTitle.setText(enitity.getStudioNameEng() + "");
+        txtAddress.setText(enitity.getAddressEng() + "");
+    }
+
+    private void setgymData() {
+
+        userCollectiongym = new ArrayList<>();
+
+        userCollectiongym.addAll(enitity.getStudioFeatures());
+
+   /*     userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
+        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.treadmil, getDockActivity().getResources().getString(R.string.treadmil)));
+        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music, getDockActivity().getResources().getString(R.string.music)));
+        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));
+*/
+
+        adaptergym.clearList();
+        adaptergym.addAll(userCollectiongym);
+        gvGym.setAdapter(adaptergym);
+        adaptergym.notifyDataSetChanged();
+    }
+
     private void setyogaData() {
 
         userCollectionyoga = new ArrayList<>();
 
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
+     /*   userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
         userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.steam_room, getString(R.string.steamroom)));
         userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music,getString(R.string.music)));
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));
+        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));*/
 
 
         adapteryoga.clearList();
@@ -124,10 +286,12 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     private void setRecyclerViewData() {
 
         userCollectionsGallery = new ArrayList<>();
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_8, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_9, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_10, "Troh Gym"));
-        userCollectionsGallery.add(new GymFeatureEnt(R.drawable.gym_image_11, "Troh Gym"));
+        userCollectionsGallery.addAll(enitity.getStudioImages());
+
+       /* userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_8,R.drawable.gym_image_8));
+        userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_9,R.drawable.gym_image_9));
+        userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_10,R.drawable.gym_image_10));
+        userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_11,R.drawable.gym_image_11));*/
 
 
         rvGallery.BindRecyclerView(new GymGalleryItemBinder(this), userCollectionsGallery,
@@ -136,27 +300,16 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
-    private void setgymData() {
-
-        userCollectiongym = new ArrayList<>();
-
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.treadmil, getDockActivity().getResources().getString(R.string.treadmil)));
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music, getDockActivity().getResources().getString(R.string.music)));
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));
-
-
-        adaptergym.clearList();
-        adaptergym.addAll(userCollectiongym);
-        gvGym.setAdapter(adaptergym);
-        adaptergym.notifyDataSetChanged();
-    }
-
 
     @Override
     public void onRecyclerItemClicked(Object Ent, int position) {
-        DialogHelper dialogHelper = new DialogHelper(getDockActivity());
+
+       /* DialogHelper dialogHelper = new DialogHelper(getDockActivity());
         dialogHelper.openImageinBig(R.layout.dialog_image_viewer, ((GymFeatureEnt) Ent).getFeatureRes());
+        dialogHelper.showDialog();*/
+
+        DialogHelper dialogHelper = new DialogHelper(getDockActivity());
+        dialogHelper.openSlider(R.layout.dialog_image_viewer, userCollectionsGallery, position, getDockActivity());
         dialogHelper.showDialog();
     }
 
@@ -165,7 +318,10 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_subscribe_detail:
-                getDockActivity().addAndShowDialogFragment(GymDetailTimingFragment.newInstance());
+                if (enitity.getFitnessClasses().size() > 0) {
+                    getDockActivity().addAndShowDialogFragment(GymDetailTimingFragment.newInstance(enitity));
+                } else
+                    UIHelper.showShortToastInCenter(getDockActivity(), getResources().getString(R.string.no_class_found));
                 break;
             case R.id.btn_subscribe:
                 getDockActivity().popBackStackTillEntry(0);
@@ -189,15 +345,37 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     }
 
     @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.isFavoriteStudio:
+
+                if (((IsFavoriteEnt) result).isFavorite()) {
+                    getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(true);
+                } else {
+                    getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(false);
+                }
+                break;
+
+            case WebServiceConstants.addFavoriteClass:
+
+                break;
+
+        }
+    }
+
+    @Override
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
         titleBar.setSubHeading("");
-        titleBar.showHeartButton(new View.OnClickListener() {
+        titleBar.showHeartButton(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                UIHelper.showShortToastInCenter(getDockActivity(), "will be implemented in beta");
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                serviceHelper.enqueueCall(headerWebService.addFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteStudio);
+
             }
         });
     }

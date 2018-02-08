@@ -1,8 +1,6 @@
 package com.ingic.tanfit.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +11,16 @@ import android.view.Window;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.FitnessClassTime;
+import com.ingic.tanfit.entities.FitnessClassess;
+import com.ingic.tanfit.entities.GymTimingDialogeEnt;
+import com.ingic.tanfit.entities.Studio;
 import com.ingic.tanfit.entities.TimingEnt;
 import com.ingic.tanfit.entities.TimingTypeEnt;
+import com.ingic.tanfit.entities.Timings;
+import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewTimingClickListner;
 import com.ingic.tanfit.ui.adapters.ArrayListExpandableAdapter;
 import com.ingic.tanfit.ui.binders.GymTimingBinder;
@@ -51,6 +56,11 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
     private ArrayList<TimingEnt> collectionChild;
     private HashMap<String, ArrayList<TimingEnt>> listDataChild;
 
+    private static String StudioEnt = "studioEnt";
+    private String jsonString;
+    private Studio enitity;
+
+
     public static GymDetailTimingFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -60,11 +70,25 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
         return fragment;
     }
 
+    public static GymDetailTimingFragment newInstance(Studio entity) {
+        Bundle args = new Bundle();
+        args.putString(StudioEnt, new Gson().toJson(entity));
+        GymDetailTimingFragment fragment = new GymDetailTimingFragment();
+        fragment.setArguments(args);
+        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            jsonString = getArguments().getString(StudioEnt);
+        }
+        if (jsonString != null) {
+            enitity = new Gson().fromJson(jsonString, Studio.class);
         }
 
     }
@@ -99,17 +123,72 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         setRecyclerViewData();
-        setBookingHistoryData();
+        setStudioTiming(enitity.getFitnessClasses().get(0));
+
+
     }
 
-    private void setBookingHistoryData() {
+
+    private void setBookingHistoryData(ArrayList<GymTimingDialogeEnt> timing) {
         elvBookingHistory.setExpanded(true);
         collectionGroup = new ArrayList<>();
-        collectionChild = new ArrayList<>();
+
         listDataChild = new HashMap<>();
 
-        collectionGroup.add("Monday");
+
+        for (int i = 0; i < timing.size(); i++) {
+            collectionChild = new ArrayList<>();
+            String dayname = timing.get(i).getDayName();
+            ArrayList<Timings> maleTiming = timing.get(i).getMaleTiming();
+            ArrayList<Timings> femaleTiming = timing.get(i).getFemaleTiming();
+//            collectionGroup.add(dayname);
+//
+//
+//            collectionChild.addAll(new TimingEnt(item.getTimeIn()+" to "+item.getTimeOut(), ));
+//
+            if (maleTiming.size() >= femaleTiming.size()) {
+                for (int j = 0; j < maleTiming.size(); j++) {
+                    // String maleTimein = maleTiming.get(j).getTimeIn();
+                    String maleTimein = DateHelper.getFormatedDate("HH:mm:ss", "hh:mm aa", maleTiming.get(j).getTimeIn());
+                    // String maleTimeout = maleTiming.get(j).getTimeOut();
+                    String maleTimeout = DateHelper.getFormatedDate("HH:mm:ss", "hh:mm aa", maleTiming.get(j).getTimeOut());
+                    String femaleTimeIn = "";
+                    String femaleTimeOut = "";
+
+                    if (femaleTiming.size() > j) {
+                        // femaleTimeIn = femaleTiming.get(j).getTimeIn();
+                        femaleTimeIn = DateHelper.getFormatedDate("HH:mm:ss", "hh:mm aa", femaleTiming.get(j).getTimeIn());
+                        //femaleTimeOut = femaleTiming.get(j).getTimeOut();
+                        femaleTimeOut = DateHelper.getFormatedDate("HH:mm:ss", "hh:mm aa", femaleTiming.get(j).getTimeOut());
+                    }
+                    collectionChild.add(new TimingEnt(maleTimein + " - " + maleTimeout, femaleTimeIn + " - " + femaleTimeOut));
+                }
+            } else {
+                for (int j = 0; j < femaleTiming.size(); j++) {
+                    String maleTimein = "";
+                    String maleTimeout = "";
+                    //  String femaleTimeIn = femaleTiming.get(j).getTimeIn();
+                    String femaleTimeIn = DateHelper.getFormatedDate("HH:mm:ss", "hh aa", femaleTiming.get(j).getTimeIn());
+                    //   String femaleTimeOut = femaleTiming.get(j).getTimeOut();
+                    String femaleTimeOut = DateHelper.getFormatedDate("HH:mm:ss", "hh aa", femaleTiming.get(j).getTimeOut());
+
+                    if (maleTiming.size() > j) {
+                        // maleTimein = maleTiming.get(j).getTimeIn();
+                        maleTimein = DateHelper.getFormatedDate("HH:mm:ss", "hh aa", maleTiming.get(j).getTimeIn());
+                        //   maleTimeout = maleTiming.get(j).getTimeOut();
+                        maleTimeout = DateHelper.getFormatedDate("HH:mm:ss", "hh aa", maleTiming.get(j).getTimeOut());
+                    }
+                    collectionChild.add(new TimingEnt(maleTimein + " - " + maleTimeout, femaleTimeIn + " - " + femaleTimeOut));
+                }
+            }
+
+            collectionGroup.add(dayname);
+            listDataChild.put(collectionGroup.get(i), collectionChild);
+        }
+
+    /*    collectionGroup.add("Monday");
         collectionGroup.add("Tuesday");
         collectionGroup.add("Wednesday");
         collectionGroup.add("Thursday");
@@ -127,7 +206,7 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
         listDataChild.put(collectionGroup.get(4), collectionChild);
         listDataChild.put(collectionGroup.get(5), collectionChild);
 
-
+*/
         adapter = new ArrayListExpandableAdapter<>(getActivity(), collectionGroup, listDataChild,
                 new GymTimingBinder(), null);
         elvBookingHistory.setAdapter(adapter);
@@ -148,9 +227,17 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
     private void setRecyclerViewData() {
 
         userCollectionsTime = new ArrayList<>();
-        userCollectionsTime.add(new TimingTypeEnt(R.drawable.gym_grey, R.drawable.gym2, true, "Gym"));
+
+        for (int i = 0; i < enitity.getFitnessClasses().size(); i++) {
+            if (i == 0)
+                userCollectionsTime.add(new TimingTypeEnt(R.drawable.gym_grey, R.drawable.gym2, true, enitity.getFitnessClasses().get(i).getClassNameEng(),enitity.getFitnessClasses().get(i).getFitnessClassActivityIcon(),enitity.getFitnessClasses().get(i).getId()));
+            else
+                userCollectionsTime.add(new TimingTypeEnt(R.drawable.gym_grey, R.drawable.gym2, false, enitity.getFitnessClasses().get(i).getClassNameEng(),enitity.getFitnessClasses().get(i).getFitnessClassActivityIcon(),enitity.getFitnessClasses().get(i).getId()));
+        }
+
+       /* userCollectionsTime.add(new TimingTypeEnt(R.drawable.gym_grey, R.drawable.gym2, true, "Gym"));
         userCollectionsTime.add(new TimingTypeEnt(R.drawable.yoga_grey, R.drawable.yoga2, false, "Yoga"));
-        userCollectionsTime.add(new TimingTypeEnt(R.drawable.boot_camp, R.drawable.boot_camp2, false, "Boot Camp"));
+        userCollectionsTime.add(new TimingTypeEnt(R.drawable.boot_camp, R.drawable.boot_camp2, false, "Boot Camp"));*/
         rvGallery.BindRecyclerView(new TimingTypeBinder(this), userCollectionsTime,
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
                 , new DefaultItemAnimator());
@@ -170,7 +257,70 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
 
     @Override
     public void OnTypeItemClickedListener(int currentPostion, int previousPosition) {
+        if(currentPostion==previousPosition)
+            return;
         rvGallery.notifyItemChanged(currentPostion);
         rvGallery.notifyItemChanged(previousPosition);
+    }
+
+    @Override
+    public void onclickItem(Object entTiming, int position) {
+
+        setStudioTiming(enitity.getFitnessClasses().get(position));
+
+    }
+
+    private void setStudioTiming(FitnessClassess fitnessClassess) {
+
+        ArrayList<GymTimingDialogeEnt> timing = new ArrayList<>();
+
+
+        for (int i = 0; i < fitnessClassess.getFitnessClassSelectedDays().size(); i++) {
+            int genderId = fitnessClassess.getFitnessClassSelectedDays().get(i).getGenderId();
+            int dayId = fitnessClassess.getFitnessClassSelectedDays().get(i).getDayId();
+            String dayName = fitnessClassess.getFitnessClassSelectedDays().get(i).getDayName();
+            ArrayList<FitnessClassTime> data = fitnessClassess.getFitnessClassSelectedDays().get(i).getFitnessClassTimes();
+
+            GymTimingDialogeEnt gymTimingObject = new GymTimingDialogeEnt();
+            gymTimingObject.setDayName(dayName);
+
+            if (genderId == 1) {
+                ArrayList<Timings> maleTimings = new ArrayList<>();
+                for (FitnessClassTime item : data) {
+                    maleTimings.add(new Timings(item.getTimeIn(), item.getTimeOut()));
+                }
+                gymTimingObject.setMaleTiming(maleTimings);
+            } else {
+                ArrayList<Timings> femaleTimings = new ArrayList<>();
+                for (FitnessClassTime item : data) {
+                    femaleTimings.add(new Timings(item.getTimeIn(), item.getTimeOut()));
+                }
+                gymTimingObject.setFemaleTiming(femaleTimings);
+            }
+            //loop to the size of timing array
+            boolean islastObjNeedToReplace = false;
+            for (int j = 0; j < timing.size(); j++) {
+                GymTimingDialogeEnt oldObj = timing.get(j);
+                if (oldObj.getDayName().equals(dayName)) {
+                    islastObjNeedToReplace = true;
+                    if (genderId == 1) {// last obj was with female here
+                        oldObj.setMaleTiming(gymTimingObject.getMaleTiming());
+                    } else {
+                        oldObj.setFemaleTiming(gymTimingObject.getFemaleTiming());
+                    }
+                    gymTimingObject = oldObj;
+                }
+            }
+            if (islastObjNeedToReplace) {
+                timing.set(i - 1, gymTimingObject);
+                fitnessClassess.getFitnessClassSelectedDays().remove(i);
+                --i;
+                //    timing.remove(i - 1);//todo in case last object will always with same dayId
+            } else
+                timing.add(gymTimingObject);
+            //    String maletiming=enitity.getFitnessClasses().get(0).getFitnessClassSelectedDays().get(i).getFitnessClassTimes().get
+        }
+
+        setBookingHistoryData(timing);
     }
 }

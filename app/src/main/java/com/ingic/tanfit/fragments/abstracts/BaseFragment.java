@@ -19,6 +19,7 @@ import com.andreabaccega.formedittextvalidator.Validator;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.activities.MainActivity;
+import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.helpers.GPSTracker;
 import com.ingic.tanfit.helpers.ServiceHelper;
@@ -26,6 +27,7 @@ import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.LoadingListener;
 import com.ingic.tanfit.interfaces.webServiceResponseLisener;
 import com.ingic.tanfit.retrofit.WebService;
+import com.ingic.tanfit.retrofit.WebServiceFactory;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -43,6 +45,7 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
     protected GPSTracker mGpsTracker;
 
     protected DockActivity myDockActivity;
+    protected WebService headerWebService;
     //private DockActivity activity;
     /**
      * Trigger when receives broadcasts from device to check wifi connectivity
@@ -85,7 +88,7 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
     private boolean isLoading;
 
     protected void willbeimplementedinBeta() {
-        UIHelper.showShortToastInCenter(getDockActivity(), "will be implemented in Beta Version");
+        UIHelper.showShortToastInCenter(getDockActivity(), "will be implemented in Future Version");
     }
 
     protected void willbeimplementedinfuture() {
@@ -153,7 +156,10 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
         mGpsTracker = new GPSTracker(getDockActivity());
 
         if (webService == null) {
-            //webService = WebServiceFactory.getWebServiceInstanceWithCustomInterceptor(getDockActivity(),"End Point");
+            webService = WebServiceFactory.getWebServiceInstanceWithCustomInterceptor(getDockActivity(), WebServiceConstants.Local_SERVICE_URL);
+        }
+        if (headerWebService == null) {
+            headerWebService = WebServiceFactory.getWebServiceInstanceWithCustomInterceptorandheader(getDockActivity(), WebServiceConstants.Local_SERVICE_URL);
         }
         if (serviceHelper == null) {
             serviceHelper = new ServiceHelper(this, getDockActivity(), webService);
@@ -183,7 +189,7 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
     }
 
     @Override
-    public void ResponseSuccess(Object result, String Tag) {
+    public void ResponseSuccess(Object result, String Tag, String message) {
 
     }
 

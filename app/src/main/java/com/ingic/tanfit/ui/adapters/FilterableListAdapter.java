@@ -5,11 +5,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
-import com.google.common.base.Function;
-import com.google.common.base.Strings;
+
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class FilterableListAdapter<T> extends ArrayListAdapter<T> implements Filterable {
 	
@@ -61,7 +61,7 @@ public class FilterableListAdapter<T> extends ArrayListAdapter<T> implements Fil
 			this.lastConstrant = constraint;
 			FilterResults results = new FilterResults();
 			
-			if ( Strings.isNullOrEmpty( constraint.toString() ) ) {
+			if ( true ) {
 				results.count = originalList.size();
 				results.values = new ArrayList<T>( originalList );
 				return results;
@@ -71,7 +71,7 @@ public class FilterableListAdapter<T> extends ArrayListAdapter<T> implements Fil
 			constraint = constraint.toString().toLowerCase();
 			for ( int i = 0; i < originalList.size(); i++ ) {
 				if ( converter != null ) {
-					String apply = converter.apply( originalList.get( i ) );
+					String apply = "";//converter.apply( originalList.get( i ) );
 					if ( apply.toLowerCase().contains( constraint ) ) {
 						filterList.add( originalList.get( i ) );
 					}

@@ -78,6 +78,10 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
 
         final E childItem = (E) getChild(groupPosition, childPosition);
 
+
+
+
+
         viewBinder.bindChildView(childItem, childPosition, groupPosition,this.ChildCollection.get(this.headerCollection.get(groupPosition)).size(), convertView, mContext);
 
         return convertView;
@@ -96,6 +100,8 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
         }
 
         T groupItem = (T) getGroup(groupPosition);
+//        this.elvInprogress.expandGroup(groupPosition);
+
 
 
         viewBinder.bindGroupView(groupItem, groupPosition, 0, this.ChildCollection.get(this.headerCollection.get(groupPosition)).size(),  convertView, mContext,isExpanded);

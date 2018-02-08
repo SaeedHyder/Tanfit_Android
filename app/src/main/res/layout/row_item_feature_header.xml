@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40"
+        android:paddingStart="@dimen/x10"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:text="@string/gym"
+        android:textColor="@color/black"
+        android:textSize="@dimen/x16"
+        app:typeface="@string/font_bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:alpha="0.4"
+        android:background="@color/grey"/>
+
+</LinearLayout>

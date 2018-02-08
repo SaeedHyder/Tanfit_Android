@@ -44,5 +44,7 @@
     <color name="tab_indicator_unselected">#FFFFFFFF</color>
     <color name="tab_indicator_selected">#B31025</color>
     <color name="darkYellow">#F9B83A</color>
+    <color name="app_blue">#207AEE</color>
+
 
 </resources>

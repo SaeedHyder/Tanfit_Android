@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <com.ingic.tanfit.ui.views.ExpandableGridView
+        android:id="@+id/gv_gym"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:numColumns="2"
+        android:visibility="visible"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:alpha="0.4"
+        android:layout_marginBottom="@dimen/x15"
+        android:background="@color/grey"/>
+
+</LinearLayout>

@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -77,7 +79,20 @@ public class ForgotPasswordEmailEnter extends BaseFragment {
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
         if (isValidated()) {
-        getDockActivity().replaceDockableFragment(ForgotPasswordEmailSend.newInstance(),"ForgotPasswordEmailSend");
+            serviceHelper.enqueueCall(headerWebService.forgotPassword(edtEmail.getText().toString()), WebServiceConstants.forgotPassword);
+         }
+    }
+
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.forgotPassword:
+                UIHelper.showShortToastInCenter(getDockActivity(), message);
+               // getDockActivity().popBackStackTillEntry(0);
+                getDockActivity().replaceDockableFragment(ForgotPasswordReset.newInstance(edtEmail.getText().toString()), "ForgotPasswordReset");
+
         }
     }
 }

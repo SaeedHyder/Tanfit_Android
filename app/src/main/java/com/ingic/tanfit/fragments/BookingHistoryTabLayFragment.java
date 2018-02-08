@@ -11,9 +11,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.FitnessClassess;
+import com.ingic.tanfit.entities.UserFitnessClasses;
+import com.ingic.tanfit.entities.remindingClassEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +35,10 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
     @BindView(R.id.pager)
     ViewPager pager;
     Unbinder unbinder;
+    ArrayList<FitnessClassess> currentBooking;
+    ArrayList<FitnessClassess> bookingHistory;
+
+    ArrayList<UserFitnessClasses> userFitnessClasses;
 
     private TabViewPagerAdapter adapter;
 
@@ -42,7 +53,7 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new TabViewPagerAdapter( getChildFragmentManager() );
+        adapter = new TabViewPagerAdapter(getChildFragmentManager());
         if (getArguments() != null) {
         }
 
@@ -59,13 +70,14 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setViewPager();
+        serviceHelper.enqueueCall(headerWebService.getUserFitnessClasses(prefHelper.getUserAllData().getId()), WebServiceConstants.getBookingHistory);
+
         setViewInTabLayout();
     }
 
     private void setViewInTabLayout() {
 
-        LinearLayout linearLayout = (LinearLayout)tabLayout.getChildAt(0);
+        LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
         linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(Color.GRAY);
@@ -78,13 +90,19 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
 
         pager.setCurrentItem(1);
 
-        if( adapter.getCount()>0)
-        {adapter.clearList();}
+        if (adapter.getCount() > 0) {
+            adapter.clearList();
+        }
 
-        adapter.addFragment(new CurrentBookingFragment(),getString(R.string.current_booking));
-        adapter.addFragment(new BookingHistoryFragment(),getString(R.string.booking_history));
+        CurrentBookingFragment currentBookingFragment=new CurrentBookingFragment();
+        currentBookingFragment.setContent(currentBooking);
+        adapter.addFragment(currentBookingFragment, getString(R.string.current_booking));
+
+        BookingHistoryFragment bookingHistoryFragment=new BookingHistoryFragment();
+        bookingHistoryFragment.setContent(bookingHistory);
+        adapter.addFragment(bookingHistoryFragment, getString(R.string.booking_history));
         pager.setAdapter(adapter);
-        pager.getAdapter().notifyDataSetChanged();
+     //   pager.getAdapter().notifyDataSetChanged();
         tabLayout.setupWithViewPager(pager);
     }
 
@@ -100,5 +118,31 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.getBookingHistory:
+                userFitnessClasses = new ArrayList<>();
+                currentBooking = new ArrayList<>();
+                bookingHistory = new ArrayList<>();
+                userFitnessClasses = (ArrayList<UserFitnessClasses>)result;
+
+                if (userFitnessClasses.size() > 0) {
+                    for (UserFitnessClasses item : userFitnessClasses) {
+                        if (item.getFitnessClassStatusId()==1) {
+                            currentBooking.add(item.getFitnessClassess());
+                        } else {
+                            bookingHistory.add(item.getFitnessClassess());
+                        }
+                    }
+                }
+
+                setViewPager();
+                break;
+        }
     }
 }

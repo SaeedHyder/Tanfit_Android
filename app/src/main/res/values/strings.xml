@@ -8,7 +8,7 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
-    <string name="api_key">AIzaSyDu4yb8rqG-Y14svz19ebqmzwbO1wp85uQ</string>
+    <string name="api_key">AIzaSyBJmrp9C2culZ2W_zAxSA7iatV_dK_40fg</string>
     <string name="app_name">TANFIT</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -162,6 +162,10 @@
     <string name="logout">Logout</string>
     <string name="Cancel">Cancel Subcription</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="are_you_sure_you_want_book_class">Are you sure you want to book class?</string>
+    <string name="are_you_sure_you_want_activate_account">Are you sure you want to activate your account?</string>
+    <string name="are_you_sure_you_want_delete_account">Are you sure you want to delete account?</string>
+    <string name="are_you_sure_you_want_cancel_class">Are you sure you want to cancel class?</string>
     <string name="are_you_sure_you_want_to_pause_subcription">Are you sure you want to Pause Subcription?</string>
     <string name="are_you_sure_you_want_to_cancel_subcription">Are you sure you want to cancel Subcription?</string>
     <string name="yes">Yes</string>
@@ -177,6 +181,7 @@
     <string name="you_can_pause_your_subscription_for">You can pause your subscription for</string>
     <string name="cancel_subscription">Cancel Subscription</string>
     <string name="no_data">No Data to show</string>
+    <string name="no_class_found">No Class Found</string>
     <string name="fitness_classes">Fitness Classes</string>
     <string name="studios">Studios</string>
     <string name="favorite">Favorite</string>
@@ -189,7 +194,13 @@
     <string name="gender_female">Female</string>
     <string name="signup_head">Sign Up</string>
     <string name="enter_FullName">Name cannot be Empty</string>
+    <string name="sign_up_with_google">Sign Up with Google Plus</string>
+    <string name="enter_Height">Height cannot be Empty</string>
+    <string name="enter_Weight">Weight cannot be Empty</string>
+    <string name="enter_Address">Address cannot be Empty</string>
+    <string name="enter_MobileNum">Mobile number cannot be Empty</string>
     <string name="enter_email">Email Address is not valid</string>
+    <string name="enter_activity">Activity cannot be Empty</string>
     <string name="enter_valid_password">Password cannot be less than 6 characters</string>
     <string name="confirm_password_error">Confirm Password did not match</string>
     <string name="select_gender_error">Please select your Gender</string>
@@ -205,7 +216,7 @@
     <string name="gps_yes">Yes</string>
     <string name="gps_no">No</string>
     <string name="search">Search</string>
-    <string name="delete_account">Delete Account</string>
+
     <string name="notifications_settings">Notifications Settings</string>
     <string name="language">Language</string>
     <string name="english">English</string>
@@ -242,5 +253,25 @@
     <string name="max_gym_yoga">MAX Gym &amp; Yoga</string>
     <string name="showe">Shower</string>
     <string name="steamroom">Steam Room</string>
+    <string name="my_classes">My Classes</string>
+    <string name="book_class">Book Class</string>
+    <string name="cancel_class">Cancel Class</string>
+    <string name="ok">Ok</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="responseerror">Something went wrong</string>
+    <string name="select_class_slot">Select Class Slot</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="emergency_contact_number">Emergency Contact Number</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="update">Update</string>
+    <string name="please_wait">Please Wait...</string>
+    <string name="paused_subscrition">Your subscription is paused</string>
+    <string name="activate_account">Activate Account</string>
+    <string name="profile_updated">Profile Updated Successfully</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address_activity">Enter Address or Activity</string>
 
 </resources>

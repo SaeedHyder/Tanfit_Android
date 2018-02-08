@@ -4,42 +4,37 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.bumptech.glide.Glide;
 
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener;
 import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
 import com.ingic.tanfit.R;
-import com.ingic.tanfit.entities.fitnessEnt;
+import com.ingic.tanfit.entities.FitnessClassess;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.global.AppConstants;
-import com.ingic.tanfit.interfaces.SetChildTitlebar;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.builder.AnimateGifMode;
-import com.medialablk.easygifview.EasyGifView;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import de.hdodenhof.circleimageview.CircleImageView;
-
 
 
 /**
  * Created on gym_image_11/25/2017.
  */
-public class HomeFitnessClassFragment extends BaseFragment implements DatePickerListener {
+public class HomeFitnessClassFragment extends BaseFragment implements DatePickerListener, RecyclerViewItemListener {
     @BindView(R.id.datePicker)
     HorizontalPicker datePicker;
     @BindView(R.id.txt_noresult)
@@ -48,8 +43,12 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     ListView lvFitnessClasses;
     Unbinder unbinder;
 
-    private ArrayListAdapter<fitnessEnt> adapter;
-    private ArrayList<fitnessEnt> userCollection;
+    private ArrayListAdapter<FitnessClassess> adapter;
+    private ArrayList<FitnessClassess> userCollection;
+    private ArrayList<FitnessClassess> entity;
+    private ArrayList<FitnessClassess> filterCollection;
+    private String Day;
+    private String Date;
 
 
     public static HomeFitnessClassFragment newInstance() {
@@ -63,11 +62,17 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ArrayListAdapter<fitnessEnt>(getDockActivity(), new HomeFitnessBinder(getDockActivity(), prefHelper));
+        adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new HomeFitnessBinder(getDockActivity(), prefHelper, this));
         if (getArguments() != null) {
         }
 
     }
+
+    public void setContent(ArrayList<FitnessClassess> data) {
+
+        this.entity = data;
+    }
+
 
     @Override
     public void setTitleBar(TitleBar titleBar) {
@@ -91,21 +96,21 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         datePicker
                 .setListener(this)
-                .setDays(120)
-                .setOffset(7)
+                .setDays(7)
+                .setOffset(0)
                 .init();
         datePicker.setDate(new DateTime());
-        setFitnessData();
-
 
 
     }
 
-    private void setFitnessData() {
+    private void setFitnessData(ArrayList<FitnessClassess> entity) {
 
-        userCollection = new ArrayList<>();
+       /* userCollection = new ArrayList<>();
 
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
@@ -113,9 +118,9 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
         userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
+*/
 
-
-        if (userCollection.size() <= 0) {
+        if (entity.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);
             lvFitnessClasses.setVisibility(View.GONE);
         } else {
@@ -125,18 +130,50 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
 
         adapter.clearList();
         lvFitnessClasses.setAdapter(adapter);
-        adapter.addAll(userCollection);
+        adapter.addAll(entity);
         adapter.notifyDataSetChanged();
-        lvFitnessClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(),"ClassDetailFragment");
-            }
-        });
+
     }
 
     @Override
     public void onDateSelected(DateTime dateSelected) {
 
+        Date todayDate;
+
+
+
+        filterCollection = new ArrayList<>();
+        try {
+            DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'+'HH:mm", Locale.ENGLISH);
+            todayDate = dateFormater.parse(String.valueOf(dateSelected));
+
+            SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+            SimpleDateFormat selectedDate=new SimpleDateFormat("yyyy-MM-dd");
+            Day = outFormat.format(todayDate);
+            Date=selectedDate.format(todayDate);
+
+            for (FitnessClassess item : entity) {
+                dateFormater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'HH:mm",Locale.ENGLISH);
+                Date startDate = dateFormater.parse(item.getFromDate());
+                Date endDate = dateFormater.parse(item.getToDate());
+
+            if(todayDate.after(startDate) && todayDate.before(endDate)) {
+                filterCollection.add(item);
+            }
+        }
+
+            } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        setFitnessData(filterCollection);
+
+    }
+
+    @Override
+    public void onRecyclerItemClicked(Object Ent, int position) {
+
+        FitnessClassess fitnessClassData = (FitnessClassess) Ent;
+        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(fitnessClassData,Day,Date), "ClassDetailFragment");
     }
 }

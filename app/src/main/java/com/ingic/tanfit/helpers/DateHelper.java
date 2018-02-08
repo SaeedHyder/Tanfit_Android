@@ -14,7 +14,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Combination of various codes from different places, for manipulating dates.
@@ -853,7 +852,7 @@ public class DateHelper {
 	}
 
 	public static String getDayOfMonthSuffix(final int n) {
-		checkArgument(n >= 1 && n <= 31, "illegal day of month: " + n);
+		//checkArgument(n >= 1 && n <= 31, "illegal day of month: " + n);
 		if (n >= 11 && n <= 13) {
 			return "th";
 		}

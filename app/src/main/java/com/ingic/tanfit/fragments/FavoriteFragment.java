@@ -5,14 +5,16 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.FavoriteDataEnt;
+import com.ingic.tanfit.entities.UserAllDataEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -31,7 +33,6 @@ public class FavoriteFragment extends BaseFragment {
     Unbinder unbinder;
 
 
-
     private TabViewPagerAdapter adapter;
 
     public static FavoriteFragment newInstance() {
@@ -46,7 +47,7 @@ public class FavoriteFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new TabViewPagerAdapter( getChildFragmentManager() );
+        adapter = new TabViewPagerAdapter(getChildFragmentManager());
         if (getArguments() != null) {
 
         }
@@ -64,15 +65,30 @@ public class FavoriteFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setViewPager();
+        serviceHelper.enqueueCall(headerWebService.getFavoriteData(prefHelper.getUser().getUserId()), WebServiceConstants.favoriteData);
+
+       // setViewPager();
         setViewInTabLayout();
 
 
     }
 
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.favoriteData:
+                FavoriteDataEnt entity = (FavoriteDataEnt) result;
+                prefHelper.putFavoriteData(entity);
+                setViewPager();
+                break;
+        }
+    }
+
     private void setViewInTabLayout() {
 
-        LinearLayout linearLayout = (LinearLayout)tabLayout.getChildAt(0);
+        LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
         linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(Color.GRAY);
@@ -85,11 +101,12 @@ public class FavoriteFragment extends BaseFragment {
 
         pager.setCurrentItem(1);
 
-        if( adapter.getCount()>0)
-        {adapter.clearList();}
+        if (adapter.getCount() > 0) {
+            adapter.clearList();
+        }
 
-        adapter.addFragment(new FitnessClassesFragment(),getString(R.string.fitness_classes));
-        adapter.addFragment(new StudiosFragment(),getString(R.string.studios));
+        adapter.addFragment(new FitnessClassesFragment(), getString(R.string.fitness_classes));
+        adapter.addFragment(new StudiosFragment(), getString(R.string.studios));
         pager.setAdapter(adapter);
         pager.getAdapter().notifyDataSetChanged();
         tabLayout.setupWithViewPager(pager);

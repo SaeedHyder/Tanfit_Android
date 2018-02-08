@@ -8,7 +8,11 @@ import android.widget.ExpandableListView;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.CurrentBookingEnt;
+import com.ingic.tanfit.entities.CurrentBookingEntWithHeader;
+import com.ingic.tanfit.entities.FitnessClassess;
+import com.ingic.tanfit.entities.UserFitnessClasses;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.ui.adapters.ArrayListExpandableAdapter;
 import com.ingic.tanfit.ui.binders.CurrentBookingItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
@@ -30,6 +34,9 @@ public class BookingHistoryFragment extends BaseFragment {
     @BindView(R.id.elv_booking_history)
     ExpandableListView elvBookingHistory;
     Unbinder unbinder;
+    private ArrayList<FitnessClassess> bookingHistory=new ArrayList<>();
+    private ArrayList<FitnessClassess> CurrentFitnessClasses = new ArrayList<>();
+    private ArrayList<CurrentBookingEntWithHeader> headerList=new ArrayList<>();
 
     private ArrayListExpandableAdapter<String, CurrentBookingEnt> adapter;
     private ArrayList<String> collectionGroup;
@@ -42,6 +49,10 @@ public class BookingHistoryFragment extends BaseFragment {
         BookingHistoryFragment fragment = new BookingHistoryFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setContent(ArrayList<FitnessClassess> bookingHistory){
+            this.bookingHistory=bookingHistory;
     }
 
     @Override
@@ -62,16 +73,41 @@ public class BookingHistoryFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+/*
+        for (int i = 0; i < prefHelper.getNearestStuidos().getFitnessClassess().size(); i++) {
+            for (int j = 0; j < bookingHistory.size(); j++) {
+                if (prefHelper.getNearestStuidos().getFitnessClassess().get(i).getId().equals(bookingHistory.get(j).getFitnessClassId())) {
+                    CurrentFitnessClasses.add(prefHelper.getNearestStuidos().getFitnessClassess().get(i));
+                }
+            }
+        }*/
 
-        setBookingHistoryData();
+        for(FitnessClassess item:bookingHistory){
+
+            headerList.add(new CurrentBookingEntWithHeader(item.getClassNameEng(),
+                    new CurrentBookingEnt(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "MMMM dd,yyyy", item.getCreatedOn()),
+                            item.getStudioNameEng(),item.getStudioAddressEng())));
+        }
+
+        setBookingHistoryData(headerList);
     }
 
-    private void setBookingHistoryData() {
+    private void setBookingHistoryData(ArrayList<CurrentBookingEntWithHeader> headerList) {
         collectionGroup = new ArrayList<>();
         collectionChild = new ArrayList<>();
         listDataChild = new HashMap<>();
 
-        collectionGroup.add("Spinning Class");
+        for (int i = 0; i < headerList.size(); i++) {
+
+            collectionGroup.add(headerList.get(i).getFitnessHeader());
+            collectionChild.add(headerList.get(i).getDetail());
+
+            listDataChild.put(collectionGroup.get(i), collectionChild);
+            collectionChild = new ArrayList<>();
+
+        }
+
+     /*   collectionGroup.add("Spinning Class");
         collectionGroup.add("Yoga Class");
         collectionGroup.add("Spinning Class");
 
@@ -80,12 +116,22 @@ public class BookingHistoryFragment extends BaseFragment {
 
         listDataChild.put(collectionGroup.get(0),collectionChild);
         listDataChild.put(collectionGroup.get(1),collectionChild);
-        listDataChild.put(collectionGroup.get(2),collectionChild);
+        listDataChild.put(collectionGroup.get(2),collectionChild);*/
 
+     if(collectionGroup.size()<=0){
+         txtNoresult.setVisibility(View.VISIBLE);
+         elvBookingHistory.setVisibility(View.GONE);
+     }
+     else
+     {
+         txtNoresult.setVisibility(View.GONE);
+         elvBookingHistory.setVisibility(View.VISIBLE);
+     }
 
         adapter = new ArrayListExpandableAdapter<>(getDockActivity(), collectionGroup, listDataChild, new CurrentBookingItemBinder(getDockActivity(),prefHelper), elvBookingHistory);
         elvBookingHistory.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
     }
 
     @Override

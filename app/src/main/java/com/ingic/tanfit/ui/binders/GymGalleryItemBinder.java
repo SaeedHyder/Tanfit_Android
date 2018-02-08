@@ -6,6 +6,9 @@ import android.widget.ImageView;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.GymFeatureEnt;
+import com.ingic.tanfit.entities.SliderDialogEnt;
+import com.ingic.tanfit.entities.StudioImage;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.viewbinders.abstracts.RecyclerViewBinder;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,7 +20,7 @@ import butterknife.ButterKnife;
  * Created on 11/27/2017.
  */
 
-public class GymGalleryItemBinder extends RecyclerViewBinder<GymFeatureEnt> {
+public class GymGalleryItemBinder extends RecyclerViewBinder<StudioImage> {
     private ImageLoader imageLoader;
     private RecyclerViewItemListener recyclerViewItemListener;
 
@@ -33,9 +36,10 @@ public class GymGalleryItemBinder extends RecyclerViewBinder<GymFeatureEnt> {
     }
 
     @Override
-    public void bindView(final GymFeatureEnt entity, final int position, final Object viewHolder, Context context) {
+    public void bindView(final StudioImage entity, final int position, final Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        holder.imgPic.setImageResource(entity.getFeatureRes());
+        imageLoader.displayImage(entity.getImage(),holder.imgPic);
+      //  holder.imgPic.setImageResource(entity.getFeatureRes());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,13 +3,13 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-
+    android:id="@+id/mainFrame"
               android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/frame_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x120"
         android:layout_gravity="center_horizontal"
         android:layout_marginEnd="@dimen/x10"
         android:layout_marginStart="@dimen/x10"
@@ -19,12 +19,15 @@
 
         <ImageView
             android:id="@+id/img_gym"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/x30"
+            android:padding="@dimen/x2"
+            android:background="@drawable/square_background_timing_transparent"
             android:src="@drawable/gym_grey"/>
     </FrameLayout>
+
+   <!-- android:layout_margin="@dimen/x30"-->
 
     <com.ingic.tanfit.ui.views.AnyTextView
         android:id="@+id/txt_type"

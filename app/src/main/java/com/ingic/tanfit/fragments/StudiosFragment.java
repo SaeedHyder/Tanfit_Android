@@ -8,11 +8,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ingic.tanfit.R;
-import com.ingic.tanfit.entities.fitnessEnt;
+import com.ingic.tanfit.entities.FavoriteClassesEnt;
+import com.ingic.tanfit.entities.Studio;
+import com.ingic.tanfit.entities.UserFitnessClasses;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
-import com.ingic.tanfit.ui.binders.FItnessItemBinder;
 import com.ingic.tanfit.ui.binders.StudiosItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -26,15 +28,15 @@ import butterknife.Unbinder;
 /**
  * Created by saeedhyder on gym_image_11/22/2017.
  */
-public class StudiosFragment extends BaseFragment {
+public class StudiosFragment extends BaseFragment implements RecyclerViewItemListener {
     @BindView(R.id.txt_noresult)
     AnyTextView txtNoresult;
     @BindView(R.id.lv_studios)
     ListView lvStudios;
     Unbinder unbinder;
 
-    private ArrayListAdapter<fitnessEnt> adapter;
-    private ArrayList<fitnessEnt> userCollection;
+    private ArrayListAdapter<Studio> adapter;
+    private ArrayList<Studio> studiosCollection;
 
     public static StudiosFragment newInstance() {
         Bundle args = new Bundle();
@@ -47,7 +49,7 @@ public class StudiosFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ArrayListAdapter<fitnessEnt>(getDockActivity(), new StudiosItemBinder(getDockActivity(),prefHelper));
+        adapter = new ArrayListAdapter<Studio>(getDockActivity(), new StudiosItemBinder(getDockActivity(), prefHelper, this));
         if (getArguments() != null) {
         }
 
@@ -64,7 +66,7 @@ public class StudiosFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setStudiosData();
+        setStudiosData(prefHelper.getFavoriteData().getStudios());
         itemListner();
     }
 
@@ -72,25 +74,29 @@ public class StudiosFragment extends BaseFragment {
         lvStudios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(),"GymDetailFragment");
+                getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(), "GymDetailFragment");
             }
         });
     }
 
-    private void setStudiosData() {
+    private void setStudiosData(ArrayList<Studio> allfavoriteStudios) {
 
-        userCollection = new ArrayList<>();
+        ArrayList<Studio> favoriteStudios=new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_1,"Fitness Center Name 1","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_2,"Fitness Center Name 2","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_3,"Fitness Center Name 3","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_4,"Fitness Center Name 4","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_1,"Fitness Center Name 5","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_2,"Fitness Center Name 6","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_3,"Fitness Center Name 7","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_4,"Fitness Center Name 8","Bespoke Ride","Al Quoz","gym_image_8:00","60 min"));
+        for(Studio item: allfavoriteStudios){
 
-        if (userCollection.size() <= 0) {
+            if(!item.getIsDeleted()){
+                favoriteStudios.add(item);
+            }
+
+        }
+        /*studiosCollection = new ArrayList<>();
+
+        for (UserFitnessClasses item : favoriteStudios) {
+            serviceHelper.enqueueCall(headerWebService.getStudio(item.getStudioId() + ""), WebServiceConstants.getStudioDetail);
+        }*/
+
+        if (favoriteStudios.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);
             lvStudios.setVisibility(View.GONE);
         } else {
@@ -100,10 +106,40 @@ public class StudiosFragment extends BaseFragment {
 
         adapter.clearList();
         lvStudios.setAdapter(adapter);
-        adapter.addAll(userCollection);
+        adapter.addAll(favoriteStudios);
         adapter.notifyDataSetChanged();
     }
 
+ /*   @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.getStudioDetail:
+
+                studiosCollection.add((Studio) result);
+
+                if (studiosCollection.size() == prefHelper.getUserAllData().getUserFavouriteStudioModel().size()) {
+                    if (studiosCollection.size() <= 0) {
+                        txtNoresult.setVisibility(View.VISIBLE);
+                        lvStudios.setVisibility(View.GONE);
+                    } else {
+                        txtNoresult.setVisibility(View.GONE);
+                        lvStudios.setVisibility(View.VISIBLE);
+                    }
+
+                    adapter.clearList();
+                    lvStudios.setAdapter(adapter);
+                    adapter.addAll(studiosCollection);
+                    adapter.notifyDataSetChanged();
+
+                }
+
+                break;
+
+        }
+    }
+*/
     @Override
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
@@ -115,5 +151,11 @@ public class StudiosFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onRecyclerItemClicked(Object Ent, int position) {
+        Studio studioData = (Studio) Ent;
+        getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(studioData), "GymDetailFragment");
     }
 }

@@ -7,9 +7,13 @@ import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
+import com.ingic.tanfit.entities.FavoriteClassesEnt;
+import com.ingic.tanfit.entities.FitnessClassess;
 import com.ingic.tanfit.entities.fitnessEnt;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
+import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.helpers.UIHelper;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,18 +26,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by saeedhyder on 11/22/2017.
  */
 
-public class FItnessItemBinder extends ViewBinder<fitnessEnt> {
+public class FItnessItemBinder extends ViewBinder<FitnessClassess> {
 
     private DockActivity dockActivity;
     private BasePreferenceHelper prefHelper;
     private ImageLoader imageLoader;
+    private RecyclerViewItemListener clickListner;
 
 
-    public FItnessItemBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper) {
+    public FItnessItemBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper,RecyclerViewItemListener clickListner) {
         super(R.layout.row_item_fitness);
         this.dockActivity = dockActivity;
         this.prefHelper = prefHelper;
         this.imageLoader = ImageLoader.getInstance();
+        this.clickListner=clickListner;
     }
 
     @Override
@@ -42,23 +48,31 @@ public class FItnessItemBinder extends ViewBinder<fitnessEnt> {
     }
 
     @Override
-    public void bindView(fitnessEnt entity, int position, int grpPosition, View view, Activity activity) {
+    public void bindView(final FitnessClassess entity, final int position, int grpPosition, View view, Activity activity) {
 
         final ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        imageLoader.displayImage(entity.getImage(),viewHolder.ivProfileImage);
-        viewHolder.txtTitle.setText(entity.getTitle()+"");
-        viewHolder.description.setText(entity.getDescription()+"");
-        viewHolder.txtAddress.setText(entity.getAddress()+"");
-        viewHolder.txtTime.setText(entity.getTime()+"");
-        viewHolder.txtDuration.setText(entity.getDuration()+"");
+        imageLoader.displayImage(entity.getFitnessClassActivityIcon(),viewHolder.ivProfileImage);
+        viewHolder.txtTitle.setText(entity.getClassNameEng()+"");
+        viewHolder.description.setText(entity.getClassDescriptionEng()+"");
+        viewHolder.txtAddress.setText(entity.getStudioAddressEng()+"");
+        // viewHolder.txtTime.setText(entity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeIn()+"");
+//        viewHolder.txtTime.setText(DateHelper.getFormatedDate("HH:mm:ss","HH:mm",entity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeIn()+""));
+        viewHolder.txtDuration.setText(entity.getClassDurationMin()+" Min");
 
-        viewHolder.ivFavorite.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListner.onRecyclerItemClicked(entity,position);
+            }
+        });
+
+     /*   viewHolder.ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UIHelper.showShortToastInCenter(dockActivity,"Will be implemented in beta");
             }
-        });
+        });*/
 
     }
 

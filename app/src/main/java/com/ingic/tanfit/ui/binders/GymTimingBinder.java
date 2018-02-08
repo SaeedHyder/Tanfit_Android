@@ -40,9 +40,7 @@ public class GymTimingBinder extends ExpandableListViewBinder<String, TimingEnt>
 
     @Override
     public void bindChildView(TimingEnt entity, int position, int grpPosition, View view, Activity activity) {
-        ChildViewholder childViewholder = (ChildViewholder) view.getTag();
-        childViewholder.txtMenTime.setText(entity.getMenTime());
-        childViewholder.txtWomenTime.setText(entity.getWomenTime());
+
     }
 
     @Override
@@ -53,6 +51,9 @@ public class GymTimingBinder extends ExpandableListViewBinder<String, TimingEnt>
     @Override
     public void bindChildView(TimingEnt entity, int position, int grpPosition, int size, View view, Activity activity) {
 
+        ChildViewholder childViewholder = (ChildViewholder) view.getTag();
+        childViewholder.txtMenTime.setText(entity.getMenTime());
+        childViewholder.txtWomenTime.setText(entity.getWomenTime());
     }
 
     static class GroupViewHolder extends BaseGroupViewHolder {

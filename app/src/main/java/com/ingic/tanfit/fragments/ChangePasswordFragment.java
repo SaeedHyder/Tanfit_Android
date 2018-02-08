@@ -12,8 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.UserEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.InternetHelper;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -100,12 +103,10 @@ public class ChangePasswordFragment extends BaseFragment {
         } else if (editNewPassword.getText() == null || (editNewPassword.getText().toString().isEmpty())) {
             editNewPassword.setError(getString(R.string.enter_password));
             return false;
-        }
-        else if (editNewPassword.getText().toString().equals(edtcurrentPassword.getText().toString())) {
+        } else if (editNewPassword.getText().toString().equals(edtcurrentPassword.getText().toString())) {
             editNewPassword.setError(getString(R.string.samePassword));
             return false;
-        }
-        else if (editNewPassword.getText().toString().length() < 6) {
+        } else if (editNewPassword.getText().toString().length() < 6) {
             editNewPassword.setError(getString(R.string.passwordLength));
             return false;
         } else if (editConfirmPassword.getText() == null || (editConfirmPassword.getText().toString().isEmpty()) || editConfirmPassword.getText().toString().length() < 6) {
@@ -120,7 +121,7 @@ public class ChangePasswordFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.rl_eye_new_password, R.id.rl_eye_confirm_password, R.id.SubmitButton,R.id.togglePassword1,R.id.togglePassword})
+    @OnClick({R.id.rl_eye_new_password, R.id.rl_eye_confirm_password, R.id.SubmitButton, R.id.togglePassword1, R.id.togglePassword})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.togglePassword:
@@ -148,8 +149,21 @@ public class ChangePasswordFragment extends BaseFragment {
             case R.id.SubmitButton:
                 if (isvalidate()) {
                     if (InternetHelper.CheckInternetConectivityandShowToast(getDockActivity()))
-                        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(),"ClassDetailFragment");
+                        serviceHelper.enqueueCall(headerWebService.changePassword(edtcurrentPassword.getText().toString(), editNewPassword.getText().toString(), editConfirmPassword.getText().toString()), WebServiceConstants.changePassword);
                 }
+                break;
+        }
+    }
+
+     @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.changePassword:
+                UIHelper.showShortToastInCenter(getDockActivity(),message);
+                getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
+
                 break;
         }
     }

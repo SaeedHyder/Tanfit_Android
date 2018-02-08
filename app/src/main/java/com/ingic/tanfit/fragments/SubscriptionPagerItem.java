@@ -9,10 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.GetSubscriptionEnt;
+import com.ingic.tanfit.entities.UserAllDataEnt;
+import com.ingic.tanfit.entities.UserSubscription;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.ISO8601TimeStampHelper;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,11 +40,16 @@ public class SubscriptionPagerItem extends BaseFragment {
     AnyTextView txtDescription;
     @BindView(R.id.txt_description2)
     AnyTextView txtDescription2;
+    @BindView(R.id.txtPrice)
+    AnyTextView txtPrice;
     @BindView(R.id.btn_SubcribeNow)
     Button btnSubcribeNow;
     @BindView(R.id.bottom)
     RelativeLayout bottom;
     Unbinder unbinder;
+
+    GetSubscriptionEnt entity;
+    int itemPosition;
 
     public static SubscriptionPagerItem newInstance() {
         Bundle args = new Bundle();
@@ -45,6 +57,11 @@ public class SubscriptionPagerItem extends BaseFragment {
         SubscriptionPagerItem fragment = new SubscriptionPagerItem();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setContent(GetSubscriptionEnt item, int position) {
+        this.entity = item;
+        this.itemPosition = position;
     }
 
     @Override
@@ -62,12 +79,31 @@ public class SubscriptionPagerItem extends BaseFragment {
         return view;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        txtDescription.setText("Unlimited* Classes"+System.getProperty("line.separator")+"PER MONTH");
+        if((entity.getId() %2)==0){
+            header.setBackground(getResources().getDrawable(R.drawable.golden));
 
+        } else{
+            header.setBackground(getResources().getDrawable(R.drawable.brown));
+        }
+
+      //  UIHelper.showShortToastInCenter(getDockActivity(), entity.getSubscriptionType());
+        txtTitle.setText(entity.getTitle());
+       // txtTitle1.setText("");
+        txtDescription.setText(entity.getSubscriptionType()+" Classes" + System.getProperty("line.separator") + "PER "+entity.getNoOfSubscriptionDays()+" Days");
+        if(entity.getSubscriptionType().equals("Limited")){
+            txtDescription2.setText("*Total no of subscribed classes are "+entity.getTotalNoOfFitnessClasses());
+        }
+        else{
+            txtDescription2.setText("*Maximum "+entity.getNoOfClassesADay()+" classes per day");
+
+        }
+
+        txtPrice.setText("IRR "+entity.getPriceInIranianRiyal());
     }
 
     @Override
@@ -83,8 +119,36 @@ public class SubscriptionPagerItem extends BaseFragment {
         unbinder.unbind();
     }
 
+
+
     @OnClick(R.id.btn_SubcribeNow)
     public void onViewClicked() {
-        UIHelper.showShortToastInCenter(getDockActivity(),getString(R.string.implemented_beta));
+        ISO8601TimeStampHelper timeStamp = new ISO8601TimeStampHelper();
+        serviceHelper.enqueueCall(headerWebService.addUserSubscription(prefHelper.getUserId(), String.valueOf(entity.getId()),timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.addUserSubscription);
+
+    }
+
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.addUserSubscription:
+                UIHelper.showShortToastInCenter(getDockActivity(),"You have successfully subscribed");
+                serviceHelper.enqueueCall(headerWebService.getSubsccriptionData(prefHelper.getUser().getUserId() + ""), WebServiceConstants.getSubscription);
+                break;
+
+            case WebServiceConstants.getSubscription:
+                UserAllDataEnt userAppData = prefHelper.getUserAllData();
+
+                ArrayList<UserSubscription> userSubscriptions = (ArrayList<UserSubscription>) result;
+
+                userAppData.setUserSubscription(userSubscriptions);
+
+                prefHelper.putUserAllData(userAppData);
+
+
+                break;
+
+        }
     }
 }

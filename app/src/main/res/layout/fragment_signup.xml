@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
 
-            android:orientation="vertical">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:background="@drawable/gray_rect"/>
+                android:background="@drawable/gray_rect" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_profile"
@@ -37,7 +37,7 @@
                 android:layout_height="@dimen/x113"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
-                android:src="@drawable/com_facebook_profile_picture_blank_square"/>
+                android:src="@drawable/com_facebook_profile_picture_blank_square" />
 
 
             <ImageView
@@ -49,7 +49,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="@dimen/x5"
                 android:src="@drawable/camera_circle"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
 
         </RelativeLayout>
@@ -61,24 +61,23 @@
             android:text="@string/full_name"
             android:textColor="@color/app_font_blue"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyEditTextView
             android:id="@+id/edt_fullname"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x40"
             android:layout_marginEnd="@dimen/x2"
-            android:layout_marginTop="@dimen/x10"
             android:layout_marginStart="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
             android:background="@drawable/boxsignup1"
             android:hint="@string/full_name"
             android:imeOptions="actionNext"
             android:inputType="textCapWords"
-            android:maxLength="25"
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:layout_width="wrap_content"
@@ -87,7 +86,7 @@
             android:text="@string/gender"
             android:textColor="@color/app_font_blue"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
 
 
         <Spinner
@@ -97,9 +96,9 @@
             android:layout_height="@dimen/x40"
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginStart="@dimen/x2"
-            android:paddingStart="@dimen/x10"
+            android:layout_marginTop="@dimen/x10"
 
-            android:layout_marginTop="@dimen/x10"/>
+            android:paddingStart="@dimen/x10" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:layout_width="wrap_content"
@@ -108,7 +107,7 @@
             android:text="@string/email"
             android:textColor="@color/app_font_blue"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyEditTextView
             android:id="@+id/edt_email"
@@ -121,11 +120,36 @@
             android:hint="@string/email_address"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
-            android:maxLength="25"
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/contact_number"
+            android:textColor="@color/app_font_blue"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal" />
+
+        <com.ingic.tanfit.ui.views.AnyEditTextView
+            android:id="@+id/edt_mobile_number"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginStart="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@drawable/boxsignup1"
+            android:hint="@string/contact_number"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:paddingStart="@dimen/x10"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:layout_width="wrap_content"
@@ -134,7 +158,7 @@
             android:text="@string/password"
             android:textColor="@color/app_font_blue"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,11 +178,10 @@
                 android:hint="@string/password"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
-                android:maxLength="25"
                 android:maxLines="1"
                 android:paddingStart="@dimen/x10"
                 android:textSize="@dimen/x14"
-                app:typeface="@string/font_normal"/>
+                app:typeface="@string/font_normal" />
 
             <CheckBox
                 android:id="@+id/checkbox_show_password"
@@ -166,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.1"
-                android:button="@drawable/password_botton_eye"/>
+                android:button="@drawable/password_botton_eye" />
         </LinearLayout>
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -177,7 +200,7 @@
             android:text="@string/confirm_pass"
             android:textColor="@color/app_font_blue"
             android:textSize="@dimen/x14"
-            app:typeface="@string/font_normal"/>
+            app:typeface="@string/font_normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -197,11 +220,10 @@
                 android:hint="@string/confirm_pass"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:maxLength="25"
                 android:maxLines="1"
                 android:paddingStart="@dimen/x10"
                 android:textSize="@dimen/x14"
-                app:typeface="@string/font_normal"/>
+                app:typeface="@string/font_normal" />
 
             <CheckBox
                 android:id="@+id/checkbox_show_confirm_password"
@@ -209,23 +231,24 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.1"
-                android:button="@drawable/password_botton_eye"/>
+                android:button="@drawable/password_botton_eye" />
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x10"
             android:layout_marginStart="@dimen/x5"
+            android:layout_marginTop="@dimen/x10"
             android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/check_term_condition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:button="@drawable/selector_chkbox"
                 android:layout_gravity="center_vertical"
+                android:button="@drawable/selector_chkbox"
+                android:checked="true"
 
                 />
 
@@ -238,22 +261,21 @@
                 android:text="@string/term_condition_agree"
                 android:textColor="@color/app_font_black"
                 android:textSize="@dimen/x15"
-                app:typeface="@string/font_normal"/>
+                app:typeface="@string/font_normal" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x15"
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginStart="@dimen/x2"
             android:layout_marginTop="@dimen/x10"
-            android:layout_marginBottom="@dimen/x10"
             android:background="@drawable/rounded_button"
             android:text="@string/submit"
             android:textAllCaps="false"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_fbSignup"
@@ -266,21 +288,56 @@
             android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_gSingup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x10"
             android:layout_marginEnd="@dimen/x5"
             android:layout_marginStart="@dimen/x5"
-            android:layout_marginTop="@dimen/x10"
             android:background="@color/google_color"
             android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ll_google"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x45"
+            android:layout_marginBottom="@dimen/x10"
+            android:background="@drawable/google_rect"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_google"
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x5"
+                android:layout_marginStart="@dimen/x5"
+                android:contentDescription=""
+                android:src="@drawable/googleplus"
+                tools:ignore="ContentDescription" />
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txtgoogle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x5"
+                android:gravity="center_vertical|center_horizontal"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/sign_up_with_google"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/x15"
+                app:typeface="Roboto-Regular.ttf" />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

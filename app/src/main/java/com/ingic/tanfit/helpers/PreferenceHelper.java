@@ -139,4 +139,5 @@ public class PreferenceHelper {
 		editor.remove( key );
 		editor.commit();
 	}
+
 }

@@ -8,8 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.UserEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.TokenUpdater;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.PinEntryEditText;
@@ -118,19 +123,46 @@ public class VerificationEmailFragment extends BaseFragment {
                 if (timer != null) {
                     timer.cancel();
                 }
+
                 if (txtPinEntry.getText().toString().length() < 4) {
                     UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.correct_verification_code));
                 } else {
-                    getDockActivity().popBackStackTillEntry(0);
-                    getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+                    serviceHelper.enqueueCall(headerWebService.verifyCode(prefHelper.getUser().getUserId(),txtPinEntry.getText().toString()), WebServiceConstants.verifyCode);
                 }
 
                 break;
             case R.id.txt_resened_code:
                 timer.cancel();
                 counter();
-                UIHelper.showShortToastInCenter(getDockActivity(),"Resend Code");
+                serviceHelper.enqueueCall(headerWebService.resendCode(prefHelper.getUser().getUserId()), WebServiceConstants.resendcode);
+               // UIHelper.showShortToastInCenter(getDockActivity(),"Resend Code");
                 break;
+        }
+    }
+
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.verifyCode:
+              /*  UserEnt entity=prefHelper.getUser();
+                entity.setPhoneNumberConfirmed(true);
+                prefHelper.putUser(entity);*/
+                TokenUpdater.getInstance().UpdateToken(getDockActivity(),
+                        prefHelper.getUser().getUserId(),
+                        AppConstants.Device_Type,
+                        FirebaseInstanceId.getInstance().getToken());
+            //    UIHelper.showShortToastInCenter(getDockActivity(),message);
+                getDockActivity().popBackStackTillEntry(0);
+                prefHelper.setLoginStatus(true);
+                getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
+
+                break;
+            case WebServiceConstants.resendcode:
+                UIHelper.showShortToastInCenter(getDockActivity(),message);
+                break;
+
         }
     }
 }

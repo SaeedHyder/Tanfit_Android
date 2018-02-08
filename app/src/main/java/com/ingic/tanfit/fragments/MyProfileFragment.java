@@ -1,9 +1,12 @@
 package com.ingic.tanfit.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,9 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.AppDefaultSettingEnt;
 import com.ingic.tanfit.entities.ProfileEnt;
+import com.ingic.tanfit.entities.StudioLogo;
+import com.ingic.tanfit.entities.UserSubscription;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.DialogHelper;
 import com.ingic.tanfit.interfaces.OnSwipeListener;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
@@ -22,7 +29,10 @@ import com.ingic.tanfit.ui.binders.ProfileItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -60,10 +70,28 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     AnyTextView txtAboutUs;
     @BindView(R.id.txt_contactUs)
     AnyTextView txtContactUs;
+    @BindView(R.id.txtMyClasses)
+    AnyTextView txtMyClasses;
+
     Unbinder unbinder;
     OverlapDecoration overlapDecoration;
     LinearLayoutManager layoutManager;
+    @BindView(R.id.iv_profile)
+    ImageView ivProfile;
+    @BindView(R.id.btn_edit)
+    ImageView btnEdit;
+    @BindView(R.id.txt_emergencyNumber)
+    AnyTextView txtEmergencyNumber;
+    @BindView(R.id.txt_weight)
+    AnyTextView txtWeight;
+    @BindView(R.id.txt_height)
+    AnyTextView txtHeight;
     private ArrayList<ProfileEnt> userCollections;
+    private File profileImage;
+    private boolean isSubscribed=false;
+    private int itemPosition;
+
+    private ImageLoader imageLoader;
 
 
     public static MyProfileFragment newInstance() {
@@ -77,6 +105,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageLoader = ImageLoader.getInstance();
         if (getArguments() != null) {
         }
 
@@ -98,7 +127,7 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        prefHelper.setIsFromStudio(false);
         setProfileData();
 
 
@@ -113,10 +142,37 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     private void setProfileData() {
 
         userCollections = new ArrayList<>();
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_1));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_2));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_3));
-        userCollections.add(new ProfileEnt(AppConstants.DRAWABLE_PATH + R.drawable.gym_image_4));
+
+        if (prefHelper.getUserAllData() != null) {
+
+            Picasso.with(getDockActivity()).load(prefHelper.getUserAllData().getUserThumbnailImage()).placeholder(getResources().getDrawable(R.drawable.image_place_holder)).into(ivProfile);
+            // imageLoader.displayImage(prefHelper.getUserAllData().getUserThumbnailImage(), ivProfile);
+            txtName.setText(prefHelper.getUserAllData().getFullName() + "");
+            txtEmail.setText(prefHelper.getUserAllData().getEmail() + "");
+            txtEmergencyNumber.setText(prefHelper.getUserAllData().getPhoneNumber()+"");
+
+            if(prefHelper.getUserAllData().getHeight()!=null && !prefHelper.getUserAllData().getHeight().equals("")){
+                txtHeight.setText(prefHelper.getUserAllData().getHeight()+" ln");
+            }
+            if(prefHelper.getUserAllData().getWeight()!=null && !prefHelper.getUserAllData().getWeight().equals("")){
+                txtWeight.setText(prefHelper.getUserAllData().getWeight()+" KG");
+            }
+           /* if(prefHelper.getUserAllData().getEmergencyContact()!=null && !prefHelper.getUserAllData().getEmergencyContact().equals("")){
+
+            }*/
+
+            for (StudioLogo item : prefHelper.getUserAllData().getStudioLogos()) {
+                userCollections.add(new ProfileEnt(item.getStudioImage()));
+            }
+        }
+
+        if (userCollections.size() <= 0) {
+            rvGyms.setVisibility(View.GONE);
+            txtMyClasses.setVisibility(View.GONE);
+        } else {
+            rvGyms.setVisibility(View.VISIBLE);
+            txtMyClasses.setVisibility(View.VISIBLE);
+        }
 
 
         overlapDecoration = new OverlapDecoration(Math.round(getResources().getDimension(R.dimen.x40_)));
@@ -139,13 +195,16 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
                 break;
             case R.id.btnLogout:
                 final DialogHelper dialogHelper = new DialogHelper(getDockActivity());
+                prefHelper.setIsGetUser(false);
                 dialogHelper.initlogout(R.layout.logout_dialog, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        prefHelper.setLoginStatus(false);
+                        serviceHelper.enqueueCall(headerWebService.logout(prefHelper.getUserAllData().getId()), WebServiceConstants.logout);
+                       /* prefHelper.setLoginStatus(false);
                         getMainActivity().popBackStackTillEntry(0);
-                        getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+                        getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");*/
                         dialogHelper.hideDialog();
+
                     }
                 }, new View.OnClickListener() {
                     @Override
@@ -160,7 +219,31 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
                 getDockActivity().replaceDockableFragment(BookingHistoryTabLayFragment.newInstance(), "BookingHistoryTabLayFragment");
                 break;
             case R.id.txt_manageSubscription:
-                getDockActivity().replaceDockableFragment(MySubscriptionFragment.newInstance(), "MySubscriptionFragment");
+
+                if (prefHelper.getUserAllData().getUserSubscription().size() > 0) {
+
+                    for (int i=0;i<prefHelper.getUserAllData().getUserSubscription().size();i++) {
+                        if (prefHelper.getUserAllData().getUserSubscription().get(i).getUserSubscriptionStatusId() == 1) {
+                            isSubscribed=true;
+                            itemPosition=i;
+                        }
+                    }
+
+                    if (isSubscribed) {
+                        getDockActivity().replaceDockableFragment(MySubscriptionFragment.newInstance(itemPosition), "MySubscriptionFragment");
+                    } else {
+                        MainFragment mainFragment = MainFragment.newInstance();
+                        mainFragment.setStartWithTab(AppConstants.TAB_SUBSCRIBE);
+                        getDockActivity().replaceDockableFragment(mainFragment);
+                        break;
+                    }
+
+                } else {
+                    MainFragment mainFragment = MainFragment.newInstance();
+                    mainFragment.setStartWithTab(AppConstants.TAB_SUBSCRIBE);
+                    getDockActivity().replaceDockableFragment(mainFragment);
+//                    getDockActivity().replaceDockableFragment(MainFragment.newInstance("SubscriptionScreen"), "MainFragment");
+                }
                 break;
             case R.id.txt_MyFavorites:
                 getDockActivity().replaceDockableFragment(FavoriteFragment.newInstance(), "FavoriteFragment");
@@ -186,6 +269,19 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.logout:
+                prefHelper.setLoginStatus(false);
+                prefHelper.removeRideSessionPreferences();
+                getMainActivity().popBackStackTillEntry(0);
+                getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+                break;
+        }
+    }
 
     public void recyclerHorizontlListner() {
 
@@ -286,6 +382,11 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
+    @OnClick(R.id.btn_edit)
+    public void onViewClicked() {
+        getDockActivity().replaceDockableFragment(EditProfileFragment.newInstance(),"EditProfileFragment");
+    }
+
     public class OverlapDecoration extends RecyclerView.ItemDecoration {
 
         private final int vertOverlap = -110;
@@ -310,6 +411,18 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
             outRect.set(padding, 0, 0, 0);
 
         }
+
+    }
+
+    private Bitmap decodeFromBase64ToBitmap(String encodedImage)
+
+    {
+
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        return decodedByte;
 
     }
 }

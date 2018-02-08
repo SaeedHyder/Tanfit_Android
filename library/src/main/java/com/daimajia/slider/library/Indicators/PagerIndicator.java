@@ -142,7 +142,7 @@ public class PagerIndicator extends LinearLayout implements ViewPagerEx.OnPageCh
        /* mDefaultSelectedColor = Color.parseColor("#939EAD");
         mDefaultUnSelectedColor = Color.parseColor("#D4D8DE");*/
 
-        mDefaultSelectedColor = context.getResources().getColor(R.color.darkYellow);
+        mDefaultSelectedColor = context.getResources().getColor(R.color.app_blue);
         mDefaultUnSelectedColor = context.getResources().getColor(R.color.tab_indicator_unselected);
 
         mDefaultSelectedWidth = attributes.getDimension(R.styleable.PagerIndicator_selected_width,(int)pxFromDp(context.getResources().getDimension(R.dimen.x4)));

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rohitarya.picasso.facedetection.transformation.FaceCenterCrop;
 import com.rohitarya.picasso.facedetection.transformation.core.PicassoFaceDetector;
 import com.squareup.picasso.Picasso;
@@ -23,12 +26,12 @@ public class TitleBar extends RelativeLayout {
 	private ImageView btnRight;
 	private AnyTextView txtBadge;
 	private AnyTextView txtEnd;
-
-
+	private CheckBox cb_heart;
 
 	private View.OnClickListener menuButtonListener;
 	private OnClickListener backButtonListener;
 	private OnClickListener notificationButtonListener;
+	private ImageLoader imageLoader;
 
 	private Context context;
 
@@ -65,6 +68,7 @@ public class TitleBar extends RelativeLayout {
 		btnLeft2 = (ImageView) this.findViewById(R.id.btn_left2);
 		txtBadge = (AnyTextView) findViewById(R.id.txtBadge);
 		txtEnd = (AnyTextView) findViewById(R.id.txt_skip);
+		cb_heart = (CheckBox) findViewById(R.id.cb_heart);
 
 	}
 
@@ -81,6 +85,7 @@ public class TitleBar extends RelativeLayout {
 		btnLeft2.setVisibility(View.INVISIBLE);
 		btnRight.setVisibility(View.INVISIBLE);
 		btnRight2.setVisibility(View.INVISIBLE);
+		cb_heart.setVisibility(GONE);
 		txtBadge.setVisibility(View.GONE);
 		txtEnd.setVisibility(GONE);
 
@@ -102,12 +107,24 @@ public class TitleBar extends RelativeLayout {
 
 	}
 
-	public void showHeartButton(OnClickListener heart) {
-		btnRight2.setVisibility(View.VISIBLE);
+	public void showHeartButton(CompoundButton.OnCheckedChangeListener heart) {
+	/*	btnRight2.setVisibility(View.VISIBLE);
 		btnRight2.setImageResource(R.drawable.heart);
-		btnRight2.setOnClickListener(heart);
+		btnRight2.setOnClickListener(heart);*/
+		cb_heart.setVisibility(View.VISIBLE);
+		cb_heart.setOnCheckedChangeListener(heart);
 
 	}
+
+	public CheckBox getHearCheckBox(int ResId){
+
+		CheckBox heart=	cb_heart = (CheckBox) findViewById(ResId);
+
+		return heart;
+	}
+
+
+
 	public void showFilterButton(OnClickListener filter) {
 		btnRight2.setVisibility(View.VISIBLE);
 		btnRight2.setImageResource(R.drawable.filter);
@@ -115,19 +132,26 @@ public class TitleBar extends RelativeLayout {
 
 	}
 
-	public void showMenuButton(DockActivity dockActivity) {
+	public void showMenuButton(DockActivity dockActivity,String image) {
 		btnLeft2.setVisibility(View.GONE);
 		btnLeft.setVisibility(View.VISIBLE);
 		btnLeft.setOnClickListener(menuButtonListener);
+		//imageLoader=ImageLoader.getInstance();
+		//imageLoader.displayImage(image,btnLeft);
+		Picasso.with(dockActivity).load(image).placeholder(getResources().getDrawable(R.drawable.image_place_holder)).into(btnLeft);
 
-		PicassoFaceDetector.initialize(dockActivity);
+		/*PicassoFaceDetector.initialize(dockActivity);
 		Picasso
 				.with(dockActivity)
-				.load(R.drawable.profileimage12)
-				.placeholder(R.drawable.profileimage12)
+				.load(image)
+				.placeholder(R.drawable.image_place_holder)
 				.transform(new FaceCenterCrop((int)getResources().getDimension(R.dimen.x40), (int)getResources().getDimension(R.dimen.x40))) //in pixels. You can also use FaceCenterCrop(width, height, unit) to provide width, height in DP.
-				.into(btnLeft);
+				.into(btnLeft);*/
 
+	}
+
+	public void setMenuButtonImage(DockActivity dockActivity,String image){
+		Picasso.with(dockActivity).load(image).placeholder(getResources().getDrawable(R.drawable.image_place_holder)).into(btnLeft);
 	}
 
 	public void setSubHeading(String heading) {

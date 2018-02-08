@@ -3,9 +3,14 @@ package com.ingic.tanfit.helpers;
 import android.content.Context;
 import android.util.Log;
 
+import com.ingic.tanfit.entities.ResponseWrapper;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.retrofit.WebService;
 import com.ingic.tanfit.retrofit.WebServiceFactory;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created on 5/15/2017.
@@ -26,10 +31,10 @@ public class TokenUpdater {
         if (Token.isEmpty()) {
             Log.e("Token Updater", "Token is Empty");
         }
-        webservice = WebServiceFactory.getWebServiceInstanceWithCustomInterceptor(context,
+        webservice = WebServiceFactory.getWebServiceInstanceWithCustomInterceptorandheader(context,
                 WebServiceConstants.Local_SERVICE_URL);
 
-       /* Call<ResponseWrapper> call = webservice.updateToken(userid,Token, DeviceType );
+        Call<ResponseWrapper> call = webservice.updateToken(userid,Token,DeviceType);
         call.enqueue(new Callback<ResponseWrapper>() {
             @Override
             public void onResponse(Call<ResponseWrapper> call, Response<ResponseWrapper> response) {
@@ -41,7 +46,7 @@ public class TokenUpdater {
             public void onFailure(Call<ResponseWrapper> call, Throwable t) {
                 Log.e("UPDATETOKEN", t.toString());
             }
-        });*/
+        });
     }
 
 }

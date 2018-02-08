@@ -57,7 +57,7 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<HorizontalPick
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Day item = getItem(position);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/yy", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.ENGLISH);
         holder.tvDay.setText(simpleDateFormat.format(item.getDate().toDate()));
         holder.tvWeekDay.setText(item.getWeekDay());
         if (item.isSelected()) {

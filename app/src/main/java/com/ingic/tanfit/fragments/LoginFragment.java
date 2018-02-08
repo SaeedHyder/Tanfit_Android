@@ -2,7 +2,6 @@ package com.ingic.tanfit.fragments;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -10,14 +9,21 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.AppDefaultSettingEnt;
+import com.ingic.tanfit.entities.IsVerifiedEnt;
+import com.ingic.tanfit.entities.UserEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.DialogHelper;
+import com.ingic.tanfit.helpers.TokenUpdater;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -73,7 +79,9 @@ public class LoginFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
+        serviceHelper.enqueueCall(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
         setListener();
+        animateSeekbarToZero(slidelogin);
 
     }
 
@@ -133,24 +141,90 @@ public class LoginFragment extends BaseFragment {
                     animateSeekbarToZero(seekBar);
                 } else {
                     if (isValidated()) {
-                        prefHelper.setLoginStatus(true);
-                        getDockActivity().popBackStackTillEntry(0);
-                        getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
+                        //  loginService();
+                        serviceHelper.enqueueCall(headerWebService.loginUser(edtEmail.getText().toString(), edtPassword.getText().toString()), WebServiceConstants.LoginUser);
+                        animateSeekbarToZero(seekBar);
                     } else
                         animateSeekbarToZero(seekBar);
                 }
             }
         });
-       /* slidelogin.setOnUnlockListener(new SlideToUnlock.OnUnlockListener() {
-            @Override
-            public void onUnlock() {
-                if (isValidated()) {
+    }
+
+
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.LoginUser:
+
+                UserEnt entity = (UserEnt) result;
+                prefHelper.putUser(entity);
+                prefHelper.setUserId(entity.getUserId());
+                prefHelper.setAccess_Token(entity.getAccessToken());
+                TokenUpdater.getInstance().UpdateToken(getDockActivity(),
+                        entity.getUserId(),
+                        AppConstants.Device_Type,
+                        FirebaseInstanceId.getInstance().getToken());
+
+                serviceHelper.enqueueCall(headerWebService.isVerified(prefHelper.getUser().getUserId() + ""), WebServiceConstants.iVerified);
+
+
+                break;
+
+            case WebServiceConstants.iVerified:
+
+                final IsVerifiedEnt data = (IsVerifiedEnt) result;
+                prefHelper.putIsVerified(data);
+                if ((data.getIsDeleted())) {
+
+                    final DialogHelper activiateAccountDialoge = new DialogHelper(getDockActivity());
+                    activiateAccountDialoge.initbooknow(R.layout.activite_account_dialoge, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUser().getUserId(), prefHelper.getUser().getEmail(), prefHelper.getUser().getFullName(), prefHelper.getUser().getUserThumbnailImage(), prefHelper.getUser().getGenderId() + "", false), WebServiceConstants.deleteAccount);
+                            activiateAccountDialoge.hideDialog();
+
+                        }
+                    }, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            activiateAccountDialoge.hideDialog();
+                        }
+                    });
+
+                    activiateAccountDialoge.showDialog();
+
+                    // UIHelper.showShortToastInCenter(getDockActivity(),"User is deleted");
+                } else {
+                    if (data.getPhoneNumberConfirmed()) {
+                        prefHelper.setLoginStatus(true);
+                        getDockActivity().popBackStackTillEntry(0);
+                        getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
+                    } else {
+                        getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(), "VerificationEmailFragment");
+                    }
+
+                }
+                break;
+
+            case WebServiceConstants.getDefaultSetting:
+                prefHelper.putAppDefaultSetting((AppDefaultSettingEnt) result);
+                break;
+
+            case WebServiceConstants.deleteAccount:
+                if (prefHelper.getIsVerified().getPhoneNumberConfirmed()) {
+                    prefHelper.setLoginStatus(true);
                     getDockActivity().popBackStackTillEntry(0);
-                    getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
-                } else
-                    slidelogin.reset();
-            }
-        });*/
+                    getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
+                } else {
+                    getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(), "VerificationEmailFragment");
+                }
+                break;
+
+
+        }
     }
 
     private void animateSeekbarToZero(SeekBar seekBar) {
@@ -180,6 +254,7 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
+
     @OnClick({R.id.forgot_password, R.id.btn_signup})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -189,6 +264,7 @@ public class LoginFragment extends BaseFragment {
             case R.id.btn_signup:
                 getDockActivity().replaceDockableFragment(SignUpFragment.newInstance(), "SignUpFragment");
                 break;
+
         }
     }
 }

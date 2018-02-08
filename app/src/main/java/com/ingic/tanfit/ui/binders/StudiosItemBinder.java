@@ -1,17 +1,24 @@
 package com.ingic.tanfit.ui.binders;
 
 import android.app.Activity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
+import com.ingic.tanfit.entities.FavoriteClassesEnt;
+import com.ingic.tanfit.entities.Studio;
 import com.ingic.tanfit.entities.fitnessEnt;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
+import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.helpers.UIHelper;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
+import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.BindView;
@@ -22,18 +29,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by saeedhyder on 11/22/2017.
  */
 
-public class StudiosItemBinder extends ViewBinder<fitnessEnt> {
+public class StudiosItemBinder extends ViewBinder<Studio> implements  RecyclerViewItemListener  {
 
     private DockActivity dockActivity;
     private BasePreferenceHelper prefHelper;
     private ImageLoader imageLoader;
+    private RecyclerViewItemListener clickListner;
 
 
-    public StudiosItemBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper) {
+    public StudiosItemBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper,RecyclerViewItemListener clickListner) {
         super(R.layout.row_item_studios);
         this.dockActivity = dockActivity;
         this.prefHelper = prefHelper;
         this.imageLoader = ImageLoader.getInstance();
+        this.clickListner=clickListner;
     }
 
     @Override
@@ -42,22 +51,45 @@ public class StudiosItemBinder extends ViewBinder<fitnessEnt> {
     }
 
     @Override
-    public void bindView(fitnessEnt entity, int position, int grpPosition, View view, Activity activity) {
+    public void bindView(final Studio entity, final int position, int grpPosition, View view, Activity activity) {
 
         final ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        imageLoader.displayImage(entity.getImage(), viewHolder.ivProfileImage);
+      /*  imageLoader.displayImage(entity.getImage(), viewHolder.ivProfileImage);
         viewHolder.txtTitle.setText(entity.getTitle() + "");
         viewHolder.txtAddress.setText(entity.getAddress() + "");
-        viewHolder.txtTime.setText(entity.getTime() + "");
+        viewHolder.txtTime.setText(entity.getTime() + "");*/
+
+        imageLoader.displayImage(entity.getStudioLogo(), viewHolder.ivProfileImage);
+        viewHolder.txtTitle.setText(entity.getStudioNameEng() + "");
+        viewHolder.txtAddress.setText(entity.getAddressEng() + "");
+        //  viewHolder.txtTime.setText(entity.getOpeningTime() + "-" + entity.getClosingTime());
+        viewHolder.txtTime.setText(DateHelper.getFormatedDate("HH:mm:ss","HH:mm",entity.getOpeningTime()) + "-" +
+                DateHelper.getFormatedDate("HH:mm:ss","HH:mm",entity.getClosingTime()));
+
+        viewHolder.rv_features.BindRecyclerView(new StudioFeaturesBinder(this), entity.getStudioFeatures(),
+                new LinearLayoutManager(dockActivity, LinearLayoutManager.HORIZONTAL, false)
+                , new DefaultItemAnimator());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListner.onRecyclerItemClicked(entity,position);
+            }
+        });
 
 
-        viewHolder.ivFavorite.setOnClickListener(new View.OnClickListener() {
+    /*    viewHolder.ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UIHelper.showShortToastInCenter(dockActivity, "Will be implemented in beta");
             }
-        });
+        });*/
+
+    }
+
+    @Override
+    public void onRecyclerItemClicked(Object Ent, int position) {
 
     }
 
@@ -83,6 +115,8 @@ public class StudiosItemBinder extends ViewBinder<fitnessEnt> {
         AnyTextView txtYoga;
         @BindView(R.id.txt_spinning)
         AnyTextView txtSpinning;
+        @BindView(R.id.rv_features)
+        CustomRecyclerView rv_features;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

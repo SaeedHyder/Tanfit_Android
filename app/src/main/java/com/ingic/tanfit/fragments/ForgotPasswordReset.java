@@ -11,6 +11,9 @@ import android.widget.CompoundButton;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.UIHelper;
+import com.ingic.tanfit.retrofit.WebService;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 
 import butterknife.BindView;
@@ -30,9 +33,11 @@ public class ForgotPasswordReset extends BaseFragment {
     Button btnSubmit;
     Unbinder unbinder;
 
-    public static ForgotPasswordReset newInstance() {
-        Bundle args = new Bundle();
+    private static String emailKey="emailKey";
 
+    public static ForgotPasswordReset newInstance(String Email) {
+        Bundle args = new Bundle();
+        args.putString(emailKey,Email);
         ForgotPasswordReset fragment = new ForgotPasswordReset();
         fragment.setArguments(args);
         return fragment;
@@ -42,6 +47,7 @@ public class ForgotPasswordReset extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            emailKey=getArguments().getString(emailKey);
         }
 
     }
@@ -82,10 +88,10 @@ public class ForgotPasswordReset extends BaseFragment {
         if (edtPassword.getText().toString().isEmpty()) {
             edtPassword.setError(getString(R.string.enter_password));
             return false;
-        } else if (edtPassword.getText().toString().length() < 6) {
+        } /*else if (edtPassword.getText().toString().length() < 6) {
             edtPassword.setError(getString(R.string.passwordLength));
             return false;
-        } else {
+        }*/ else {
             return true;
         }
     }
@@ -95,10 +101,22 @@ public class ForgotPasswordReset extends BaseFragment {
         switch (view.getId()) {
             case R.id.btn_submit:
                 if (isValidated()) {
-                    getDockActivity().popBackStackTillEntry(0);
-                    getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+                    serviceHelper.enqueueCall(webService.forgotCodeVerification(emailKey,edtPassword.getText().toString()), WebServiceConstants.forgotCodeVerification);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.forgotCodeVerification:
+                UIHelper.showShortToastInCenter(getDockActivity(), message);
+           //     getDockActivity().popBackStackTillEntry(0);
+                getDockActivity().replaceDockableFragment(forgotNewPasswordFragment.newInstance(emailKey,edtPassword.getText().toString()), "forgotNewPasswordFragment");
+
         }
     }
 }

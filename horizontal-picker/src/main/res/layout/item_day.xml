@@ -13,26 +13,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="@dimen/x13"
+        android:textSize="@dimen/x12"
         android:textColor="@color/secundaryTextColor"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="@dimen/x3"
         android:fontFamily="sans-serif"
         android:layout_gravity="center" />
 
     <TextView
-        android:text="18/17"
+        android:text="18/17/18"
         android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/x10"
+        android:textSize="@dimen/x9"
         android:textAlignment="center"
         android:id="@+id/tvDay"
         android:layout_gravity="center"
         android:textColor="@color/primaryTextColor"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:paddingBottom="@dimen/x4"
+        android:paddingTop="@dimen/x4"
+        android:paddingStart="@dimen/x2"
+        android:paddingEnd="@dimen/x2" />
 
 </LinearLayout>

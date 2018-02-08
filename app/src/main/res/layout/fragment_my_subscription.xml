@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainFrame"
     android:background="@color/gray_background"
     android:orientation="vertical">
 
@@ -43,12 +44,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_marginBottom="@dimen/x10"
         android:layout_marginEnd="@dimen/x10"
         android:layout_marginStart="@dimen/x10"
         android:background="@drawable/boxsub"
         android:orientation="vertical"
-        android:padding="@dimen/x20">
+        android:paddingStart="@dimen/x20"
+        android:paddingEnd="@dimen/x20"
+        android:paddingTop="@dimen/x10">
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:layout_width="match_parent"
@@ -62,14 +65,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x5"
             android:orientation="horizontal">
 
             <com.ingic.tanfit.ui.views.AnyTextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/x5"
                 android:layout_weight="0.9"
                 android:gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x3"
                 android:text="@string/you_can_pause_your_subscription_for"
                 android:textColor="@color/app_text_gray"
                 android:textSize="@dimen/x12"
@@ -77,10 +81,11 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/x35"
                 android:layout_weight="0.3"
                 android:gravity="center_vertical|center_horizontal"
                 android:background="@drawable/box2sub"
+
                 android:orientation="horizontal">
 
             <!--    android:descendantFocusability="beforeDescendants"
@@ -88,27 +93,29 @@
 
                 <com.ingic.tanfit.ui.views.AnyEditTextView
                     android:id="@+id/edit_days"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical|right"
-                    android:text="5"
+                    android:layout_weight="0.4"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:hint="00"
                     android:inputType="number"
                     android:maxLength="2"
-                    android:layout_marginEnd="@dimen/x5"
+
                     android:background="@android:color/transparent"
                     android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/x13"
+                    android:textSize="@dimen/x12"
                     app:typeface="@string/font_normal" />
 
                 <com.ingic.tanfit.ui.views.AnyTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="0.6"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical|left"
                     android:text="@string/days"
                     android:textColor="@color/app_blue"
-                    android:textSize="@dimen/x13"
+                    android:textSize="@dimen/x12"
                     app:typeface="@string/font_normal" />
 
 
@@ -120,29 +127,33 @@
             android:id="@+id/btn_pause"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x40"
-            android:layout_marginTop="@dimen/x6"
+            android:layout_marginTop="@dimen/x10"
             android:background="@drawable/rounded_button"
             android:gravity="center"
             android:text="@string/pause"
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="visible"/>
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:id="@+id/txt_days_left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x13"
-            android:layout_marginBottom="@dimen/x5"
+            android:layout_marginBottom="@dimen/x20"
             android:alpha="0.8"
             android:gravity="center_vertical"
             android:text="You stil have 8 more days left once you resume"
             android:textColor="@color/dark_grey"
             android:textSize="@dimen/x12"
-            app:typeface="@string/font_normal" />
+            app:typeface="@string/font_normal"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_cancelSubScription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/x10"

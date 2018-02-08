@@ -13,12 +13,16 @@ public class TimingTypeEnt {
     private int BlackFontColor;
     private boolean isSelected;
     private String Type;
+    private String classImage;
+    private int classId;
 
-    public TimingTypeEnt(int imageGreyRes, int imageWhiteRes,boolean isSelected, String type) {
+    public TimingTypeEnt(int imageGreyRes, int imageWhiteRes,boolean isSelected, String type,String ClassImage,int classId) {
         ImageGreyRes = imageGreyRes;
         ImageWhiteRes = imageWhiteRes;
         this.isSelected = isSelected;
         Type = type;
+        this.classImage=ClassImage;
+        this.classId=classId;
     }
 
     public int getImageGreyRes() {
@@ -84,4 +88,21 @@ public class TimingTypeEnt {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    public String getClassImage() {
+        return classImage;
+    }
+
+    public void setClassImage(String classImage) {
+        this.classImage = classImage;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
 }
+

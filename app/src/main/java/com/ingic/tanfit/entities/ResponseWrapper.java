@@ -5,6 +5,8 @@ public class ResponseWrapper<T> {
     private String Message;
     private String Response;
     private T Result;
+    private boolean IsServerError;
+    private boolean IsSuccess;
 
     public String getMessage() {
         return Message;
@@ -28,5 +30,21 @@ public class ResponseWrapper<T> {
 
     public void setResult(T result) {
         Result = result;
+    }
+
+    public boolean isServerError() {
+        return IsServerError;
+    }
+
+    public void setServerError(boolean serverError) {
+        IsServerError = serverError;
+    }
+
+    public boolean isSuccess() {
+        return IsSuccess;
+    }
+
+    public void setSuccess(boolean success) {
+        IsSuccess = success;
     }
 }

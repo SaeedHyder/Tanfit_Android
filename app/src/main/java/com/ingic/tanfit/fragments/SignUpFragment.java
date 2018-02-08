@@ -1,7 +1,12 @@
 package com.ingic.tanfit.fragments;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -9,6 +14,8 @@ import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,32 +25,50 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.iceteck.silicompressorr.SiliCompressor;
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.UserEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.CameraHelper;
+import com.ingic.tanfit.helpers.GoogleHelper;
+import com.ingic.tanfit.helpers.TokenUpdater;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.ImageSetter;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import static com.ingic.tanfit.ui.views.RoundedDrawable.TAG;
 
 /**
  * Created on 11/21/2017.
  */
-public class SignUpFragment extends BaseFragment implements ImageSetter, CompoundButton.OnCheckedChangeListener {
+public class SignUpFragment extends BaseFragment implements ImageSetter, CompoundButton.OnCheckedChangeListener, GoogleHelper.GoogleHelperInterfce {
     @BindView(R.id.img_profile)
     CircleImageView imgProfile;
     @BindView(R.id.btn_camera)
@@ -74,8 +99,21 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     CheckBox checkboxTermCondition;
     @BindView(R.id.txt_term_condition_text)
     AnyTextView termCondtion;
+    @BindView(R.id.edt_mobile_number)
+    AnyEditTextView edtMobileNumber;
+    @BindView(R.id.iv_google)
+    ImageView ivGoogle;
+    @BindView(R.id.txtgoogle)
+    AnyTextView txtgoogle;
+    @BindView(R.id.ll_google)
+    LinearLayout llGoogle;
     private File profilePic;
+    private Bitmap profilePicBitmap;
     private String profilePath;
+    private GoogleHelper googleHelper;
+    private static final int RC_SIGN_IN = 007;
+    private String mSocialMediaPlatform = "";
+    private String mSocialMediaID = "";
 
 
     public static SignUpFragment newInstance() {
@@ -115,10 +153,39 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
         super.onViewCreated(view, savedInstanceState);
         setTermsClickListeners();
         setGenderSpinner();
+        setupGoogleSignup();
         getMainActivity().setImageSetter(this);
 
 
     }
+
+    private void setupGoogleSignup() {
+        googleHelper = GoogleHelper.getInstance();
+        googleHelper.setGoogleHelperInterface(this);
+        googleHelper.configGoogleApiClient(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            googleHelper.handleGoogleResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        googleHelper.ConnectGoogleAPi();
+        //googleHelper.checkGoogleSeesion();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        googleHelper.DisconnectGoogleApi();
+    }
+
 
     private void setGenderSpinner() {
         ArrayList<String> genderCollection = new ArrayList<>(3);
@@ -192,25 +259,110 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
         );
     }
 
-    @OnClick({R.id.btn_submit, R.id.btn_fbSignup, R.id.btn_gSingup, R.id.btn_camera})
+    @OnClick({R.id.btn_submit, R.id.btn_fbSignup, R.id.ll_google, R.id.btn_camera})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_submit:
                 if (isValidated()) {
-                   getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(),"VerificationEmailFragment");
+                    registerUser();
+
                 }
                 break;
             case R.id.btn_fbSignup:
                 willbeimplementedinBeta();
                 break;
-            case R.id.btn_gSingup:
-                willbeimplementedinBeta();
+            case R.id.ll_google:
+                googleHelper.intentGoogleSign();
                 break;
             case R.id.btn_camera:
                 CameraHelper.uploadPhotoDialog(getMainActivity());
                 break;
         }
     }
+
+    private void registerUser() {
+
+        MultipartBody.Part filePart;
+        if (profilePic != null) {
+            filePart = MultipartBody.Part.createFormData("profile_picture",
+                    profilePic.getName(), RequestBody.create(MediaType.parse("image*//*"), profilePic));
+        } else {
+            filePart = MultipartBody.Part.createFormData("profile_picture", "",
+                    RequestBody.create(MediaType.parse("**/*//*"), ""));
+        }
+
+
+        String gender;
+        if (spnGender.getSelectedItemPosition() == 1) {
+            gender = "1";
+        } else {
+            gender = "2";
+        }
+        serviceHelper.enqueueCall(webService.registerUser(
+                edtEmail.getText().toString(),
+                edtPassword.getText().toString(),
+                edtConfirmPassword.getText().toString(),
+                edtMobileNumber.getText().toString(),
+                edtFullname.getText().toString(),
+                profilePicBitmap != null ? convertBitmapToBase64(profilePicBitmap) : "",
+                gender), WebServiceConstants.registeruser);
+
+    }
+
+    private String convertToBase64(String imagePath)
+
+    {
+
+        Bitmap bm = BitmapFactory.decodeFile(imagePath);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        byte[] byteArrayImage = baos.toByteArray();
+
+        String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+
+        return encodedImage;
+
+    }
+
+
+    public String convertBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        return encoded;
+    }
+
+
+    @Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.registeruser:
+                googleHelper.googleRevokeAccess();
+                googleHelper.googleSignOut();
+                UserEnt entity = (UserEnt) result;
+                prefHelper.putUser(entity);
+                prefHelper.setUserId(entity.getUserId());
+                prefHelper.setAccess_Token(entity.getAccessToken());
+                // UIHelper.showShortToastInCenter(getDockActivity(), message);
+                TokenUpdater.getInstance().UpdateToken(getDockActivity(),
+                        entity.getUserId(),
+                        AppConstants.Device_Type,
+                        FirebaseInstanceId.getInstance().getToken());
+                getDockActivity().replaceDockableFragment(VerificationEmailFragment.newInstance(), "VerificationEmailFragment");
+                // getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");
+
+                break;
+        }
+    }
+
 
     private boolean isValidated() {
         if (edtFullname.getText() == null || (edtFullname.getText().toString().isEmpty())) {
@@ -244,6 +396,12 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
                 setEditTextFocus(edtConfirmPassword);
             }
             return false;
+        } else if (edtMobileNumber.getText() == null || (edtMobileNumber.getText().toString().isEmpty())) {
+            if (edtMobileNumber.requestFocus()) {
+                setEditTextFocus(edtMobileNumber);
+            }
+            edtMobileNumber.setError(getString(R.string.enter_MobileNum));
+            return false;
         } else if (spnGender.getSelectedItemPosition() == 0) {
             UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.select_gender_error));
             return false;
@@ -259,12 +417,21 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     @Override
     public void setImage(String imagePath) {
         if (imagePath != null) {
-            //profilePic = new File(imagePath);
+
             profilePic = new File(imagePath);
             profilePath = imagePath;
             Picasso.with(getDockActivity())
                     .load("file:///" + imagePath)
                     .into(imgProfile);
+            try {
+                //profilePicBitmap = new Compressor(getDockActivity()).compressToBitmap(new File(imagePath));
+                profilePicBitmap = SiliCompressor.with(getDockActivity()).getCompressBitmap(imagePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
         }
     }
 
@@ -298,4 +465,83 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
 
         }
     }
+
+    private void SetFaceBookImage(String imagePath) {
+        if (imagePath != null) {
+            //profilePic = new File(imagePath);
+           /* profilePic = new File(imagePath);
+            profilePath = imagePath;
+            Glide.with(getDockActivity())
+                    .load(imagePath)
+                    .into(CircularImageSharePop);*/
+            Picasso.with(getDockActivity()).load(imagePath).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    try {
+                        imgProfile.setImageBitmap(bitmap);
+                        String root = Environment.getExternalStorageDirectory().toString();
+                        profilePic = new File(root + "/tanfit");
+
+                        if (!profilePic.exists()) {
+                            profilePic.mkdirs();
+                        }
+
+                        String name = new Date().toString() + ".jpg";
+                        profilePic = new File(profilePic, name);
+                        profilePicBitmap = bitmap;
+                        FileOutputStream out = new FileOutputStream(profilePic);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+
+                        out.flush();
+                        out.close();
+                    } catch (Exception e) {
+                        // some action
+                    }
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
+            //  ImageLoader.getInstance().displayImage(
+            //     "file:///" +imagePath, CircularImageSharePop);
+        }
+    }
+
+    private void clearViews() {
+        edtFullname.setText("");
+        edtEmail.setText("");
+        edtMobileNumber.setText("");
+        edtPassword.setText("");
+        edtConfirmPassword.setText("");
+    }
+
+    @Override
+    public void onGoogleSignInResult(GoogleSignInAccount result) {
+
+        clearViews();
+        Log.e(TAG, "display name: " + result.getDisplayName());
+
+        String personName = result.getDisplayName();
+        if (result.getPhotoUrl() != null) {
+            String personPhotoUrl = result.getPhotoUrl().toString();
+            SetFaceBookImage(personPhotoUrl);
+        }
+        String email = result.getEmail();
+
+        Log.e(TAG, "Name: " + personName + ", email: " + email
+                + ", Image: ");
+        mSocialMediaPlatform = AppConstants.SOCIAL_MEDIA_TYPE_GOOGLE;
+        mSocialMediaID = result.getId();
+        edtFullname.setText(result.getDisplayName() + "");
+        edtEmail.setText(result.getEmail() + "");
+    }
+
+
 }

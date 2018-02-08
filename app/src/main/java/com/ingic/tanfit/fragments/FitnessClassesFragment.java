@@ -8,9 +8,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ingic.tanfit.R;
-import com.ingic.tanfit.entities.fitnessEnt;
+import com.ingic.tanfit.entities.FavoriteClassesEnt;
+import com.ingic.tanfit.entities.FitnessClass;
+import com.ingic.tanfit.entities.FitnessClassess;
+import com.ingic.tanfit.entities.Studio;
+import com.ingic.tanfit.entities.UserFitnessClasses;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.global.AppConstants;
+import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.FItnessItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
@@ -25,15 +30,15 @@ import butterknife.Unbinder;
 /**
  * Created by saeedhyder on gym_image_11/22/2017.
  */
-public class FitnessClassesFragment extends BaseFragment {
+public class FitnessClassesFragment extends BaseFragment implements RecyclerViewItemListener{
     @BindView(R.id.txt_noresult)
     AnyTextView txtNoresult;
     @BindView(R.id.lv_fitnessClasses)
     ListView lvFitnessClasses;
     Unbinder unbinder;
 
-    private ArrayListAdapter<fitnessEnt> adapter;
-    private ArrayList<fitnessEnt> userCollection;
+    private ArrayListAdapter<FitnessClassess> adapter;
+    private ArrayList<FitnessClassess> fitnessClassesCollection;
 
     public static FitnessClassesFragment newInstance() {
         Bundle args = new Bundle();
@@ -46,7 +51,7 @@ public class FitnessClassesFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ArrayListAdapter<fitnessEnt>(getDockActivity(), new FItnessItemBinder(getDockActivity(),prefHelper));
+        adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new FItnessItemBinder(getDockActivity(), prefHelper,this));
         if (getArguments() != null) {
         }
 
@@ -63,7 +68,7 @@ public class FitnessClassesFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setFitnessData();
+        setFitnessData(prefHelper.getFavoriteData().getFitnessClasses());
         itemListner();
 
     }
@@ -72,24 +77,30 @@ public class FitnessClassesFragment extends BaseFragment {
         lvFitnessClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(),"ClassDetailFragment");
+                getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
             }
         });
     }
 
-    private void setFitnessData() {
+    private void setFitnessData(ArrayList<FitnessClassess> allfavoriteClasses) {
 
-        userCollection = new ArrayList<>();
+        ArrayList<FitnessClassess> favoriteClasses=new ArrayList<>();
 
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
-        //  userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.spinninghome, "Spinning", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", "Bespoke Ride", "Al Quoz", "gym_image_8:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", "136.1 Yoga Studio", "Al Quoz", "gym_image_8:00", "60 min"));
-        userCollection.add(new fitnessEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", "Quantum Health Club", "Trade Center Area", "gym_image_8:00", "60 min"));
+        for(FitnessClassess item: allfavoriteClasses){
 
-        if (userCollection.size() <= 0) {
+            if(!item.getIsDeleted()){
+                favoriteClasses.add(item);
+            }
+
+        }
+
+     //  fitnessClassesCollection=new ArrayList<>();
+
+        /*for(FitnessClassess item:favoriteClasses){
+            serviceHelper.enqueueCall(headerWebService.getFitnessClass(item.getId()+""), WebServiceConstants.getFitnessClassDetail);
+        }*/
+
+        if (favoriteClasses.size() <= 0) {
             txtNoresult.setVisibility(View.VISIBLE);
             lvFitnessClasses.setVisibility(View.GONE);
         } else {
@@ -99,9 +110,39 @@ public class FitnessClassesFragment extends BaseFragment {
 
         adapter.clearList();
         lvFitnessClasses.setAdapter(adapter);
-        adapter.addAll(userCollection);
+        adapter.addAll(favoriteClasses);
         adapter.notifyDataSetChanged();
     }
+
+
+    /*@Override
+    public void ResponseSuccess(Object result, String Tag, String message) {
+        super.ResponseSuccess(result, Tag, message);
+        switch (Tag) {
+
+            case WebServiceConstants.getFitnessClassDetail:
+                fitnessClassesCollection.add((FitnessClassess)result);
+
+                if(fitnessClassesCollection.size()==prefHelper.getUserAllData().getUserFavouriteFitnessClasses().size()){
+                    if (fitnessClassesCollection.size() <= 0) {
+                        txtNoresult.setVisibility(View.VISIBLE);
+                        lvFitnessClasses.setVisibility(View.GONE);
+                    } else {
+                        txtNoresult.setVisibility(View.GONE);
+                        lvFitnessClasses.setVisibility(View.VISIBLE);
+                    }
+
+                    adapter.clearList();
+                    lvFitnessClasses.setAdapter(adapter);
+                    adapter.addAll(fitnessClassesCollection);
+                    adapter.notifyDataSetChanged();
+
+                }
+
+                break;
+
+        }
+    }*/
 
     @Override
     public void setTitleBar(TitleBar titleBar) {
@@ -114,5 +155,11 @@ public class FitnessClassesFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onRecyclerItemClicked(Object Ent, int position) {
+        FitnessClassess fitnessClassData = (FitnessClassess) Ent;
+        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(fitnessClassData,true), "ClassDetailFragment");
     }
 }

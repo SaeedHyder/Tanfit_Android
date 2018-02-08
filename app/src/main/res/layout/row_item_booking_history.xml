@@ -88,6 +88,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:text="IR IRAN Tehran Vali Asr St Something House 2554 Apartment Theus"
             android:textColor="@color/app_text_gray"
             android:textSize="@dimen/x15"

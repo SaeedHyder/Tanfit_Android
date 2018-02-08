@@ -1,5 +1,7 @@
 package com.ingic.tanfit.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +60,9 @@ public class ContactUsFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        txtAboutUs.setText(prefHelper.getAppDefaultSetting().getContactUsEng() + "");
+        txtAddress.setText(prefHelper.getAppDefaultSetting().getContactUsAddressEng() + "");
+
     }
 
     @Override
@@ -76,6 +81,13 @@ public class ContactUsFragment extends BaseFragment {
 
     @OnClick(R.id.btn_visit_website)
     public void onViewClicked() {
-        UIHelper.showShortToastInCenter(getDockActivity(),"Will be implemented in beta");
+        if (prefHelper.getAppDefaultSetting().getContactUsUrl().contains("http")) {
+            Uri uri = Uri.parse(prefHelper.getAppDefaultSetting().getContactUsUrl()); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } else {
+            UIHelper.showShortToastInCenter(getDockActivity(), "URL missing");
+        }
+
     }
 }

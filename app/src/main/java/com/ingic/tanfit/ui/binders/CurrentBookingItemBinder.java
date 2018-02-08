@@ -59,11 +59,8 @@ public class CurrentBookingItemBinder extends ExpandableListViewBinder<String, C
 
     @Override
     public void bindChildView(CurrentBookingEnt entity, int position, int grpPosition, View view, Activity activity) {
-        childViewHolder childViewHolder = (CurrentBookingItemBinder.childViewHolder) view.getTag();
 
-        childViewHolder.txtDate.setText(entity.getDate());
-        childViewHolder.txtCenter.setText(entity.getCenter());
-        childViewHolder.txtAddress.setText(entity.getAddress());
+
     }
 
     @Override
@@ -73,7 +70,10 @@ public class CurrentBookingItemBinder extends ExpandableListViewBinder<String, C
 
     @Override
     public void bindChildView(CurrentBookingEnt entity, int position, int grpPosition, int size, View view, Activity activity) {
-
+        childViewHolder childViewHolder = (CurrentBookingItemBinder.childViewHolder) view.getTag();
+        childViewHolder.txtDate.setText(entity.getDate());
+        childViewHolder.txtCenter.setText(entity.getCenter());
+        childViewHolder.txtAddress.setText(entity.getAddress());
     }
 
     static class parentViewHolder extends BaseGroupViewHolder {

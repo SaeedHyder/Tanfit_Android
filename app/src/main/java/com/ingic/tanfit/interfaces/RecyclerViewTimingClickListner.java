@@ -6,4 +6,5 @@ package com.ingic.tanfit.interfaces;
 
 public interface RecyclerViewTimingClickListner {
     void OnTypeItemClickedListener(int currentPostion,int previousPosition);
+    void onclickItem(Object entity,int position);
 }

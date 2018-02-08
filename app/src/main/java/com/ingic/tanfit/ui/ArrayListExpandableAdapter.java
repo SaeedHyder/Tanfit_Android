@@ -18,9 +18,9 @@ public class ArrayListExpandableAdapter<T, E> extends BaseExpandableListAdapter 
 
 
     private ArrayList<T> headerCollection = new ArrayList<>();
-    private HashMap<T, ArrayList<T>> ChildCollection = new HashMap<>();
+    private HashMap<T, ArrayList<E>> ChildCollection = new HashMap<>();
 
-    public ArrayListExpandableAdapter(Activity context, ArrayList<T> headerCollection, HashMap<T, ArrayList<T>> listDataChild,
+    public ArrayListExpandableAdapter(Activity context, ArrayList<T> headerCollection, HashMap<T, ArrayList<E>> listDataChild,
                                       ExpandableListViewBinder<T, E> viewBinder) {
         mContext = context;
         this.headerCollection = headerCollection;

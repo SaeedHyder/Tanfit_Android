@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.entities.SpecialFeatureEnt;
+import com.ingic.tanfit.entities.StudioFeature;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by saeedhyder on 11/22/2017.
  */
 
-public class speacialFeatureItemBinder extends ViewBinder<SpecialFeatureEnt> {
+public class speacialFeatureItemBinder extends ViewBinder<StudioFeature> {
 
     private DockActivity dockActivity;
     private BasePreferenceHelper prefHelper;
@@ -39,12 +40,12 @@ public class speacialFeatureItemBinder extends ViewBinder<SpecialFeatureEnt> {
     }
 
     @Override
-    public void bindView(SpecialFeatureEnt entity, int position, int grpPosition, View view, Activity activity) {
+    public void bindView(StudioFeature entity, int position, int grpPosition, View view, Activity activity) {
 
         final speacialFeatureItemBinder.ViewHolder viewHolder = (speacialFeatureItemBinder.ViewHolder) view.getTag();
 
-        imageLoader.displayImage(entity.getImage(),viewHolder.ivFeature);
-        viewHolder.txtFeature.setText(entity.getFeature()+"");
+        imageLoader.displayImage(entity.getIcon(),viewHolder.ivFeature);
+        viewHolder.txtFeature.setText(entity.getFeatureName()+"");
 
     }
 

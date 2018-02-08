@@ -50,6 +50,7 @@ public class AboutUsFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        txtAboutUs.setText(prefHelper.getAppDefaultSetting().getAboutUsEng()+"");
     }
 
     @Override

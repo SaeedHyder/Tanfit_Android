@@ -13,13 +13,13 @@
         <com.ingic.tanfit.ui.views.AnyTextView
             android:id="@+id/txt_men_time"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/x10"
+
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:gravity="start"
+            android:gravity="center"
             android:paddingEnd="@dimen/x5"
-            android:paddingStart="@dimen/x10"
+
             android:text="4 am to 8 pm"
             android:textColor="@color/app_font_black"
             android:textSize="@dimen/x13"
@@ -37,10 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:gravity="start"
-            android:layout_marginStart="@dimen/x10"
+            android:gravity="center"
+
             android:paddingEnd="@dimen/x5"
-            android:paddingStart="@dimen/x11"
+
             android:text="4 am to 8 pm"
             android:textColor="@color/app_font_black"
             android:textSize="@dimen/x13"

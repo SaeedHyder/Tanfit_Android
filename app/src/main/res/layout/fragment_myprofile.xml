@@ -16,9 +16,10 @@
         android:layout_height="@dimen/x200">
 
         <ImageView
+            android:id="@+id/iv_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/profileimage12" />
 
         <LinearLayout
@@ -58,15 +59,38 @@
         android:layout_marginStart="@dimen/x10"
         android:orientation="vertical">
 
-        <com.ingic.tanfit.ui.views.AnyTextView
-            android:id="@+id/txt_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
+            android:orientation="horizontal">
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:gravity="start"
             android:text="James Cameron"
             android:textColor="@color/app_blue"
             android:textSize="@dimen/x20"
             app:typeface="@string/font_normal" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.15"
+                android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/x10"
+                android:src="@drawable/edit"/>
+            </RelativeLayout>
+        </LinearLayout>
 
         <com.ingic.tanfit.ui.views.AnyTextView
             android:id="@+id/txt_email"
@@ -81,14 +105,61 @@
             app:typeface="@string/font_normal" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txt_emergencyNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x7"
+            android:drawableLeft="@drawable/phone"
+            android:drawablePadding="@dimen/x5"
+            android:hint="+1 123 456 789"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/x12"
+            app:typeface="@string/font_normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txt_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/x5"
+                android:drawableLeft="@drawable/kg"
+                android:drawablePadding="@dimen/x5"
+                android:layout_marginEnd="@dimen/x10"
+                android:hint="00 KG"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_normal" />
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:id="@+id/txt_height"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/x5"
+                android:drawableLeft="@drawable/height"
+                android:drawablePadding="@dimen/x5"
+                android:hint="00 ln"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/x12"
+                app:typeface="@string/font_normal" />
+
+
+        </LinearLayout>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/txtMyClasses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
-            android:text="@string/my_gyms"
+            android:text="@string/my_classes"
             android:textColor="@color/app_blue"
             android:layout_marginBottom="@dimen/x10"
             android:textSize="@dimen/x16"
-            app:typeface="@string/font_normal" />
+            app:typeface="@string/font_normal"
+            />
 
         <com.ingic.tanfit.ui.views.CustomRecyclerView
             android:id="@+id/rv_gyms"

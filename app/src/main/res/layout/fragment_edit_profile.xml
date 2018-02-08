@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/x15">
+
+        <RelativeLayout
+            android:id="@+id/ll_ProfileImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/CircularImageSharePop1"
+                android:layout_width="@dimen/x120"
+                android:layout_height="@dimen/x120"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@drawable/gray_rect"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/x113"
+                android:layout_height="@dimen/x113"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/com_facebook_profile_picture_blank_square"/>
+
+
+            <ImageView
+                android:id="@+id/btn_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_profile"
+                android:layout_alignEnd="@+id/img_profile"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="@dimen/x5"
+                android:src="@drawable/camera_circle"
+                tools:ignore="ContentDescription"/>
+
+
+        </RelativeLayout>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/full_name"
+            android:textColor="@color/app_font_blue"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyEditTextView
+            android:id="@+id/edt_fullname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
+            android:layout_marginStart="@dimen/x2"
+            android:background="@drawable/boxsignup1"
+            android:hint="@string/full_name"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:paddingStart="@dimen/x10"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/gender"
+            android:textColor="@color/app_font_blue"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/edt_gender"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginStart="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center_vertical"
+            android:background="@drawable/boxsignup1"
+            android:hint="@string/gender"
+            android:imeOptions="actionNext"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:paddingStart="@dimen/x10"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/email"
+            android:textColor="@color/app_font_blue"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/edt_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginStart="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center_vertical"
+            android:background="@drawable/boxsignup1"
+            android:hint="@string/email_address"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:paddingStart="@dimen/x10"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/phone_number"
+            android:textColor="@color/app_font_blue"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:id="@+id/edt_phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginStart="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center_vertical"
+            android:background="@drawable/boxsignup1"
+            android:hint="@string/phone_number"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:paddingStart="@dimen/x10"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/emergency_contact_number"
+            android:textColor="@color/app_font_blue"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <com.ingic.tanfit.ui.views.AnyEditTextView
+            android:id="@+id/edt_mobile_number"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginTop="@dimen/x10"
+            android:layout_marginStart="@dimen/x2"
+            android:background="@drawable/boxsignup1"
+            android:hint="@string/emergency_contact_number"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:paddingStart="@dimen/x10"
+            android:textSize="@dimen/x14"
+            app:typeface="@string/font_normal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/x5"
+                android:orientation="vertical">
+
+            <com.ingic.tanfit.ui.views.AnyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:text="@string/height"
+                android:textColor="@color/app_font_blue"
+                android:textSize="@dimen/x14"
+                app:typeface="@string/font_normal"/>
+
+            <com.ingic.tanfit.ui.views.AnyEditTextView
+                android:id="@+id/edt_height"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:layout_marginEnd="@dimen/x2"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginStart="@dimen/x2"
+                android:background="@drawable/boxsignup1"
+                android:hint="@string/height"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:paddingStart="@dimen/x10"
+                android:textSize="@dimen/x14"
+                app:typeface="@string/font_normal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/x5"
+                android:orientation="vertical">
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:text="@string/weight"
+                    android:textColor="@color/app_font_blue"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+
+                <com.ingic.tanfit.ui.views.AnyEditTextView
+                    android:id="@+id/edt_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x40"
+                    android:layout_marginEnd="@dimen/x2"
+                    android:layout_marginTop="@dimen/x10"
+                    android:layout_marginStart="@dimen/x2"
+                    android:background="@drawable/boxsignup1"
+                    android:hint="@string/weight"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/x10"
+                    android:textSize="@dimen/x14"
+                    app:typeface="@string/font_normal"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x2"
+            android:layout_marginStart="@dimen/x2"
+            android:layout_marginTop="@dimen/x20"
+            android:layout_marginBottom="@dimen/x10"
+            android:background="@drawable/rounded_button"
+            android:text="@string/update"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            />
+
+
+
+
+    </LinearLayout>
+</ScrollView>

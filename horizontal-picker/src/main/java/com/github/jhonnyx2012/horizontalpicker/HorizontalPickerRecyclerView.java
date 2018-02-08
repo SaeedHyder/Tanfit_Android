@@ -67,12 +67,15 @@ public class HorizontalPickerRecyclerView extends RecyclerView implements OnItem
                 case RecyclerView.SCROLL_STATE_IDLE:
                     listener.onStopDraggingPicker();
                     int position = (int) ((computeHorizontalScrollOffset()/itemWidth)+3.5);
-                    if(position!=-1&&position!=lastPosition)
+                    lastPosition=1;
+                    position=0;
+                    if(position!=-1)
                     {
                         selectItem(true,position);
                         selectItem(false,lastPosition);
                         lastPosition=position;
                     }
+
                     break;
                 case SCROLL_STATE_DRAGGING:
                     listener.onDraggingPicker();

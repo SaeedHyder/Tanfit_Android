@@ -14,6 +14,7 @@
             android:id="@+id/datePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             />
         <ListView
             android:id="@+id/lv_fitnessClasses"
@@ -26,7 +27,7 @@
     <com.ingic.tanfit.ui.views.AnyTextView
         android:id="@+id/txt_noresult"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:paddingBottom="@dimen/x5"
         android:paddingLeft="@dimen/x8"

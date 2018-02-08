@@ -48,11 +48,7 @@ public class TermsandConditionsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        txtTermCondition.setText(
-                getString(R.string.long_lorem_ipsum) +
-                getString(R.string.long_lorem_ipsum) +
-                getString(R.string.long_lorem_ipsum) +
-                getString(R.string.long_lorem_ipsum));
+        txtTermCondition.setText(prefHelper.getAppDefaultSetting().getTermsAndConditionsEng());
     }
 
     @Override
