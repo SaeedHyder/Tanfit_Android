@@ -20,9 +20,12 @@ public class FitnessClassSelectedDay {
     @SerializedName("DayId")
     @Expose
     private Integer dayId;
-    @SerializedName("DayName")
+    @SerializedName("DayName_En")
     @Expose
-    private String dayName;
+    private String dayNameEn;
+    @SerializedName("DayName_Pr")
+    @Expose
+    private String dayNamePr;
     @SerializedName("GenderId")
     @Expose
     private Integer genderId;
@@ -32,6 +35,22 @@ public class FitnessClassSelectedDay {
     @SerializedName("IsDeleted")
     @Expose
     private Boolean isDeleted;
+
+    public String getDayNameEn() {
+        return dayNameEn;
+    }
+
+    public void setDayNameEn(String dayNameEn) {
+        this.dayNameEn = dayNameEn;
+    }
+
+    public String getDayNamePr() {
+        return dayNamePr;
+    }
+
+    public void setDayNamePr(String dayNamePr) {
+        this.dayNamePr = dayNamePr;
+    }
 
     public Boolean getDeleted() {
         return isDeleted;
@@ -65,13 +84,6 @@ public class FitnessClassSelectedDay {
         this.dayId = dayId;
     }
 
-    public String getDayName() {
-        return dayName;
-    }
-
-    public void setDayName(String dayName) {
-        this.dayName = dayName;
-    }
 
     public Integer getGenderId() {
         return genderId;

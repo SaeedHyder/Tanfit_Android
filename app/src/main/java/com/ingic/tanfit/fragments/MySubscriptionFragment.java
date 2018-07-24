@@ -87,13 +87,25 @@ public class MySubscriptionFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         userSubscription = prefHelper.getUserAllData().getUserSubscription().get(positionItem);
 
+        if(prefHelper.isLanguagePersian()){
+            txtSubscriptionPackage.setText(userSubscription.getSubscriptionTypePr() + "");
+        }else{
+            txtSubscriptionPackage.setText(userSubscription.getSubscriptionType() + "");
+        }
 
-        txtSubscriptionPackage.setText(userSubscription.getSubscriptionType() + "");
+
+
         if (userSubscription.getIsPaused()) {
             txtDaysLeft.setVisibility(View.VISIBLE);
-            txtDaysLeft.setText("You stil have " + userSubscription.getTotalRemainingDays() + " more days left once you resume");
+            txtDaysLeft.setText( getDockActivity().getResources().getString(R.string.you_still_have)+" " + userSubscription.getTotalRemainingDays() +" "+ getDockActivity().getResources().getString(R.string.more_days_left));
         } else {
             txtDaysLeft.setVisibility(View.GONE);
         }
@@ -107,14 +119,10 @@ public class MySubscriptionFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.my_subscriptions));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.my_subscriptions));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 
 
     @OnClick({R.id.btn_pause, R.id.btn_visit_website})
@@ -124,7 +132,7 @@ public class MySubscriptionFragment extends BaseFragment {
                 if (!userSubscription.getIsPaused()) {
                     if (isValidate()) {
                         final DialogHelper dialogHelper = new DialogHelper(getDockActivity());
-                        dialogHelper.subcriptionDialoge(R.layout.pause_subscription_dialoge, getString(R.string.pauseSubscription), getString(R.string.are_you_sure_you_want_to_pause_subcription), new View.OnClickListener() {
+                        dialogHelper.subcriptionDialoge(R.layout.pause_subscription_dialoge, getDockActivity().getResources().getString(R.string.pauseSubscription), getDockActivity().getResources().getString(R.string.are_you_sure_you_want_to_pause_subcription), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 // btnPause.setText(R.string.resume);
@@ -142,13 +150,13 @@ public class MySubscriptionFragment extends BaseFragment {
                         dialogHelper.showDialog();
                     }
                 } else {
-                    UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.paused_subscrition));
+                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.paused_subscrition));
                 }
 
                 break;
             case R.id.btn_visit_website:
                 final DialogHelper cancel = new DialogHelper(getDockActivity());
-                cancel.subcriptionDialoge(R.layout.pause_subscription_dialoge, getString(R.string.cancel_subscription), getString(R.string.are_you_sure_you_want_to_cancel_subcription), new View.OnClickListener() {
+                cancel.subcriptionDialoge(R.layout.pause_subscription_dialoge, getDockActivity().getResources().getString(R.string.cancel_subscription), getDockActivity().getResources().getString(R.string.are_you_sure_you_want_to_cancel_subcription), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -175,7 +183,7 @@ public class MySubscriptionFragment extends BaseFragment {
             if (editDays.requestFocus()) {
                 setEditTextFocus(editDays);
             }
-            UIHelper.showShortToastInCenter(getDockActivity(),"Enter days field");
+            UIHelper.showShortToastInCenter(getDockActivity(),getDockActivity().getResources().getString(R.string.enter_days_filed));
             return false;
         } else {
             return true;
@@ -191,14 +199,14 @@ public class MySubscriptionFragment extends BaseFragment {
                 UserAllDataEnt isPuased = prefHelper.getUserAllData();
                 isPuased.getUserSubscription().get(0).setIsPaused(true);
                 prefHelper.putUserAllData(isPuased);
-                UIHelper.showShortToastInCenter(getDockActivity(), "Subscription paused successfully");
+                UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.subscription_paused_successfully));
                 getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
                 // UIHelper.showShortToastInCenter(getDockActivity(), message);
                 //   editDays.setVisibility(View.INVISIBLE);
                 break;
 
             case WebServiceConstants.cancelSubScription:
-                UIHelper.showShortToastInCenter(getDockActivity(), "Subscription cancelled successfully");
+                UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.subscription_cancelled_successfully));
                 getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
                 //   editDays.setVisibility(View.INVISIBLE);
                 break;

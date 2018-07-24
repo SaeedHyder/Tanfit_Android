@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+
         android:padding="@dimen/x15">
 
         <RelativeLayout
@@ -69,12 +70,15 @@
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginTop="@dimen/x10"
             android:layout_marginStart="@dimen/x2"
+            android:gravity="start|center_vertical"
             android:background="@drawable/boxsignup1"
             android:hint="@string/full_name"
+            android:textAlignment="viewStart"
             android:imeOptions="actionNext"
             android:inputType="textCapWords"
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
             android:textSize="@dimen/x14"
             app:typeface="@string/font_normal"/>
 
@@ -95,13 +99,15 @@
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginStart="@dimen/x2"
             android:layout_marginTop="@dimen/x10"
-            android:gravity="center_vertical"
+            android:gravity="start|center_vertical"
             android:background="@drawable/boxsignup1"
             android:hint="@string/gender"
+            android:textAlignment="viewStart"
             android:imeOptions="actionNext"
             android:maxLength="25"
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
             android:textSize="@dimen/x14"
             app:typeface="@string/font_normal"/>
 
@@ -121,14 +127,16 @@
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginStart="@dimen/x2"
             android:layout_marginTop="@dimen/x10"
-            android:gravity="center_vertical"
+            android:gravity="start|center_vertical"
             android:background="@drawable/boxsignup1"
             android:hint="@string/email_address"
+            android:textAlignment="viewStart"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:maxLength="25"
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
             android:textSize="@dimen/x14"
             app:typeface="@string/font_normal"/>
 
@@ -148,14 +156,17 @@
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginStart="@dimen/x2"
             android:layout_marginTop="@dimen/x10"
-            android:gravity="center_vertical"
+            android:gravity="start|center_vertical"
             android:background="@drawable/boxsignup1"
             android:hint="@string/phone_number"
+            android:textAlignment="viewStart"
             android:imeOptions="actionNext"
             android:inputType="phone"
             android:maxLength="25"
+
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
             android:textSize="@dimen/x14"
             app:typeface="@string/font_normal"/>
 
@@ -176,12 +187,16 @@
             android:layout_marginTop="@dimen/x10"
             android:layout_marginStart="@dimen/x2"
             android:background="@drawable/boxsignup1"
+            android:gravity="start|center_vertical"
             android:hint="@string/emergency_contact_number"
             android:imeOptions="actionNext"
+            android:textAlignment="viewStart"
             android:inputType="phone"
+            android:selectAllOnFocus="false"
             android:maxLength="30"
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
+            android:paddingEnd="@dimen/x10"
             android:textSize="@dimen/x14"
             app:typeface="@string/font_normal"/>
 
@@ -214,12 +229,16 @@
                 android:layout_marginTop="@dimen/x10"
                 android:layout_marginStart="@dimen/x2"
                 android:background="@drawable/boxsignup1"
+                android:gravity="start|center_vertical"
+                android:selectAllOnFocus="false"
                 android:hint="@string/height"
+                android:textAlignment="viewStart"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLength="3"
                 android:maxLines="1"
                 android:paddingStart="@dimen/x10"
+                android:paddingEnd="@dimen/x10"
                 android:textSize="@dimen/x14"
                 app:typeface="@string/font_normal"/>
 
@@ -250,11 +269,15 @@
                     android:layout_marginStart="@dimen/x2"
                     android:background="@drawable/boxsignup1"
                     android:hint="@string/weight"
+                    android:textAlignment="viewStart"
+                    android:selectAllOnFocus="false"
                     android:imeOptions="actionDone"
+                    android:gravity="start|center_vertical"
                     android:inputType="number"
                     android:maxLength="3"
                     android:maxLines="1"
                     android:paddingStart="@dimen/x10"
+                    android:paddingEnd="@dimen/x10"
                     android:textSize="@dimen/x14"
                     app:typeface="@string/font_normal"/>
 

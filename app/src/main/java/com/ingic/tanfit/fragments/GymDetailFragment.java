@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.ingic.tanfit.R;
@@ -35,6 +36,7 @@ import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.ExpandableGridView;
 import com.ingic.tanfit.ui.views.TitleBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,8 +64,7 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     Unbinder unbinder;
     @BindView(R.id.gv_gym)
     ExpandableGridView gvGym;
-    @BindView(R.id.gv_yoga)
-    ExpandableGridView gvYoga;
+
     @BindView(R.id.rv_gallery)
     CustomRecyclerView rvGallery;
     @BindView(R.id.btn_group)
@@ -76,6 +77,10 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     Button btnPersonal;
     @BindView(R.id.elv_features)
     CustomExpandableListView elvFeatures;
+    @BindView(R.id.ll_gallery)
+    LinearLayout llGallery;
+    @BindView(R.id.ll_mainframe)
+    LinearLayout llMainframe;
     private ArrayListAdapter<StudioFeature> adaptergym;
     private ArrayList<StudioFeature> userCollectiongym = new ArrayList<>();
     private ArrayListAdapter<StudioFeature> adapteryoga;
@@ -90,6 +95,7 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
 
     private static String StudioEnt = "studioEnt";
     private static String StudioIdKey = "StudioId";
+    private static String tagKey = "tagKey";
     private int StudioId;
     private String jsonString;
     private Studio enitity;
@@ -130,17 +136,24 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
         if (getArguments() != null) {
             jsonString = getArguments().getString(StudioEnt);
             StudioId = getArguments().getInt(StudioIdKey);
+
         }
         if (jsonString != null) {
             enitity = new Gson().fromJson(jsonString, Studio.class);
         }
 
-        if (enitity == null) {
+       /* if (enitity == null && prefHelper.getNearestStuidos().getStudios().size() > 0) {
             for (Studio item : prefHelper.getNearestStuidos().getStudios()) {
                 if (item.getId() == StudioId) {
                     enitity = item;
                 }
             }
+        }*/
+        if (enitity != null) {
+            serviceHelper.enqueueCall(headerWebService.getStudio(enitity.getId() + ""), WebServiceConstants.StudioDetail);
+        } else {
+            serviceHelper.enqueueCall(headerWebService.getStudio(StudioId + ""), WebServiceConstants.StudioDetail);
+
 
         }
     }
@@ -156,27 +169,40 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        serviceHelper.enqueueCall(headerWebService.isFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId()), WebServiceConstants.isFavoriteStudio);
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
 
-        prefHelper.setIsFromStudio(true);
+        if (getTitleBar() != null) {
+            getTitleBar().hideHeartButton();
+        }
 
-        setStudioData();
-        setFeatureList();
+        llMainframe.setVisibility(View.GONE);
 
-        setyogaData();
-        setgymData();
-        setRecyclerViewData();
+        if (enitity != null) {
+        //    serviceHelper.enqueueCall(headerWebService.isFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId()), WebServiceConstants.isFavoriteStudio);
+
+            prefHelper.setIsFromStudio(true);
+
+        }
 
     }
 
     private void setFeatureList() {
 
         featuresList = new ArrayList<>();
-        featuresList.add(new GymDetailListEnt("Gym", enitity.getStudioFeatures()));
+        featuresList.add(new GymDetailListEnt(getDockActivity().getResources().getString(R.string.gym), enitity.getStudioFeatures()));
 
         if (enitity.getFitnessClasses().size() > 0) {
             for (int i = 0; i < enitity.getFitnessClasses().size(); i++) {
-                featuresList.add(new GymDetailListEnt(enitity.getFitnessClasses().get(i).getClassNameEng(), enitity.getFitnessClasses().get(i).getFitnessClassFeatures()));
+                if (prefHelper.isLanguagePersian()) {
+                    featuresList.add(new GymDetailListEnt(enitity.getFitnessClasses().get(i).getClassNamePer(), enitity.getFitnessClasses().get(i).getFitnessClassFeatures()));
+                } else {
+                    featuresList.add(new GymDetailListEnt(enitity.getFitnessClasses().get(i).getClassNameEng(), enitity.getFitnessClasses().get(i).getFitnessClassFeatures()));
+                }
+
             }
         }
 
@@ -204,24 +230,6 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
             childArrayCollection = new ArrayList<>();
 
         }
-      /*  collectionGroup.add("Gym");
-        collectionGroup.add("Yoga");
-      *//*  collectionGroup.add("Wednesday");
-        collectionGroup.add("Thursday");
-        collectionGroup.add("Friday");
-        collectionGroup.add("Saturday");*//*
-        collectionChild.addAll(enitity.getStudioFeatures());
-
-      *//*  collectionChild.add(new TimingEnt("8 am to 12 pm ", "12 am to 4 pm"));
-        collectionChild.add(new TimingEnt("4 pm to 8 pm ", "8 pm to 9 pm"));
-        collectionChild.add(new TimingEnt("4 am to 12 pm ", "12 am to 4 pm"));*//*
-        sa.add(collectionChild);
-        listDataChild.put(collectionGroup.get(0), sa);
-        listDataChild.put(collectionGroup.get(1), sa);*/
-        //  listDataChild.put(collectionGroup.get(2), sa);
-        //  listDataChild.put(collectionGroup.get(3), sa);
-        //   listDataChild.put(collectionGroup.get(4), sa);
-        // listDataChild.put(collectionGroup.get(5), sa);
 
 
         adapter = new ArrayListExpandableAdapter<String, ArrayList<StudioFeature>>(getActivity(), collectionGroup,
@@ -243,9 +251,21 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
 
 
     private void setStudioData() {
-        imageLoader.displayImage(enitity.getStudioLogo(), ivProfileImage);
-        txtTitle.setText(enitity.getStudioNameEng() + "");
-        txtAddress.setText(enitity.getAddressEng() + "");
+
+        Picasso.with(getDockActivity())
+                .load(enitity.getStudioLogo())
+                .placeholder(R.drawable.placeholder3)
+                .into(ivProfileImage);
+
+        if (prefHelper.isLanguagePersian()) {
+            txtTitle.setText(enitity.getStudioNamePer() + "");
+            txtAddress.setText(enitity.getAddressPer() + "");
+        } else {
+            txtTitle.setText(enitity.getStudioNameEng() + "");
+            txtAddress.setText(enitity.getAddressEng() + "");
+        }
+
+
     }
 
     private void setgymData() {
@@ -254,49 +274,28 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
 
         userCollectiongym.addAll(enitity.getStudioFeatures());
 
-   /*     userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.treadmil, getDockActivity().getResources().getString(R.string.treadmil)));
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music, getDockActivity().getResources().getString(R.string.music)));
-        userCollectiongym.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));
-*/
-
         adaptergym.clearList();
         adaptergym.addAll(userCollectiongym);
         gvGym.setAdapter(adaptergym);
-        adaptergym.notifyDataSetChanged();
-    }
-
-    private void setyogaData() {
-
-        userCollectionyoga = new ArrayList<>();
-
-     /*   userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.changing_room, getDockActivity().getResources().getString(R.string.changing_room)));
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.steam_room, getString(R.string.steamroom)));
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.music,getString(R.string.music)));
-        userCollectionyoga.add(new SpecialFeatureEnt(AppConstants.DRAWABLE_PATH + R.drawable.trainer, getDockActivity().getResources().getString(R.string.trainer)));*/
-
-
-        adapteryoga.clearList();
-        adapteryoga.addAll(userCollectionyoga);
-        gvYoga.setAdapter(adapteryoga);
-        adapteryoga.notifyDataSetChanged();
 
     }
+
 
     private void setRecyclerViewData() {
 
         userCollectionsGallery = new ArrayList<>();
         userCollectionsGallery.addAll(enitity.getStudioImages());
 
-       /* userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_8,R.drawable.gym_image_8));
-        userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_9,R.drawable.gym_image_9));
-        userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_10,R.drawable.gym_image_10));
-        userCollectionsGallery.add(new SliderDialogEnt(AppConstants.DRAWABLE_PATH+R.drawable.gym_image_11,R.drawable.gym_image_11));*/
+        if (userCollectionsGallery.size() > 0) {
+            llGallery.setVisibility(View.VISIBLE);
 
 
-        rvGallery.BindRecyclerView(new GymGalleryItemBinder(this), userCollectionsGallery,
-                new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
-                , new DefaultItemAnimator());
+            rvGallery.BindRecyclerView(new GymGalleryItemBinder(this), userCollectionsGallery,
+                    new LinearLayoutManager(getDockActivity(), LinearLayoutManager.HORIZONTAL, false)
+                    , new DefaultItemAnimator());
+        } else {
+            llGallery.setVisibility(View.GONE);
+        }
 
     }
 
@@ -321,7 +320,7 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
                 if (enitity.getFitnessClasses().size() > 0) {
                     getDockActivity().addAndShowDialogFragment(GymDetailTimingFragment.newInstance(enitity));
                 } else
-                    UIHelper.showShortToastInCenter(getDockActivity(), getResources().getString(R.string.no_class_found));
+                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.no_class_found));
                 break;
             case R.id.btn_subscribe:
                 getDockActivity().popBackStackTillEntry(0);
@@ -329,7 +328,7 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
                 mainFragment.setStartWithTab(AppConstants.TAB_SUBSCRIBE);
                 getDockActivity().replaceDockableFragment(mainFragment);
                 break;
-            case R.id.btn_group:
+         /*   case R.id.btn_group:
                 willbeimplementedinBeta();
                 break;
             case R.id.btn_express:
@@ -340,7 +339,7 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
                 break;
             case R.id.btn_personal:
                 willbeimplementedinBeta();
-                break;
+                break;*/
         }
     }
 
@@ -351,16 +350,47 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
 
             case WebServiceConstants.isFavoriteStudio:
 
-                if (((IsFavoriteEnt) result).isFavorite()) {
-                    getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(true);
-                } else {
-                    getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(false);
+                if (getTitleBar() != null) {
+                    getTitleBar().showHeartButton(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            serviceHelper.enqueueCall(headerWebService.addFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteStudio);
+
+                        }
+                    });
+                    if (((IsFavoriteEnt) result).isFavorite()) {
+                        getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(true);
+                    } else {
+                        getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(false);
+                    }
                 }
                 break;
 
-            case WebServiceConstants.addFavoriteClass:
+            case WebServiceConstants.addFavoriteStudio:
+                //   UIHelper.showShortToastInCenter(getDockActivity(), message);
 
                 break;
+
+            case WebServiceConstants.StudioDetail:
+
+                enitity = (Studio) result;
+
+                serviceHelper.enqueueCall(headerWebService.isFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId()), WebServiceConstants.isFavoriteStudio);
+
+                llMainframe.setVisibility(View.VISIBLE);
+                setStudioData();
+
+                if (isAdded()) {
+                    setFeatureList();
+                }
+
+                //setyogaData();
+                setgymData();
+                setRecyclerViewData();
+
+
+                break;
+
 
         }
     }
@@ -371,12 +401,8 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
         titleBar.hideButtons();
         titleBar.showBackButton();
         titleBar.setSubHeading("");
-        titleBar.showHeartButton(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                serviceHelper.enqueueCall(headerWebService.addFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteStudio);
 
-            }
-        });
     }
+
+
 }

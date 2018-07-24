@@ -8,14 +8,12 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.ingic.tanfit.R;
-import com.ingic.tanfit.helpers.UIHelper;
-import com.ingic.tanfit.ui.adapters.AutoCompleteAdapter;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -24,6 +22,10 @@ import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.ingic.tanfit.R;
+import com.ingic.tanfit.helpers.BasePreferenceHelper;
+import com.ingic.tanfit.helpers.UIHelper;
+import com.ingic.tanfit.ui.adapters.AutoCompleteAdapter;
 
 
 public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAutoCompleteTextView {
@@ -32,6 +34,7 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
     private GoogleApiClient mGoogleApiClient;
     private AutoCompleteAdapter mAutoCompleteAdapter;
     private AutoCompleteLocationListener mAutoCompleteLocationListener;
+    private BasePreferenceHelper prefHelper;
 
     public interface AutoCompleteLocationListener {
         void onTextClear();
@@ -62,12 +65,14 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
 
         setBackground(background);
         setHint(hintText);
-       // setHintTextColor(hintTextColor);
+        setGravity(Gravity.LEFT);
+        // setHintTextColor(hintTextColor);
         setTextColor(textColor);
         setPadding(padding, padding, padding, padding);
         setMaxLines(resources.getInteger(R.integer.default_max_lines));
 
         mCloseIcon = context.getResources().getDrawable(R.drawable.ic_close);
+
         mGoogleApiClient = new GoogleApiClient.Builder(context).addApi(Places.GEO_DATA_API)
                 .addApi(AppIndex.API)
                 .build();
@@ -100,13 +105,16 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
             this.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         } else {
             this.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                    AutoCompleteLocation.this.getText().toString().equals("") ? null : mCloseIcon, null);
+                        AutoCompleteLocation.this.getText().toString().equals("") ? null : mCloseIcon, null);
+
+
         }
     }
 
     public void setAutoCompleteTextListener(
-            AutoCompleteLocationListener autoCompleteLocationListener) {
+            AutoCompleteLocationListener autoCompleteLocationListener, BasePreferenceHelper prefHelper) {
         mAutoCompleteLocationListener = autoCompleteLocationListener;
+        this.prefHelper = prefHelper;
     }
 
     private TextWatcher mAutoCompleteTextWatcher = new TextWatcher() {
@@ -116,6 +124,7 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             AutoCompleteLocation.this.setCompoundDrawablesWithIntrinsicBounds(null, null,
                     AutoCompleteLocation.this.getText().toString().equals("") ? null : mCloseIcon, null);
             if (mAutoCompleteLocationListener != null) {
@@ -128,19 +137,18 @@ public class AutoCompleteLocation extends android.support.v7.widget.AppCompatAut
         }
     };
 
+
     private OnTouchListener mOnTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getX()
-                    > AutoCompleteLocation.this.getWidth()
-                    - AutoCompleteLocation.this.getPaddingRight()
-                    - mCloseIcon.getIntrinsicWidth()) {
+            if (motionEvent.getX() > AutoCompleteLocation.this.getWidth() - AutoCompleteLocation.this.getPaddingEnd()- mCloseIcon.getIntrinsicWidth()) {
                 AutoCompleteLocation.this.setText("");
                 AutoCompleteLocation.this.setCompoundDrawables(null, null, null, null);
             }
             return false;
         }
     };
+
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener =
             new AdapterView.OnItemClickListener() {

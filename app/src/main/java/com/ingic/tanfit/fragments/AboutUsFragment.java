@@ -50,7 +50,12 @@ public class AboutUsFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        txtAboutUs.setText(prefHelper.getAppDefaultSetting().getAboutUsEng()+"");
+        if(prefHelper.isLanguagePersian()){
+            txtAboutUs.setText(prefHelper.getAppDefaultSetting().getAboutUsPer()+"");
+        }else{
+            txtAboutUs.setText(prefHelper.getAppDefaultSetting().getAboutUsEng()+"");
+        }
+
     }
 
     @Override
@@ -58,7 +63,7 @@ public class AboutUsFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.about));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.about));
     }
 
     @Override

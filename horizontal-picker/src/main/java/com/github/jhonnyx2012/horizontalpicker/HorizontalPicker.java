@@ -1,13 +1,18 @@
 package com.github.jhonnyx2012.horizontalpicker;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
+
+import java.util.Locale;
 
 /**
  * Created by Jhonny Barrios on 22/02/2017.
@@ -24,6 +29,7 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
     private HorizontalPickerRecyclerView rvDays;
     private int days;
     private int offset;
+
 
     public HorizontalPicker(Context context) {
         super(context);
@@ -61,6 +67,8 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
             }
         });
     }
+
+
 
 
     public void init() {
@@ -121,5 +129,24 @@ public class HorizontalPicker extends LinearLayout implements HorizontalPickerLi
 
     public int getOffset() {
         return offset;
+    }
+
+
+    public void setPreference(String lang) {
+        if (lang.equals("fa")) {
+            Resources resources = getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            Configuration conf = resources.getConfiguration();
+            conf.locale = new Locale("fa");
+            resources.updateConfiguration(conf, dm);
+
+        } else {
+            Resources resources = getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            Configuration conf = resources.getConfiguration();
+            conf.locale = new Locale("en");
+            resources.updateConfiguration(conf, dm);
+
+        }
     }
 }

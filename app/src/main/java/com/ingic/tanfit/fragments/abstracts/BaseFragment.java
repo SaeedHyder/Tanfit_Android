@@ -201,7 +201,7 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
     protected DockActivity getDockActivity() {
 
 		/*DockActivity activity = (DockActivity) getActivity();
-		while ( activity == null ) {
+        while ( activity == null ) {
 			activity = (DockActivity) getActivity();
 			try {
 				Thread.sleep( 50 );
@@ -218,7 +218,11 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
     }
 
     protected TitleBar getTitleBar() {
-        return getMainActivity().titleBar;
+        if (getMainActivity() != null) {
+            return getMainActivity().titleBar;
+        } else {
+            return null;
+        }
     }
 
     /**

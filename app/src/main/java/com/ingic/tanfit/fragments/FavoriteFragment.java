@@ -105,8 +105,8 @@ public class FavoriteFragment extends BaseFragment {
             adapter.clearList();
         }
 
-        adapter.addFragment(new FitnessClassesFragment(), getString(R.string.fitness_classes));
-        adapter.addFragment(new StudiosFragment(), getString(R.string.studios));
+        adapter.addFragment(new FitnessClassesFragment(), getDockActivity().getResources().getString(R.string.fitness_classes));
+        adapter.addFragment(new StudiosFragment(), getDockActivity().getResources().getString(R.string.studios));
         pager.setAdapter(adapter);
         pager.getAdapter().notifyDataSetChanged();
         tabLayout.setupWithViewPager(pager);
@@ -117,12 +117,8 @@ public class FavoriteFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.favorite));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.favorite));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 }

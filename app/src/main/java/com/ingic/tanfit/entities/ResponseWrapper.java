@@ -2,18 +2,27 @@ package com.ingic.tanfit.entities;
 
 public class ResponseWrapper<T> {
 
-    private String Message;
+    private String MessageEN;
+    private String MessagePR;
     private String Response;
     private T Result;
     private boolean IsServerError;
     private boolean IsSuccess;
 
-    public String getMessage() {
-        return Message;
+    public String getMessageEN() {
+        return MessageEN;
     }
 
-    public void setMessage(String message) {
-        Message = message;
+    public void setMessageEN(String messageEN) {
+        MessageEN = messageEN;
+    }
+
+    public String getMessagePR() {
+        return MessagePR;
+    }
+
+    public void setMessagePR(String messagePR) {
+        MessagePR = messagePR;
     }
 
     public String getResponse() {

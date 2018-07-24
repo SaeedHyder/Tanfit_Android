@@ -278,7 +278,7 @@ public class GymDetailTimingFragment extends DialogFragment implements RecyclerV
         for (int i = 0; i < fitnessClassess.getFitnessClassSelectedDays().size(); i++) {
             int genderId = fitnessClassess.getFitnessClassSelectedDays().get(i).getGenderId();
             int dayId = fitnessClassess.getFitnessClassSelectedDays().get(i).getDayId();
-            String dayName = fitnessClassess.getFitnessClassSelectedDays().get(i).getDayName();
+            String dayName = fitnessClassess.getFitnessClassSelectedDays().get(i).getDayNameEn();
             ArrayList<FitnessClassTime> data = fitnessClassess.getFitnessClassSelectedDays().get(i).getFitnessClassTimes();
 
             GymTimingDialogeEnt gymTimingObject = new GymTimingDialogeEnt();

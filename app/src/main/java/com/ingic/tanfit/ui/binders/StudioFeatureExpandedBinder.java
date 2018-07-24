@@ -80,7 +80,7 @@ public class StudioFeatureExpandedBinder extends ExpandableListViewBinder<String
         adapter.clearList();
         adapter.addAll(userCollection);
         childViewholder.gvGym.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
     }
 
 

@@ -4,13 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@color/white">
 
     <com.ingic.tanfit.ui.views.AnyTextView
         android:id="@+id/txt_deleteAccount"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|start"
         android:paddingStart="@dimen/x10"
         android:text="@string/delete_account"
         android:textSize="@dimen/x15"
@@ -31,7 +32,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|start"
+            android:layout_gravity="start"
             android:paddingStart="@dimen/x10"
             android:text="@string/notifications_settings"
             android:textSize="@dimen/x15"
@@ -42,9 +44,9 @@
             android:id="@+id/toggleNotification"
             android:layout_width="@dimen/x40"
             android:layout_height="@dimen/x25"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|end"
             android:layout_marginStart="@dimen/x10"
-            android:layout_marginEnd="@dimen/x10"
+            android:layout_marginEnd="@dimen/x15"
             android:background="@drawable/selector_toggle"
             android:checked="true"
             android:text=""
@@ -66,7 +68,7 @@
         <com.ingic.tanfit.ui.views.AnyTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|start"
             android:paddingStart="@dimen/x10"
             android:text="@string/language"
             android:textSize="@dimen/x15"
@@ -76,8 +78,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-          android:layout_gravity="right"
-            android:gravity="right"
+          android:layout_gravity="end"
+            android:gravity="end"
             android:orientation="horizontal">
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -105,7 +107,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/x10"
-            android:paddingEnd="@dimen/x10"
+            android:paddingEnd="@dimen/x15"
             android:text="@string/persian"
             android:textSize="@dimen/x15"
             android:textColor="@color/app_text_gray"

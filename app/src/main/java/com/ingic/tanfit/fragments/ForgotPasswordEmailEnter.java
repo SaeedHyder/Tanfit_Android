@@ -56,12 +56,18 @@ public class ForgotPasswordEmailEnter extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
     }
 
     private boolean isValidated() {
         if (edtEmail.getText() == null || (edtEmail.getText().toString().isEmpty()) ||
                 !(Patterns.EMAIL_ADDRESS.matcher(edtEmail.getText().toString()).matches())) {
-            edtEmail.setError(getString(R.string.enter_valid_email));
+            edtEmail.setError(getDockActivity().getResources().getString(R.string.enter_valid_email));
             return false;
         } else {
             return true;
@@ -72,7 +78,7 @@ public class ForgotPasswordEmailEnter extends BaseFragment {
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
-        titleBar.setSubHeading(getString(R.string.forgot_password));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.forgot_password));
         titleBar.showBackButton();
     }
 

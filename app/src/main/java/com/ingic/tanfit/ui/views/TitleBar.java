@@ -116,6 +116,12 @@ public class TitleBar extends RelativeLayout {
 
 	}
 
+	public void hideHeartButton() {
+
+		cb_heart.setVisibility(View.GONE);
+
+	}
+
 	public CheckBox getHearCheckBox(int ResId){
 
 		CheckBox heart=	cb_heart = (CheckBox) findViewById(ResId);

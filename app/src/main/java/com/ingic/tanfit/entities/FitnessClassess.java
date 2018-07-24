@@ -11,30 +11,39 @@ import java.util.ArrayList;
 
 public class FitnessClassess {
 
+
+
+
     @SerializedName("Id")
     @Expose
     private Integer id;
     @SerializedName("StudioId")
     @Expose
     private Integer studioId;
-    @SerializedName("ClassDurationMin")
+    @SerializedName("StudioNameEng")
     @Expose
-    private Integer classDurationMin;
+    private String studioNameEng;
+    @SerializedName("StudioNamePer")
+    @Expose
+    private String studioNamePer;
     @SerializedName("StudioAddressEng")
     @Expose
     private String studioAddressEng;
     @SerializedName("StudioAddressPer")
     @Expose
     private String studioAddressPer;
-    @SerializedName("FitnessClassActivityIcon")
-    @Expose
-    private String fitnessClassActivityIcon;
     @SerializedName("Latitude")
     @Expose
     private Double latitude;
     @SerializedName("Longitude")
     @Expose
     private Double longitude;
+    @SerializedName("ClassDurationMin")
+    @Expose
+    private Integer classDurationMin;
+    @SerializedName("ClassDurationMin_Pr")
+    @Expose
+    private String classDurationMinPr;
     @SerializedName("FromDate")
     @Expose
     private String fromDate;
@@ -53,6 +62,12 @@ public class FitnessClassess {
     @SerializedName("FitnessClassActivity")
     @Expose
     private String fitnessClassActivity;
+    @SerializedName("FitnessClassActivityMaleIcon")
+    @Expose
+    private String fitnessClassActivityMaleIcon;
+    @SerializedName("FitnessClassActivityFemaleIcon")
+    @Expose
+    private String fitnessClassActivityFemaleIcon;
     @SerializedName("IsDeleted")
     @Expose
     private Boolean isDeleted;
@@ -77,6 +92,16 @@ public class FitnessClassess {
     @SerializedName("ClassCancellationDurationHrs")
     @Expose
     private Integer classCancellationDurationHrs;
+    @SerializedName("ClassCancellationDurationHrs_Pr")
+    @Expose
+    private String classCancellationDurationHrsPr;
+    @SerializedName("Activity")
+    @Expose
+    private Activity activity;
+
+    @SerializedName("FitnessClassActivityIcon")
+    @Expose
+    private String fitnessClassActivityIcon;
     @SerializedName("FitnessClassFeatures")
     @Expose
     private ArrayList<StudioFeature> fitnessClassFeatures = new ArrayList<>();
@@ -84,12 +109,45 @@ public class FitnessClassess {
     @Expose
     private ArrayList<FitnessClassSelectedDay> fitnessClassSelectedDays = new ArrayList<>();
 
-    @SerializedName("StudioNameEng")
-    @Expose
-    private String studioNameEng;
-    @SerializedName("StudioNamePer")
-    @Expose
-    private String studioNamePer;
+    public String getClassDurationMinPr() {
+        return classDurationMinPr;
+    }
+
+    public void setClassDurationMinPr(String classDurationMinPr) {
+        this.classDurationMinPr = classDurationMinPr;
+    }
+
+    public String getFitnessClassActivityMaleIcon() {
+        return fitnessClassActivityMaleIcon;
+    }
+
+    public void setFitnessClassActivityMaleIcon(String fitnessClassActivityMaleIcon) {
+        this.fitnessClassActivityMaleIcon = fitnessClassActivityMaleIcon;
+    }
+
+    public String getFitnessClassActivityFemaleIcon() {
+        return fitnessClassActivityFemaleIcon;
+    }
+
+    public void setFitnessClassActivityFemaleIcon(String fitnessClassActivityFemaleIcon) {
+        this.fitnessClassActivityFemaleIcon = fitnessClassActivityFemaleIcon;
+    }
+
+    public String getClassCancellationDurationHrsPr() {
+        return classCancellationDurationHrsPr;
+    }
+
+    public void setClassCancellationDurationHrsPr(String classCancellationDurationHrsPr) {
+        this.classCancellationDurationHrsPr = classCancellationDurationHrsPr;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public String getStudioNameEng() {
         return studioNameEng;

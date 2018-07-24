@@ -7,9 +7,12 @@
             android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_mainframe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants"
+        android:onClick="onClick"
         android:background="@color/gray_background">
 
         <LinearLayout
@@ -27,6 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x5"
                 android:paddingEnd="@dimen/x5"
+                android:layout_gravity="start"
+                android:gravity="start"
                 android:layout_marginBottom="@dimen/x5">
 
 
@@ -43,7 +48,7 @@
                     android:layout_width="@dimen/x30"
                     android:layout_height="@dimen/x30"
                     android:layout_alignParentEnd="true"
-
+                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:src="@drawable/white_circle" />
 
@@ -52,6 +57,7 @@
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
                     android:layout_alignBottom="@+id/dummy_bg"
+                    android:visibility="gone"
                     android:layout_alignEnd="@+id/dummy_bg"
                     android:layout_alignStart="@+id/dummy_bg"
                     android:layout_alignTop="@+id/dummy_bg"
@@ -76,13 +82,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+             >
 
                 <com.ingic.tanfit.ui.views.AnyTextView
                     android:id="@+id/txt_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/max_gym_yoga"
+                    android:gravity="start"
                     android:textColor="@color/white"
                     android:textSize="@dimen/x20"
                     app:typeface="@string/font_normal"/>
@@ -92,6 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt_title"
+                    android:gravity="start"
                     android:text="2487 S Orange Ave,Orlando FL 35806"
                     android:textColor="@color/gym_detail_address_color"
                     android:textSize="@dimen/x10"
@@ -111,7 +120,7 @@
                     android:layout_margin="@dimen/x5"
                     android:layout_weight="1"
                     android:background="@drawable/corner_round_button"
-                    android:text="Group Classes"
+                    android:text="@string/group_classes"
                     android:textAllCaps="false"
                     android:textColor="@color/app_font_black"/>
 
@@ -122,7 +131,7 @@
                     android:layout_margin="@dimen/x5"
                     android:layout_weight="1"
                     android:background="@drawable/corner_round_button"
-                    android:text="Express Circuit"
+                    android:text="@string/express_circuit"
                     android:textAllCaps="false"
                     android:textColor="@color/app_font_black"/>
             </LinearLayout>
@@ -139,7 +148,7 @@
                     android:layout_margin="@dimen/x5"
                     android:layout_weight="1"
                     android:background="@drawable/corner_round_button"
-                    android:text="Fitness Assessment"
+                    android:text="@string/fitness_assessment"
                     android:textAllCaps="false"
                     android:textColor="@color/app_font_black"/>
 
@@ -150,7 +159,7 @@
                     android:layout_margin="@dimen/x5"
                     android:layout_weight="1"
                     android:background="@drawable/corner_round_button"
-                    android:text="Personal Training"
+                    android:text="@string/personal_training"
                     android:textAllCaps="false"
                     android:textColor="@color/app_font_black"/>
             </LinearLayout>
@@ -204,52 +213,23 @@
             android:groupIndicator="@null"
             />
 
+
+
         <LinearLayout
+            android:id="@+id/ll_gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
+            android:background="@color/white"
             android:visibility="gone"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <com.ingic.tanfit.ui.views.AnyTextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_marginStart="@dimen/x10"
-                android:gravity="center_vertical"
-                android:text="@string/yoga"
-                android:textColor="@color/black"
-                android:textSize="@dimen/x16"
-                app:typeface="@string/font_bold"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x1"
-                android:background="@color/grey"/>
-
-            <com.ingic.tanfit.ui.views.ExpandableGridView
-                android:id="@+id/gv_yoga"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:numColumns="2"
-                android:visibility="visible"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x10"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x40"
-                android:layout_marginStart="@dimen/x10"
-                android:gravity="center_vertical"
-
+                android:layout_marginEnd="@dimen/x10"
+                android:gravity="center_vertical|start"
                 android:text="@string/gallery"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x16"

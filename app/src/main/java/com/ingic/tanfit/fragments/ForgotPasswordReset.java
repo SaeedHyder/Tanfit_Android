@@ -62,14 +62,16 @@ public class ForgotPasswordReset extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
         setListener();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 
     private void setListener() {
         btnShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -86,7 +88,7 @@ public class ForgotPasswordReset extends BaseFragment {
 
     private boolean isValidated() {
         if (edtPassword.getText().toString().isEmpty()) {
-            edtPassword.setError(getString(R.string.enter_password));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } /*else if (edtPassword.getText().toString().length() < 6) {
             edtPassword.setError(getString(R.string.passwordLength));

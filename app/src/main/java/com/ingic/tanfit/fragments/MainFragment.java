@@ -14,15 +14,20 @@ import android.widget.LinearLayout;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.GetNearestStudiosEnt;
 import com.ingic.tanfit.entities.LocationModel;
+import com.ingic.tanfit.entities.Studio;
 import com.ingic.tanfit.entities.UserAllDataEnt;
 import com.ingic.tanfit.entities.UserLocationModel;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.ISO8601TimeStampHelper;
+import com.ingic.tanfit.interfaces.LocationUpdateListner;
 import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.interfaces.locationInterface;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +36,7 @@ import butterknife.Unbinder;
 /**
  * Created on gym_image_11/24/2017.
  */
-public class MainFragment extends BaseFragment implements SetChildTitlebar, locationInterface {
+public class MainFragment extends BaseFragment implements SetChildTitlebar, locationInterface, LocationUpdateListner {
     @BindView(R.id.viewpager)
     FrameLayout viewpager;
     @BindView(R.id.tab_layout)
@@ -45,6 +50,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     private LocationModel locationModel;
     private Handler mHandler;
     private Runnable mUpdateResults;
+    ISO8601TimeStampHelper timeStamp = new ISO8601TimeStampHelper();
+    HomeFragment home = new HomeFragment();
 
     public static MainFragment newInstance() {
 //        Bundle args = new Bundle();
@@ -100,6 +107,18 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getMainActivity().setLocationListner(this);
+
+        if (titleBar != null && prefHelper.getUserAllData().getUserThumbnailImage() != null) {
+            titleBar.setMenuButtonImage(getDockActivity(), prefHelper.getUserAllData().getUserThumbnailImage());
+        }
+
+
+        setViewInTabLayout();
+
+        homeServicesCalling();
+
+
         getDockActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -107,32 +126,10 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             }
         });
 
-        setViewInTabLayout();
-
-        if (titleBar != null) {
-            titleBar.setMenuButtonImage(getDockActivity(), prefHelper.getUserAllData().getUserThumbnailImage());
-        }
-
-
-        homeServicesCalling();
-
-
-
-       /* if (getMainActivity().statusCheck() && !prefHelper.getIsUserGetData()) {
-            locationModel = getMainActivity().getMyCurrentLocation();
-
-            prefHelper.setIsGetUser(true);
-            serviceHelper.enqueueCall(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
-        } else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() <= 0) {
-            locationModel = getMainActivity().getMyCurrentLocation();
-
-            serviceHelper.enqueueCall(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
-        } else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {
-            setViewPager(prefHelper.getNearestStuidos());
-        }*/
-
 
     }
+
+
 
     protected void homeServicesCalling() {
 
@@ -141,15 +138,51 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             public void run() {
 
                 updateResultsInUi();
+
             }
         };
         t.start();
     }
 
+    public TitleBar getTitleBarInstance(){
+
+        return titleBar;
+
+    }
+
     private void updateResultsInUi() {
 
+        if (getMainActivity().statusCheckMainThread()) {
+          //  serviceHelper.enqueueCallHome(headerWebService.getAllStudios(0,10),WebServiceConstants.getAllStudios);
+            if (!prefHelper.getIsUserGetData()) {
+                locationModel = getMainActivity().getMyCurrentLocation();
+                prefHelper.setIsGetUser(true);
+                serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
+            } /*else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() <= 0) {
+                locationModel = getMainActivity().getMyCurrentLocation();
+                serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
+            }else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {*/
+            else if (prefHelper.getNearestStuidos() != null ) {
+                getDockActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setViewPager(prefHelper.getNearestStuidos());
+                    }
+                });
+            }
+        } else {
+            getDockActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getDockActivity().onLoadingFinished();
+                    GetNearestStudiosEnt getNearestStudiosEnt = new GetNearestStudiosEnt();
+                    setViewPager(getNearestStudiosEnt);
+                }
+            });
+        }
 
-        if (getMainActivity().statusCheck() && !prefHelper.getIsUserGetData()) {
+
+      /*  if (getMainActivity().statusCheck() && !prefHelper.getIsUserGetData()) {
             locationModel = getMainActivity().getMyCurrentLocation();
             prefHelper.setIsGetUser(true);
             serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
@@ -163,8 +196,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
                     setViewPager(prefHelper.getNearestStuidos());
                 }
             });
-
-        }
+        }*/
     }
 
 
@@ -188,7 +220,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
                     if (locationModel != null) {
                         serviceHelper.enqueueCallHome(headerWebService.addUserLocation(entity.getId(), String.valueOf(locationModel.getLat()), String.valueOf(locationModel.getLng()), locationModel.getAddress()), WebServiceConstants.addUserLocation);
                     } else {
-                        serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), 5000), WebServiceConstants.getNearestStudios);
+                      //  serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), 5000), WebServiceConstants.getNearestStudios);
+                        serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
                     }
                 }
                 break;
@@ -196,7 +229,22 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             case WebServiceConstants.addUserLocation:
                 UserLocationModel locationModel = (UserLocationModel) result;
 
-                serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(prefHelper.getUserAllData().getId(), locationModel.getLatitude() + "", locationModel.getLongitude() + "", 5000), WebServiceConstants.getNearestStudios);
+               // serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(prefHelper.getUserAllData().getId(), locationModel.getLatitude() + "", locationModel.getLongitude() + "", 5000), WebServiceConstants.getNearestStudios);
+                serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(prefHelper.getUserAllData().getId(), locationModel.getLatitude() + "", locationModel.getLongitude() + "", timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+
+                break;
+
+            case WebServiceConstants.getAllStudios:
+
+                getDockActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Studio> allStudios=(ArrayList<Studio>)result;
+                        home.setStudiosContent(allStudios);
+                    }
+                });
+
 
 
                 break;
@@ -223,12 +271,6 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     private void setViewInTabLayout() {
 
         LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
@@ -236,18 +278,22 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(Color.GRAY);
         drawable.setSize(1, 1);
-      //  linearLayout.setDividerPadding(10);
+        //  linearLayout.setDividerPadding(10);
         linearLayout.setDividerDrawable(drawable);
     }
 
     private void ReplaceTab(int position) {
 
-        android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager()
-                .beginTransaction();
-        transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-        transaction.replace(R.id.viewpager, adapter.getItem(position));
-        // transaction.commit();
-        transaction.commitAllowingStateLoss();
+        if (adapter.getItem(position) != null) {
+
+            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager()
+                    .beginTransaction();
+            transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+
+            transaction.replace(R.id.viewpager, adapter.getItem(position));
+            // transaction.commit();
+            transaction.commitAllowingStateLoss();
+        }
     }
 
     private void setTabIcon(TabLayout.Tab tab) {
@@ -303,16 +349,18 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             adapter.clearList();
         }
 
-        HomeFragment home = new HomeFragment();
+
         home.setContent(data);
-        adapter.addFragment(home, getString(R.string.home));
-        adapter.addFragment(new SearchFragment(), getString(R.string.search));
-        adapter.addFragment(new SubscriptionFragment(), getString(R.string.subscription_plans));
+        adapter.addFragment(home, getDockActivity().getResources().getString(R.string.home));
+        adapter.addFragment(new SearchFragment(), getDockActivity().getResources().getString(R.string.search));
+        adapter.addFragment(new SubscriptionFragment(), getDockActivity().getResources().getString(R.string.subscription_plans));
 //        viewpager.setAdapter(adapter);
 //        viewpager.setPageMargin(0);
 //        viewpager.getAdapter().notifyDataSetChanged();
-//        tabLayout.setupWithViewPager(viewpager);
+        //    tabLayout.setupWithViewPager(viewpager);
+
         setTabLayout();
+
     }
 
     private void setTabLayout() {
@@ -325,6 +373,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             }
         }*/
         if (tabLayout != null) {
+            tabLayout.removeAllTabs();
             tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[0]).setTag(0), 0, true);
             tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[1]).setTag(1), 1, false);
             tabLayout.addTab(tabLayout.newTab().setIcon(tabIcons[2]).setTag(2), 2, false);
@@ -354,6 +403,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         }
     }
 
+
+
     @Override
     public void setChildTitlebar(String heading, int Tag) {
         tabTag = Tag;
@@ -363,7 +414,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
                     titleBar.showTitleBar();
                     titleBar.hideButtons();
                     titleBar.showMenuButton(getDockActivity(), prefHelper.getUser().getUserThumbnailImage());
-                    titleBar.showFilterButton(new View.OnClickListener() {
+                   /* titleBar.showFilterButton(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             MainFragment mainFragment = MainFragment.newInstance();
@@ -371,8 +422,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
                             getDockActivity().replaceDockableFragment(mainFragment);
 
                         }
-                    });
-                    titleBar.setSubHeading(getString(R.string.home));
+                    });*/
+                    titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.home));
                     break;
                 case AppConstants.SEARCH_FRAGMENT_TAG:
                     titleBar.hideTitleBar();
@@ -381,7 +432,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
                     titleBar.showTitleBar();
                     titleBar.hideButtons();
                     titleBar.showMenuButton(getDockActivity(), prefHelper.getUser().getUserThumbnailImage());
-                    titleBar.setSubHeading(getString(R.string.subscription_plans));
+                    titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.subscription_plans));
                     break;
 
             }
@@ -396,17 +447,43 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         //  locationModel=new LocationModel("",latitude,longitude);
     }
 
+
+    @Override
+    public void updateLocationFragment() {
+
+        if (getMainActivity().statusCheckMainThread()) {
+            if (!prefHelper.getIsUserGetData()) {
+                locationModel = getMainActivity().getMyCurrentLocation();
+                prefHelper.setIsGetUser(true);
+                serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
+            } else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() <= 0) {
+                locationModel = getMainActivity().getMyCurrentLocation();
+                serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
+            } else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {
+                getDockActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setViewPager(prefHelper.getNearestStuidos());
+                    }
+                });
+            }
+        } else {
+            getDockActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getDockActivity().onLoadingFinished();
+                    GetNearestStudiosEnt getNearestStudiosEnt = new GetNearestStudiosEnt();
+                    setViewPager(getNearestStudiosEnt);
+                }
+            });
+
+        }
+
+    }
+
+
   /*  @Override
     public void onRefresh() {
-        if (getMainActivity().statusCheck() && !prefHelper.getIsUserGetData()) {
-            locationModel = getMainActivity().getMyCurrentLocation();
-            prefHelper.setIsGetUser(true);
-            serviceHelper.enqueueCall(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
-        } else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() <= 0) {
-            locationModel = getMainActivity().getMyCurrentLocation();
-            serviceHelper.enqueueCall(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
-        } else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {
-            setViewPager(prefHelper.getNearestStuidos());
-        }
+
     }*/
 }

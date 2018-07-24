@@ -46,6 +46,7 @@ public class CustomRecyclerView<T> extends RecyclerView {
         this.setItemAnimator(animator);
         this.setAdapter(mRecyclerViewAdapter);
         mRecyclerViewAdapter.notifyItemRangeChanged(0, DataColloction.size());
+
     }
 
     public T getItemFromList(int index) {
@@ -65,6 +66,8 @@ public class CustomRecyclerView<T> extends RecyclerView {
 
         }
     }
+
+
 
     public void notifyDataSetChanged() {
         if (mRecyclerViewAdapter != null) {
@@ -117,6 +120,11 @@ public class CustomRecyclerView<T> extends RecyclerView {
 
     public RecyclerViewAdapter getAdapter() {
         return mRecyclerViewAdapter;
+    }
+
+    public void notifyItemRangeChanged(int position,int count){
+        if (mRecyclerViewAdapter != null)
+            mRecyclerViewAdapter.notifyItemRangeChanged(position,count);
     }
 
 

@@ -22,6 +22,7 @@ public class AppConstants {
     public static final int TAB_HOME = 0;
     public static String twitter = "twitter";
     public static int INTENT_ID = 100;
+    public static int LocationUpdateListner = 2998;
     // id to handle the notification in the notification tray
     public static int NOTIFICATION_ID = 100;
     public static int zoomIn = 12;

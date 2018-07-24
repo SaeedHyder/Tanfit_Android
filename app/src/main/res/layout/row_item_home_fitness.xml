@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_mainframe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x5_"
@@ -16,111 +17,136 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x8"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x8">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/iv_profileImage"
                 android:layout_width="@dimen/x80"
-                android:layout_height="@dimen/x80"
-                android:src="@drawable/gym_image_1" />
-           <!-- <ImageView
-                android:id="@+id/iv_profileImage"
-                android:layout_width="@dimen/x80"
-                android:layout_height="@dimen/x80"
-                android:src="@drawable/image_place_holder"
-                android:scaleType="fitXY"/>-->
+                android:layout_height="@dimen/x80" />
+            <!-- <ImageView
+                 android:id="@+id/iv_profileImage"
+                 android:layout_width="@dimen/x80"
+                 android:layout_height="@dimen/x80"
+                 android:src="@drawable/image_place_holder"
+                 android:scaleType="fitXY"/>-->
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginStart="@dimen/x8"
-            android:layout_marginEnd="@dimen/x8"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/ll_title"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginEnd="@dimen/x5"
+                android:layout_marginStart="@dimen/x8"
+                android:layout_weight="0.8">
+
+                <LinearLayout
+                    android:id="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.ingic.tanfit.ui.views.AnyTextView
+                        android:id="@+id/txt_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:textColor="@color/app_blue"
+                        android:textSize="@dimen/x15"
+                        app:typeface="@string/font_normal" />
+
+                </LinearLayout>
 
                 <com.ingic.tanfit.ui.views.AnyTextView
-                    android:id="@+id/txt_title"
-                    android:layout_width="0dp"
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.9"
-                    android:text="Group Personal Training"
-                    android:textColor="@color/app_blue"
-                    android:textSize="@dimen/x15"
+                    android:layout_below="@+id/ll_title"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/app_text_gray"
+                    android:textSize="@dimen/x12"
                     app:typeface="@string/font_normal" />
 
-            </LinearLayout>
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:id="@+id/txt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description"
+                    android:layout_marginTop="@dimen/x2"
+                    android:drawablePadding="@dimen/x5"
+                    android:drawableStart="@drawable/locationfitness"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/app_text_gray"
+                    android:textSize="@dimen/x12"
+                    app:typeface="@string/font_normal" />
 
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_address"
+                    android:layout_marginTop="@dimen/x2"
+                    android:drawablePadding="@dimen/x5"
+                    android:drawableStart="@drawable/timefitness"
+                    android:text="08:00"
+                    android:textColor="@color/app_text_gray"
+                    android:textSize="@dimen/x12"
+                    android:visibility="gone"
+                    app:typeface="@string/font_normal" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="@dimen/x1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/txt_time"
+                    android:layout_alignTop="@+id/txt_time"
+                    android:layout_marginStart="@dimen/x5"
+                    android:layout_toEndOf="@+id/txt_time"
+                    android:alpha="0.5"
+                    android:background="@color/gray_dark"
+                    android:visibility="gone" />
+
+                <com.ingic.tanfit.ui.views.AnyTextView
+                    android:id="@+id/txt_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/view"
+                    android:layout_alignTop="@+id/view"
+                    android:layout_below="@+id/txt_address"
+                    android:layout_marginTop="@dimen/x2"
+                    android:layout_toEndOf="@+id/view"
+                    android:drawablePadding="@dimen/x5"
+                    android:drawableStart="@drawable/timefitness"
+                    android:textColor="@color/app_text_gray"
+                    android:textSize="@dimen/x12"
+                    app:typeface="@string/font_normal" />
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_book_now"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_title"
-                android:text="Bespoke Ride"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/app_text_gray"
-                android:textSize="@dimen/x12"
-                app:typeface="@string/font_normal" />
+                android:layout_weight="0.3"
+                android:paddingStart="@dimen/x4"
+                android:paddingEnd="@dimen/x4"
+                android:background="@drawable/rounded_button_green"
+                android:text="@string/book_now"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x10" />
 
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:id="@+id/txt_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/description"
-                android:layout_marginTop="@dimen/x2"
-                android:drawableStart="@drawable/locationfitness"
-                android:drawablePadding="@dimen/x5"
-                android:text="Al Quoz"
-                android:textColor="@color/app_text_gray"
-                android:textSize="@dimen/x12"
-                app:typeface="@string/font_normal" />
+        </LinearLayout>
 
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:id="@+id/txt_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_address"
-                android:layout_marginTop="@dimen/x2"
-                android:drawableStart="@drawable/timefitness"
-                android:drawablePadding="@dimen/x5"
-                android:text="08:00"
-                android:textColor="@color/app_text_gray"
-                android:textSize="@dimen/x12"
-                app:typeface="@string/font_normal" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="@dimen/x1"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/txt_time"
-                android:layout_alignTop="@+id/txt_time"
-                android:layout_marginStart="@dimen/x5"
-                android:layout_toEndOf="@+id/txt_time"
-                android:alpha="0.5"
-                android:background="@color/gray_dark" />
-
-            <com.ingic.tanfit.ui.views.AnyTextView
-                android:id="@+id/txt_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignBottom="@+id/view"
-                android:layout_alignTop="@+id/view"
-                android:layout_marginStart="@dimen/x5"
-                android:layout_toEndOf="@+id/view"
-                android:text="60 min"
-                android:textColor="@color/app_text_gray"
-                android:textSize="@dimen/x12"
-                app:typeface="@string/font_normal" />
-
-
-        </RelativeLayout>
 
     </LinearLayout>
 

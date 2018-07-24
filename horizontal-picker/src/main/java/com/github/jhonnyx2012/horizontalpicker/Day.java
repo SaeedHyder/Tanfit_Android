@@ -21,8 +21,8 @@ public class Day {
         return String.valueOf(date.getDayOfMonth());
     }
 
-    public String getWeekDay() {
-        return date.toString("EEE", Locale.getDefault()).toUpperCase();
+    public String getWeekDay(Locale locale) {
+        return date.toString("EEE", locale).toUpperCase();
     }
 
     public String getMonth() {

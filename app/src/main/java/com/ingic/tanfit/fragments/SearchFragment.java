@@ -1,5 +1,6 @@
 package com.ingic.tanfit.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,9 +32,11 @@ import com.ingic.tanfit.entities.LocationModel;
 import com.ingic.tanfit.entities.MapScreenItem;
 import com.ingic.tanfit.entities.SearchRecyclerEnt;
 import com.ingic.tanfit.entities.Studio;
+import com.ingic.tanfit.entities.activitiesEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.interfaces.SetChildTitlebar;
@@ -38,6 +44,7 @@ import com.ingic.tanfit.map.abstracts.GoogleMapOptions;
 import com.ingic.tanfit.map.abstracts.MapMarkerItemBinder;
 import com.ingic.tanfit.range_bar.SimpleRangeView;
 import com.ingic.tanfit.ui.adapters.AutoCompleteCustomAdapter;
+import com.ingic.tanfit.ui.adapters.SpinnerAdapter;
 import com.ingic.tanfit.ui.binders.SearchItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.AutoCompleteLocation;
@@ -63,7 +70,6 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     Button btnApply;
     @BindView(R.id.lv_companies)
     CustomRecyclerView lv_companies;
-
     @BindView(R.id.autoComplete)
     AutoCompleteLocation autoComplete;
     @BindView(R.id.img_gps)
@@ -82,6 +88,10 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     AnyTextView txtEndtext;
     @BindView(R.id.edit_search)
     AutoCompleteTextView editSearch;
+   /* @BindView(R.id.map)
+    SupportMapFragment map;*/
+    @BindView(R.id.spn_activities)
+    Spinner spnActivities;
 
     private SetChildTitlebar childTitlebar;
     private ArrayList<MapScreenItem> mapCollection = new ArrayList<>();
@@ -168,6 +178,12 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         if (mapFragment == null) {
             initMap();
         }
@@ -203,18 +219,14 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
                 locationLng = selectedPlace.getLatLng().longitude;
 
             }
-        });
+        },prefHelper);
     }
 
 
     private void setActivityAutoComplete(final ArrayList<GetActivitiesEnt> result) {
         activityList = new ArrayList<>();
-      /*  activityList.add(new ActivityAutoCompleteEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", R.drawable.group_training));
-        activityList.add(new ActivityAutoCompleteEnt(AppConstants.DRAWABLE_PATH + R.drawable.power_yoga, "Power Yoga", R.drawable.power_yoga));
-        activityList.add(new ActivityAutoCompleteEnt(AppConstants.DRAWABLE_PATH + R.drawable.pelton_biking, "Pelton Biking", R.drawable.pelton_biking));
-        activityList.add(new ActivityAutoCompleteEnt(AppConstants.DRAWABLE_PATH + R.drawable.group_training, "Group Personal Training", R.drawable.group_training));
-*/
-        adapter = new AutoCompleteCustomAdapter(getDockActivity(), result);
+
+        adapter = new AutoCompleteCustomAdapter(getDockActivity(), result, prefHelper);
         editSearch.setAdapter(adapter);
 
         editSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -384,10 +396,10 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     private boolean isValidated() {
         if (autoComplete.getText() == null || (autoComplete.getText().toString().isEmpty())) {
             // autoComplete.setError(getString(R.string.enter_Address));
-            UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.enter_Address));
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.enter_Address));
             return false;
         } else if (editSearch.getText() == null || (editSearch.getText().toString().isEmpty())) {
-            editSearch.setError(getString(R.string.enter_activity));
+            editSearch.setError(getDockActivity().getResources().getString(R.string.enter_activity));
             return false;
         } else {
             return true;
@@ -410,16 +422,16 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
                     //serviceHelper.enqueueCall(headerWebService.searchNearestStudios(prefHelper.getUserAllData().getId(), "24.814783829601804", "67.07380771636963", "2", prefHelper.getUserAllData().getGenderId() + "", "16:00:00", "19:00:00", 5000), WebServiceConstants.searchNearestStudios);
                 }*/
                 if (autoComplete.getText() != null && !(autoComplete.getText().toString().isEmpty())) {
-                    if (editSearch.getText() == null || (editSearch.getText().toString().isEmpty())) {
+                    if (spnActivities.getSelectedItem()!=null && ((GetActivitiesEnt)spnActivities.getSelectedItem()).getId()!=null && ((GetActivitiesEnt)spnActivities.getSelectedItem()).getId()==0) {
                         ActivityId = 0;
                     }
                     serviceHelper.enqueueCall(headerWebService.searchNearestStudios(prefHelper.getUserAllData().getId(), locationLat + "", locationLng + "", ActivityId + "", prefHelper.getUserAllData().getGenderId() + "", minTime + "", maxTime + "", 5000), WebServiceConstants.searchNearestStudios);
-                } else if (editSearch.getText() != null && !(editSearch.getText().toString().isEmpty())) {
+                } else if (spnActivities.getSelectedItem()!=null && ((GetActivitiesEnt)spnActivities.getSelectedItem()).getId()!=null && ((GetActivitiesEnt)spnActivities.getSelectedItem()).getId()!=0) {
                     locationLat = prefHelper.getUserAllData().getUserLocationModel().get(prefHelper.getUserAllData().getUserLocationModel().size() - 1).getLatitude();
                     locationLng = prefHelper.getUserAllData().getUserLocationModel().get(prefHelper.getUserAllData().getUserLocationModel().size() - 1).getLongitude();
                     serviceHelper.enqueueCall(headerWebService.searchNearestStudios(prefHelper.getUserAllData().getId(), locationLat + "", locationLng + "", ActivityId + "", prefHelper.getUserAllData().getGenderId() + "", minTime + "", maxTime + "", 5000), WebServiceConstants.searchNearestStudios);
                 } else {
-                    UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.address_activity));
+                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.address_activity));
 
                 }
                 break;
@@ -445,7 +457,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         switch (Tag) {
 
             case WebServiceConstants.getActivities:
-                setActivityAutoComplete((ArrayList<GetActivitiesEnt>) result);
+                //setActivityAutoComplete((ArrayList<GetActivitiesEnt>) result);
+                setActivitiesSpinner((ArrayList<GetActivitiesEnt>) result);
                 break;
 
             case WebServiceConstants.searchNearestStudios:
@@ -459,11 +472,69 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
                     setRecyclerViewData(entResult);
                     bindview(entResult);
                 } else {
-                    UIHelper.showShortToastInCenter(getDockActivity(), "No Result Found");
+                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.no_nearby_studios_found));
                 }
                 break;
 
         }
+    }
+
+    private void setActivitiesSpinner(final ArrayList<GetActivitiesEnt> result) {
+
+        activityList = new ArrayList<>();
+
+        GetActivitiesEnt ent=new GetActivitiesEnt();
+        ent.setNameEn(getDockActivity().getResources().getString(R.string.select_activity));
+        ent.setNamePr(getDockActivity().getResources().getString(R.string.select_activity));
+        ent.setMaleIcon("drawable://" + R.color.transparent);
+        ent.setFemaleIcon("drawable://" + R.color.transparent);
+        ent.setId(0);
+        activityList.add(ent);
+        activityList.addAll(result);
+
+        SpinnerAdapter adapter=new SpinnerAdapter(getDockActivity(),
+                R.layout.spinner_item_activities,R.id.txt,activityList,prefHelper,getMainActivity());
+        spnActivities.setAdapter(adapter);
+
+      spnActivities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+              ActivityId = activityList.get(position).getId();
+          }
+
+          @Override
+          public void onNothingSelected(AdapterView<?> parent) {
+
+          }
+      });
+      //  adapter = new AutoCompleteCustomAdapter(getDockActivity(), result, prefHelper);
+       // editSearch.setAdapter(adapter);
+
+       /* editSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ActivityId = result.get(position).getId();
+            }
+        });*/
+
+/*
+        ArrayAdapter<String> activitiesAdapter = new ArrayAdapter<String>(getDockActivity()
+                , R.layout.spinner_item, genderCollection) {
+            @Override
+            public boolean isEnabled(int position) {
+                return !(position == 0);
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                tv.setTextColor(position == 0 ? Color.GRAY : Color.BLACK);
+                return view;
+            }
+
+        }*/
     }
 
 
@@ -472,4 +543,6 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         if (entity != null)
             getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(entity.get(position).getId()), "GymDetailFragment");
     }
+
+
 }

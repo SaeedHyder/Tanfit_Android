@@ -71,6 +71,12 @@ public class VerificationEmailFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         counter();
         txtResenedCode.setPaintFlags(txtResenedCode.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -105,7 +111,7 @@ public class VerificationEmailFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.verify_email));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.verify_email));
     }
 
     @Override
@@ -125,7 +131,7 @@ public class VerificationEmailFragment extends BaseFragment {
                 }
 
                 if (txtPinEntry.getText().toString().length() < 4) {
-                    UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.correct_verification_code));
+                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.correct_verification_code));
                 } else {
                     serviceHelper.enqueueCall(headerWebService.verifyCode(prefHelper.getUser().getUserId(),txtPinEntry.getText().toString()), WebServiceConstants.verifyCode);
                 }

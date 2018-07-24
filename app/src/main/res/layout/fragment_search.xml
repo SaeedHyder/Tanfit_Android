@@ -57,6 +57,7 @@
                     android:background="@drawable/invite_boarder"
                     android:inputType="text"
                     android:hint="@string/location"
+                    android:gravity="left"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:textSize="@dimen/x11" />
@@ -66,7 +67,6 @@
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
                     android:layout_alignParentEnd="true"
-
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/x11"
                     android:src="@drawable/target" />
@@ -111,8 +111,20 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/x10"
                 android:textSize="@dimen/x10"
+                android:visibility="gone"
 
                  />
+
+                <Spinner
+                    android:id="@+id/spn_activities"
+                    style="@style/spinner_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x35"
+                    android:layout_marginEnd="@dimen/x2"
+                    android:layout_marginStart="@dimen/x2"
+                    android:layout_marginTop="@dimen/x10"
+                    android:paddingStart="@dimen/x5" />
+
 
 
             <com.ingic.tanfit.ui.views.AnyTextView
@@ -219,10 +231,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_below="@+id/txt_description2"
-
                 android:layout_marginTop="@dimen/x15"
                 android:background="@drawable/rounded_button"
-                android:text="Apply"
+                android:text="@string/apply"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 

@@ -48,7 +48,12 @@ public class TermsandConditionsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        txtTermCondition.setText(prefHelper.getAppDefaultSetting().getTermsAndConditionsEng());
+        if(prefHelper.isLanguagePersian()){
+            txtTermCondition.setText(prefHelper.getAppDefaultSetting().getTermsAndConditionsPer());
+        }else{
+            txtTermCondition.setText(prefHelper.getAppDefaultSetting().getTermsAndConditionsEng());
+        }
+
     }
 
     @Override
@@ -56,6 +61,6 @@ public class TermsandConditionsFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.term_condition));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.term_condition));
     }
 }

@@ -34,7 +34,7 @@
                 android:layout_marginStart="@dimen/x10"
                 android:layout_toEndOf="@+id/img_clock"
                 android:gravity="center_vertical"
-                android:text="Burn: Upper Body"
+                android:text="@string/burn_upper_body"
                 android:textColor="@color/white"
                 android:textSize="@dimen/x14"
                 app:typeface="@string/font_bold" />
@@ -65,6 +65,35 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/app_blue"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+
+    <RelativeLayout
+        android:id="@+id/rl_searchAutoComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x8">
+
+        <com.ingic.tanfit.ui.views.AutoCompleteLocation
+            android:id="@+id/autoComplete"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x35"
+            android:background="@drawable/invite_boarder"
+            android:inputType="text"
+            android:hint="@string/location"
+            android:gravity="left"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textSize="@dimen/x11" />
+
+        <ImageView
+            android:id="@+id/img_gps"
+            android:layout_width="@dimen/x20"
+            android:layout_height="@dimen/x20"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x11"
+            android:src="@drawable/target" />
+
+    </RelativeLayout>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"

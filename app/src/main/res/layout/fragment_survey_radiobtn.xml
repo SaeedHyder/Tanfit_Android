@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/x10"
+    android:layout_marginStart="@dimen/x10"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x5"
+        android:layout_marginTop="@dimen/x10"
+        android:text="Price"
+        android:textColor="@color/app_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal" />
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/txt_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x5"
+        android:alpha="0.8"
+        android:text="@string/small_lorem_ipsum"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x15"
+        android:layout_marginTop="@dimen/x10"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_0"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x50"
+            android:layout_weight="1"
+            android:background="@drawable/selector_radio_btn"
+            android:button="@color/transparent"
+            android:checked="true"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x50"
+            android:layout_weight="1"
+            android:background="@drawable/selector_radio_btn"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/gray_dark" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x50"
+            android:layout_weight="1"
+            android:background="@drawable/selector_radio_btn"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/gray_dark" />
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x50"
+            android:layout_weight="1"
+            android:background="@drawable/selector_radio_btn"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/gray_dark" />
+
+        <RadioButton
+            android:id="@+id/rb_4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x50"
+            android:layout_weight="1"
+            android:background="@drawable/selector_radio_btn"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@color/gray_dark" />
+
+        <RadioButton
+            android:id="@+id/rb_5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x50"
+            android:layout_weight="1"
+            android:background="@drawable/selector_radio_btn"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/gray_dark" />
+
+    </RadioGroup>
+
+
+</LinearLayout>

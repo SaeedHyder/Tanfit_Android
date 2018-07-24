@@ -127,17 +127,15 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         prefHelper.setIsFromStudio(false);
         setProfileData();
 
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 
     private void setProfileData() {
 
@@ -152,10 +150,10 @@ public class MyProfileFragment extends BaseFragment implements RecyclerViewItemL
             txtEmergencyNumber.setText(prefHelper.getUserAllData().getPhoneNumber()+"");
 
             if(prefHelper.getUserAllData().getHeight()!=null && !prefHelper.getUserAllData().getHeight().equals("")){
-                txtHeight.setText(prefHelper.getUserAllData().getHeight()+" ln");
+                txtHeight.setText(prefHelper.getUserAllData().getHeight()+" "+getDockActivity().getResources().getString(R.string.inch));
             }
             if(prefHelper.getUserAllData().getWeight()!=null && !prefHelper.getUserAllData().getWeight().equals("")){
-                txtWeight.setText(prefHelper.getUserAllData().getWeight()+" KG");
+                txtWeight.setText(prefHelper.getUserAllData().getWeight()+" "+getDockActivity().getResources().getString(R.string.kilometer));
             }
            /* if(prefHelper.getUserAllData().getEmergencyContact()!=null && !prefHelper.getUserAllData().getEmergencyContact().equals("")){
 

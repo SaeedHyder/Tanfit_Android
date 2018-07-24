@@ -1,6 +1,8 @@
 package com.ingic.tanfit.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,9 @@ import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.FItnessItemBinder;
+import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
+import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
 
 import java.util.ArrayList;
@@ -34,7 +38,7 @@ public class FitnessClassesFragment extends BaseFragment implements RecyclerView
     @BindView(R.id.txt_noresult)
     AnyTextView txtNoresult;
     @BindView(R.id.lv_fitnessClasses)
-    ListView lvFitnessClasses;
+    CustomRecyclerView lvFitnessClasses;
     Unbinder unbinder;
 
     private ArrayListAdapter<FitnessClassess> adapter;
@@ -51,7 +55,7 @@ public class FitnessClassesFragment extends BaseFragment implements RecyclerView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new FItnessItemBinder(getDockActivity(), prefHelper,this));
+        //adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new FItnessItemBinder(getDockActivity(), prefHelper,this));
         if (getArguments() != null) {
         }
 
@@ -68,19 +72,25 @@ public class FitnessClassesFragment extends BaseFragment implements RecyclerView
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         setFitnessData(prefHelper.getFavoriteData().getFitnessClasses());
-        itemListner();
+       // itemListner();
 
     }
 
-    private void itemListner() {
+    /*private void itemListner() {
         lvFitnessClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(), "ClassDetailFragment");
             }
         });
-    }
+    }*/
 
     private void setFitnessData(ArrayList<FitnessClassess> allfavoriteClasses) {
 
@@ -108,10 +118,15 @@ public class FitnessClassesFragment extends BaseFragment implements RecyclerView
             lvFitnessClasses.setVisibility(View.VISIBLE);
         }
 
-        adapter.clearList();
+
+        lvFitnessClasses.BindRecyclerView(new FItnessItemBinder(getDockActivity(), prefHelper, this), favoriteClasses,
+                new LinearLayoutManager(getDockActivity(), LinearLayoutManager.VERTICAL, false)
+                , new DefaultItemAnimator());
+
+    /*    adapter.clearList();
         lvFitnessClasses.setAdapter(adapter);
         adapter.addAll(favoriteClasses);
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
     }
 
 
@@ -151,11 +166,7 @@ public class FitnessClassesFragment extends BaseFragment implements RecyclerView
         titleBar.setSubHeading("");
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 
     @Override
     public void onRecyclerItemClicked(Object Ent, int position) {

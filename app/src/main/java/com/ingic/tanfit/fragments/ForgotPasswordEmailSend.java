@@ -45,7 +45,7 @@ public class ForgotPasswordEmailSend extends BaseFragment {
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
-        titleBar.setSubHeading(getString(R.string.forgot_password));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.forgot_password));
         titleBar.showBackButton();
     }
 
@@ -69,9 +69,9 @@ public class ForgotPasswordEmailSend extends BaseFragment {
         i.putExtra(Intent.EXTRA_SUBJECT, "Test Subject");
         i.putExtra(Intent.EXTRA_TEXT, "Test Body");
         try {
-            startActivity(Intent.createChooser(i, getString(R.string.forgot_password_send_mail)));
+            startActivity(Intent.createChooser(i, getDockActivity().getResources().getString(R.string.forgot_password_send_mail)));
         } catch (android.content.ActivityNotFoundException ex) {
-            UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.email_app_error));
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.email_app_error));
         }
     }
 

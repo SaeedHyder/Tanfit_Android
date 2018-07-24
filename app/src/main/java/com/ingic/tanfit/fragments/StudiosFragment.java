@@ -66,6 +66,12 @@ public class StudiosFragment extends BaseFragment implements RecyclerViewItemLis
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         setStudiosData(prefHelper.getFavoriteData().getStudios());
         itemListner();
     }
@@ -147,11 +153,7 @@ public class StudiosFragment extends BaseFragment implements RecyclerViewItemLis
         titleBar.setSubHeading("");
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 
     @Override
     public void onRecyclerItemClicked(Object Ent, int position) {

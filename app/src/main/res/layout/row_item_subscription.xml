@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header"
+
             android:background="@drawable/white_bottom">
 
             <com.ingic.tanfit.ui.views.AnyTextView
@@ -83,20 +84,6 @@
                 android:textSize="@dimen/x16"
                 app:typeface="@string/font_normal" />
 
-            <Button
-                android:id="@+id/btn_SubcribeNow"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x45"
-                android:layout_below="@+id/txt_description2"
-                android:layout_marginBottom="@dimen/x15"
-                android:layout_marginEnd="@dimen/x25"
-                android:layout_marginStart="@dimen/x25"
-                android:layout_marginTop="@dimen/x15"
-                android:background="@drawable/rounded_button"
-                android:text="@string/subscribe_now"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-
         </RelativeLayout>
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -112,6 +99,20 @@
             android:textColor="@color/dark_grey"
             android:textSize="@dimen/x18"
             app:typeface="@string/font_normal" />
+
+        <Button
+            android:id="@+id/btn_SubcribeNow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x45"
+            android:layout_above="@+id/txtPrice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/x70"
+            android:layout_marginStart="@dimen/x15"
+            android:layout_marginEnd="@dimen/x15"
+            android:background="@drawable/rounded_button"
+            android:text="@string/subscribe_now"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 </RelativeLayout>

@@ -9,8 +9,11 @@
     >
 
     <LinearLayout
+        android:id="@+id/mainFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:onClick="onClick"
         android:orientation="vertical">
 
         <LinearLayout
@@ -28,12 +31,16 @@
                 android:layout_marginTop="@dimen/x10"
                 android:layout_marginBottom="@dimen/x15"
                 android:orientation="horizontal"
+                android:layout_gravity="start"
+                android:gravity="start"
                 android:paddingTop="@dimen/x5">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/iv_profileImage"
                     android:layout_width="@dimen/x70"
                     android:layout_height="@dimen/x70"
+                    android:layout_gravity="start"
+                    android:gravity="start"
                     android:src="@drawable/max_gym_image"
                     />
 
@@ -49,6 +56,7 @@
                         android:layout_height="wrap_content"
                         android:text="Yoga Class"
                         android:textColor="@color/white"
+                        android:gravity="start|center_vertical"
                         android:textSize="@dimen/x20"
                         app:typeface="@string/font_normal"/>
 
@@ -57,8 +65,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txt_title"
-                        android:drawableLeft="@drawable/location1"
+                        android:drawableStart="@drawable/location1"
                         android:drawablePadding="@dimen/x5"
+                        android:gravity="start|center_vertical"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:text="I.R IRAN Tehran Vali Asr St Something House 25"
@@ -72,8 +81,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txt_address"
                         android:layout_marginTop="@dimen/x2"
-                        android:drawableLeft="@drawable/time2"
+                        android:drawableStart="@drawable/time2"
                         android:drawablePadding="@dimen/x5"
+                        android:gravity="start|center_vertical"
                         android:text="18:30 - 19:00"
                         android:textColor="@color/white"
                         android:textSize="@dimen/x10"
@@ -97,6 +107,7 @@
                         android:layout_alignBottom="@+id/view"
                         android:layout_alignTop="@+id/view"
                         android:layout_marginStart="@dimen/x3"
+                        android:gravity="start|center_vertical"
                         android:layout_toEndOf="@+id/view"
                         android:text="60 min"
                         android:textColor="@color/white"
@@ -111,7 +122,8 @@
                         android:layout_alignTop="@+id/txt_duration"
                         android:layout_marginStart="@dimen/x5"
                         android:layout_toEndOf="@+id/txt_duration"
-                        android:drawableLeft="@drawable/calender"
+                        android:drawableStart="@drawable/calender"
+                        android:gravity="start|center_vertical"
                         android:drawablePadding="@dimen/x5"
                         android:text="Oct 27,2017"
                         android:textColor="@color/white"
@@ -178,7 +190,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_marginStart="@dimen/x10"
-                android:gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x10"
+                android:gravity="center_vertical|start"
                 android:text="@string/location"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x16"
@@ -456,6 +469,7 @@
          </LinearLayout>-->
 
         <LinearLayout
+            android:id="@+id/ll_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
@@ -466,7 +480,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_marginStart="@dimen/x10"
-                android:gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x10"
+                android:gravity="center_vertical|start"
                 android:text="@string/description"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x16"
@@ -486,7 +501,7 @@
                 android:layout_marginEnd="@dimen/x10"
                 android:layout_marginStart="@dimen/x10"
                 android:layout_marginTop="@dimen/x5"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|left"
                 android:text="@string/small_lorem_ipsum"
                 android:textColor="@color/dark_grey"
                 android:textSize="@dimen/x12"
@@ -507,7 +522,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x40"
                 android:layout_marginStart="@dimen/x10"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|start"
+                android:layout_marginEnd="@dimen/x10"
                 android:text="@string/special_features"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x16"

@@ -80,6 +80,12 @@ public class forgotNewPasswordFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         setListners();
     }
 
@@ -108,16 +114,16 @@ public class forgotNewPasswordFragment extends BaseFragment {
 
     private boolean isValidated() {
         if (edtPassword.getText() == null || (edtPassword.getText().toString().isEmpty())) {
-            edtPassword.setError(getString(R.string.enter_password));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } else if (edtPassword.getText().toString().length() < 6) {
-            edtPassword.setError(getString(R.string.passwordLength));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.passwordLength));
             return false;
         } else if (edtConformPassword.getText() == null || (edtConformPassword.getText().toString().isEmpty()) || edtConformPassword.getText().toString().length() < 6) {
-            edtConformPassword.setError(getString(R.string.enter_password));
+            edtConformPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } else if (!edtConformPassword.getText().toString().equals(edtPassword.getText().toString())) {
-            edtConformPassword.setError(getString(R.string.conform_password_error));
+            edtConformPassword.setError(getDockActivity().getResources().getString(R.string.conform_password_error));
             return false;
         } else {
             return true;
@@ -128,7 +134,7 @@ public class forgotNewPasswordFragment extends BaseFragment {
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
-        titleBar.setSubHeading("Forgot Password");
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.forgot_password));
     }
 
     @Override

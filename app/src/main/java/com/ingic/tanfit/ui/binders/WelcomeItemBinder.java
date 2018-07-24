@@ -55,8 +55,8 @@ public class WelcomeItemBinder extends ViewBinder<String> {
 
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.logo);
 //        imageLoader.displayImage(AppConstants.DRAWABLE_PATH + R.drawable.ic_launcher, viewHolder.ivMainImage);
-        viewHolder.txtHeading.setText("Donec ultrices scelerisque nisi");
-        viewHolder.txtDescription.setText("Nulla ei orci aliquam,condimentum tellus eaac,cursus tellius,In magna eros luctus non");
+        viewHolder.txtHeading.setText(R.string.donec_ultrices_scelerisque_nisi);
+        viewHolder.txtDescription.setText(R.string.Nulla_ei_orci_aliquam);
 
 
     }

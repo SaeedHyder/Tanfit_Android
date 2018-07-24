@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_mainframe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x5_"
@@ -19,11 +20,11 @@
             android:layout_marginStart="@dimen/x8"
             android:layout_gravity="center_vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/iv_profileImage"
                 android:layout_width="@dimen/x80"
                 android:layout_height="@dimen/x80"
-                android:src="@drawable/power_yoga" />
+                 />
 
         </RelativeLayout>
 
@@ -86,7 +87,7 @@
                 android:layout_marginTop="@dimen/x2"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:drawableLeft="@drawable/locationfitness"
+                android:drawableStart="@drawable/locationfitness"
                 android:drawablePadding="@dimen/x5"
                 android:text="Al Quoz"
                 android:textColor="@color/app_text_gray"
@@ -99,9 +100,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_address"
                 android:layout_marginTop="@dimen/x2"
-                android:drawableLeft="@drawable/timefitness"
+                android:drawableStart="@drawable/timefitness"
                 android:drawablePadding="@dimen/x5"
                 android:text="08:00"
+                android:visibility="gone"
                 android:textColor="@color/app_text_gray"
                 android:textSize="@dimen/x12"
                 app:typeface="@string/font_normal" />
@@ -115,15 +117,19 @@
                 android:layout_marginStart="@dimen/x5"
                 android:layout_toEndOf="@+id/txt_time"
                 android:alpha="0.5"
+                android:visibility="gone"
                 android:background="@color/gray_dark" />
 
             <com.ingic.tanfit.ui.views.AnyTextView
                 android:id="@+id/txt_duration"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/view"
                 android:layout_alignTop="@+id/view"
-                android:layout_marginStart="@dimen/x5"
+
+                android:drawableStart="@drawable/timefitness"
+                android:drawablePadding="@dimen/x5"
+                android:layout_below="@+id/txt_address"
                 android:layout_toEndOf="@+id/view"
                 android:text="60 min"
                 android:textColor="@color/app_text_gray"

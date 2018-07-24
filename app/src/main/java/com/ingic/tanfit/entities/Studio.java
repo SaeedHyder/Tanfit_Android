@@ -11,6 +11,20 @@ import java.util.ArrayList;
 
 public class Studio {
 
+
+    @SerializedName("StudioImages")
+    @Expose
+    private ArrayList<StudioImage> studioImages = new ArrayList<>();
+    @SerializedName("StudioSelectedDays")
+    @Expose
+    private ArrayList<StudioSelectedDay> studioSelectedDays = new ArrayList<>();
+    @SerializedName("StudioFeatures")
+    @Expose
+    private ArrayList<StudioFeature> studioFeatures = new ArrayList<>();
+    @SerializedName("FitnessClasses")
+    @Expose
+    private ArrayList<FitnessClassess> fitnessClasses = new ArrayList<>();
+
     @SerializedName("Id")
     @Expose
     private Integer id;
@@ -20,9 +34,15 @@ public class Studio {
     @SerializedName("OpeningTime")
     @Expose
     private String openingTime;
+    @SerializedName("OpeningTime_Pr")
+    @Expose
+    private String openingTimePr;
     @SerializedName("ClosingTime")
     @Expose
     private String closingTime;
+    @SerializedName("ClosingTime_Pr")
+    @Expose
+    private String closingTimePr;
     @SerializedName("Latitude")
     @Expose
     private Double latitude;
@@ -43,7 +63,7 @@ public class Studio {
     private String createdOn;
     @SerializedName("ModifiedOn")
     @Expose
-    private Object modifiedOn;
+    private String modifiedOn;
     @SerializedName("StudioNameEng")
     @Expose
     private String studioNameEng;
@@ -62,18 +82,35 @@ public class Studio {
     @SerializedName("AddressPer")
     @Expose
     private String addressPer;
-    @SerializedName("StudioImages")
-    @Expose
-    private ArrayList<StudioImage> studioImages = new ArrayList<>();
-    @SerializedName("StudioSelectedDays")
-    @Expose
-    private ArrayList<StudioSelectedDay> studioSelectedDays = new ArrayList<>();
-    @SerializedName("StudioFeatures")
-    @Expose
-    private ArrayList<StudioFeature> studioFeatures = new ArrayList<>();
-    @SerializedName("FitnessClasses")
-    @Expose
-    private ArrayList<FitnessClassess> fitnessClasses = new ArrayList<>();
+
+
+    public String getOpeningTimePr() {
+        return openingTimePr;
+    }
+
+    public void setOpeningTimePr(String openingTimePr) {
+        this.openingTimePr = openingTimePr;
+    }
+
+    public String getClosingTimePr() {
+        return closingTimePr;
+    }
+
+    public void setClosingTimePr(String closingTimePr) {
+        this.closingTimePr = closingTimePr;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setModifiedOn(String modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
 
     public Integer getId() {
         return id;
@@ -155,12 +192,8 @@ public class Studio {
         this.createdOn = createdOn;
     }
 
-    public Object getModifiedOn() {
+    public String getModifiedOn() {
         return modifiedOn;
-    }
-
-    public void setModifiedOn(Object modifiedOn) {
-        this.modifiedOn = modifiedOn;
     }
 
     public String getStudioNameEng() {

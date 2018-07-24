@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 
@@ -53,6 +54,8 @@ public class LoginFragment extends BaseFragment {
     @BindView(R.id.img_password)
     ImageView passwordTick;
     Unbinder unbinder;
+    @BindView(R.id.ll_password)
+    LinearLayout llPassword;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -79,7 +82,19 @@ public class LoginFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        serviceHelper.enqueueCall(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
+
+        if (prefHelper.isLanguagePersian()) {
+            edtEmail.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            edtPassword.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            llPassword.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        } else {
+            edtEmail.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            edtPassword.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            llPassword.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
+     //   serviceHelper.enqueueCall(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
         setListener();
         animateSeekbarToZero(slidelogin);
 
@@ -142,7 +157,7 @@ public class LoginFragment extends BaseFragment {
                 } else {
                     if (isValidated()) {
                         //  loginService();
-                        serviceHelper.enqueueCall(headerWebService.loginUser(edtEmail.getText().toString(), edtPassword.getText().toString()), WebServiceConstants.LoginUser);
+                        serviceHelper.enqueueCall(webService.loginUser(edtEmail.getText().toString(), edtPassword.getText().toString()), WebServiceConstants.LoginUser);
                         animateSeekbarToZero(seekBar);
                     } else
                         animateSeekbarToZero(seekBar);
@@ -183,7 +198,8 @@ public class LoginFragment extends BaseFragment {
                     activiateAccountDialoge.initbooknow(R.layout.activite_account_dialoge, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUser().getUserId(), prefHelper.getUser().getEmail(), prefHelper.getUser().getFullName(), prefHelper.getUser().getUserThumbnailImage(), prefHelper.getUser().getGenderId() + "", false), WebServiceConstants.deleteAccount);
+                            // serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUser().getUserId(), prefHelper.getUser().getEmail(), prefHelper.getUser().getFullName(), prefHelper.getUser().getUserThumbnailImage(), prefHelper.getUser().getGenderId() + "", false), WebServiceConstants.deleteAccount);
+                            serviceHelper.enqueueCall(headerWebService.activateUser(prefHelper.getUser().getUserId()), WebServiceConstants.deleteAccount);
                             activiateAccountDialoge.hideDialog();
 
                         }
@@ -241,13 +257,13 @@ public class LoginFragment extends BaseFragment {
     private boolean isValidated() {
         if (edtEmail.getText() == null || (edtEmail.getText().toString().isEmpty()) ||
                 !(Patterns.EMAIL_ADDRESS.matcher(edtEmail.getText().toString()).matches())) {
-            edtEmail.setError(getString(R.string.enter_valid_email));
+            edtEmail.setError(getDockActivity().getResources().getString(R.string.enter_valid_email));
             return false;
         } else if (edtPassword.getText().toString().isEmpty()) {
-            edtPassword.setError(getString(R.string.enter_password));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } else if (edtPassword.getText().toString().length() < 6) {
-            edtPassword.setError(getString(R.string.passwordLength));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.passwordLength));
             return false;
         } else {
             return true;
@@ -267,4 +283,6 @@ public class LoginFragment extends BaseFragment {
 
         }
     }
+
+
 }

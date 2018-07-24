@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -121,6 +122,7 @@ public class DialogHelper {
 
             RadioButton radioBtn = new RadioButton(context);
             radioBtn.setPadding((int) context.getResources().getDimension(R.dimen.x5), 0, 0, 0);
+           // radioBtn.setGravity(Gravity.START);
             radioBtn.setTextColor(context.getResources().getColor(R.color.dark_grey));
             radioBtn.setText(DateHelper.getFormatedDate("HH:mm:ss", "hh:mm aa", item.getTimeIn()) + " - " + DateHelper.getFormatedDate("HH:mm:ss", "hh:mm aa", item.getTimeOut()));
             radioBtn.setOnCheckedChangeListener(listner2);

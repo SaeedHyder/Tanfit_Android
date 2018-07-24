@@ -36,13 +36,13 @@ public class ServiceHelper<T> {
                     context.onLoadingFinished();
                     if (response != null && response.body() != null) {
                         if (response.body().isSuccess()) {
-                            serviceResponseLisener.ResponseSuccess(response.body().getResult(), tag, response.body().getMessage());
+                            serviceResponseLisener.ResponseSuccess(response.body().getResult(), tag, response.body().getMessageEN());
                         } else {
                                 serviceResponseLisener.ResponseFailure(tag);
-                            UIHelper.showShortToastInCenter(context, response.body().getMessage());
+                            UIHelper.showShortToastInCenter(context, response.body().getMessageEN());
                         }
                     } else {
-                        UIHelper.showShortToastInCenter(context, response.message() == null ? context.getString(R.string.responseerror) : response.message());
+                        UIHelper.showShortToastInCenter(context, response.message() == null || response.message().equals("") ? context.getResources().getString(R.string.responseerror) : response.message());
                     }
 
                 }
@@ -66,10 +66,10 @@ public class ServiceHelper<T> {
                     //   context.onLoadingFinished();
                     if (response != null && response.body() != null) {
                         if (response.body().isSuccess()) {
-                            serviceResponseLisener.ResponseSuccess(response.body().getResult(), tag, response.body().getMessage());
+                            serviceResponseLisener.ResponseSuccess(response.body().getResult(), tag, response.body().getMessageEN());
                         } else {
                             serviceResponseLisener.ResponseFailure(tag);
-                            UIHelper.showShortToastInCenter(context, response.body().getMessage());
+                            UIHelper.showShortToastInCenter(context, response.body().getMessageEN());
                         }
                     } else {
                         UIHelper.showShortToastInCenter(context, response.message() == null ? context.getString(R.string.responseerror) : response.message());

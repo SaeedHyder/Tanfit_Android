@@ -46,6 +46,7 @@ import com.ingic.tanfit.interfaces.ImageSetter;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -114,6 +115,7 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     private static final int RC_SIGN_IN = 007;
     private String mSocialMediaPlatform = "";
     private String mSocialMediaID = "";
+    private ImageLoader imageLoader;
 
 
     public static SignUpFragment newInstance() {
@@ -137,7 +139,7 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.signup_head));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.signup_head));
 
     }
 
@@ -145,12 +147,19 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
         ButterKnife.bind(this, view);
+        imageLoader= ImageLoader.getInstance();
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
         setTermsClickListeners();
         setGenderSpinner();
         setupGoogleSignup();
@@ -189,9 +198,9 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
 
     private void setGenderSpinner() {
         ArrayList<String> genderCollection = new ArrayList<>(3);
-        genderCollection.add(getString(R.string.gender_hint));
-        genderCollection.add(getString(R.string.gender_male));
-        genderCollection.add(getString(R.string.gender_female));
+        genderCollection.add(getDockActivity().getResources().getString(R.string.gender_hint));
+        genderCollection.add(getDockActivity().getResources().getString(R.string.gender_male));
+        genderCollection.add(getDockActivity().getResources().getString(R.string.gender_female));
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<String>(getDockActivity()
                 , R.layout.spinner_item, genderCollection) {
             @Override
@@ -218,8 +227,8 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     private void setTermsClickListeners() {
         checkboxShowPassword.setOnCheckedChangeListener(this);
         checkboxShowConfirmPassword.setOnCheckedChangeListener(this);
-        SpannableString stringBuilder = new SpannableString(getString(R.string.term_condition_agree));
-        setClickableSpan(stringBuilder, getString(R.string.term_condition_agree), getString(R.string.term_condition),
+        SpannableString stringBuilder = new SpannableString(getDockActivity().getResources().getString(R.string.term_condition_agree));
+        setClickableSpan(stringBuilder, getDockActivity().getResources().getString(R.string.term_condition_agree), getDockActivity().getResources().getString(R.string.term_condition),
                 new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
@@ -232,8 +241,8 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
                         ds.setUnderlineText(true);
                     }
                 });
-        setForegroundColorSpan(stringBuilder, getString(R.string.term_condition_agree),
-                getString(R.string.term_condition), getResources().getColor(R.color.black));
+        setForegroundColorSpan(stringBuilder, getDockActivity().getResources().getString(R.string.term_condition_agree),
+                getString(R.string.term_condition), getDockActivity().getResources().getColor(R.color.black));
 
         termCondtion.setText(stringBuilder);
         termCondtion.setMovementMethod(LinkMovementMethod.getInstance());
@@ -369,44 +378,47 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
             if (edtFullname.requestFocus()) {
                 setEditTextFocus(edtFullname);
             }
-            edtFullname.setError(getString(R.string.enter_FullName));
+            edtFullname.setError(getDockActivity().getResources().getString(R.string.enter_FullName));
+            return false;
+        } else if (spnGender.getSelectedItemPosition() == 0) {
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.select_gender_error));
             return false;
         } else if (edtEmail.getText() == null || (edtEmail.getText().toString().isEmpty()) ||
                 (!Patterns.EMAIL_ADDRESS.matcher(edtEmail.getText().toString()).matches())) {
             if (edtEmail.requestFocus()) {
                 setEditTextFocus(edtEmail);
             }
-            edtEmail.setError(getString(R.string.enter_email));
+            edtEmail.setError(getDockActivity().getResources().getString(R.string.enter_email));
             return false;
         } else if (edtPassword.getText().toString().isEmpty()) {
-            edtPassword.setError(getString(R.string.enter_password));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             if (edtPassword.requestFocus()) {
                 setEditTextFocus(edtPassword);
             }
             return false;
+        }else if (edtMobileNumber.getText() == null || (edtMobileNumber.getText().toString().isEmpty())) {
+            if (edtMobileNumber.requestFocus()) {
+                setEditTextFocus(edtMobileNumber);
+            }
+            edtMobileNumber.setError(getDockActivity().getResources().getString(R.string.enter_MobileNum));
+            return false;
         } else if (edtPassword.getText().toString().length() < 6) {
-            edtPassword.setError(getString(R.string.enter_valid_password));
+            edtPassword.setError(getDockActivity().getResources().getString(R.string.enter_valid_password));
             if (edtPassword.requestFocus()) {
                 setEditTextFocus(edtPassword);
             }
             return false;
         } else if (!edtConfirmPassword.getText().toString().equals(edtPassword.getText().toString())) {
-            edtConfirmPassword.setError(getString(R.string.confirm_password_error));
+            edtConfirmPassword.setError(getDockActivity().getResources().getString(R.string.confirm_password_error));
             if (edtConfirmPassword.requestFocus()) {
                 setEditTextFocus(edtConfirmPassword);
             }
             return false;
-        } else if (edtMobileNumber.getText() == null || (edtMobileNumber.getText().toString().isEmpty())) {
-            if (edtMobileNumber.requestFocus()) {
-                setEditTextFocus(edtMobileNumber);
-            }
-            edtMobileNumber.setError(getString(R.string.enter_MobileNum));
+        }  else if (!checkboxTermCondition.isChecked()) {
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.select_term_condition_error));
             return false;
-        } else if (spnGender.getSelectedItemPosition() == 0) {
-            UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.select_gender_error));
-            return false;
-        } else if (!checkboxTermCondition.isChecked()) {
-            UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.select_term_condition_error));
+        } else if (profilePath==null || profilePath.equals("") || profilePath.isEmpty()) {
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.Upload_Profile_Pic));
             return false;
         } else {
             return true;
@@ -420,9 +432,10 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
 
             profilePic = new File(imagePath);
             profilePath = imagePath;
-            Picasso.with(getDockActivity())
+           /* Picasso.with(getDockActivity())
                     .load("file:///" + imagePath)
-                    .into(imgProfile);
+                    .into(imgProfile);*/
+            imageLoader.displayImage("file:///" + imagePath,imgProfile);
             try {
                 //profilePicBitmap = new Compressor(getDockActivity()).compressToBitmap(new File(imagePath));
                 profilePicBitmap = SiliCompressor.with(getDockActivity()).getCompressBitmap(imagePath);

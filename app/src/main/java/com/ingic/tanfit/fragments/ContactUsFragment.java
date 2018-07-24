@@ -60,8 +60,14 @@ public class ContactUsFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        txtAboutUs.setText(prefHelper.getAppDefaultSetting().getContactUsEng() + "");
-        txtAddress.setText(prefHelper.getAppDefaultSetting().getContactUsAddressEng() + "");
+        if(prefHelper.isLanguagePersian()){
+            txtAboutUs.setText(prefHelper.getAppDefaultSetting().getContactUsPer() + "");
+            txtAddress.setText(prefHelper.getAppDefaultSetting().getContactUsAddressPer() + "");
+        }
+        else {
+            txtAboutUs.setText(prefHelper.getAppDefaultSetting().getContactUsEng() + "");
+            txtAddress.setText(prefHelper.getAppDefaultSetting().getContactUsAddressEng() + "");
+        }
 
     }
 
@@ -70,7 +76,7 @@ public class ContactUsFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.contact));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.contact));
     }
 
     @Override
@@ -86,7 +92,7 @@ public class ContactUsFragment extends BaseFragment {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } else {
-            UIHelper.showShortToastInCenter(getDockActivity(), "URL missing");
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.url_missing));
         }
 
     }

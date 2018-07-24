@@ -158,12 +158,8 @@ public class SubscriptionFragment extends BaseFragment {
     public void setTitleBar(TitleBar titleBar) {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
-        titleBar.setSubHeading(getString(R.string.subscription_plans));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.subscription_plans));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 }

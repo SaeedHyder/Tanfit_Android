@@ -15,9 +15,12 @@ public class StudioFeature {
     @SerializedName("FeatureId")
     @Expose
     private Integer featureId;
-    @SerializedName("FeatureName")
+    @SerializedName("FeatureName_En")
     @Expose
-    private String featureName;
+    private String featureNameEn;
+    @SerializedName("FeatureName_Pr")
+    @Expose
+    private String featureNamePr;
     @SerializedName("Icon")
     @Expose
     private String icon;
@@ -47,12 +50,28 @@ public class StudioFeature {
         this.featureId = featureId;
     }
 
-    public String getFeatureName() {
-        return featureName;
+    public String getFeatureNameEn() {
+        return featureNameEn;
     }
 
-    public void setFeatureName(String featureName) {
-        this.featureName = featureName;
+    public void setFeatureNameEn(String featureNameEn) {
+        this.featureNameEn = featureNameEn;
+    }
+
+    public String getFeatureNamePr() {
+        return featureNamePr;
+    }
+
+    public void setFeatureNamePr(String featureNamePr) {
+        this.featureNamePr = featureNamePr;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public String getIcon() {

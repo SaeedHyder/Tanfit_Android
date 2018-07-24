@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- mark favourite message -->
+    <string name="successful">دلخواه شما با موفقیت ثبت گردید</string>
+
+    <string name="drawer_open">باز شود</string>
+    <string name="drawer_close">بستھ شود</string>
+
+    <string name="api_key">AIzaSyBJmrp9C2culZ2W_zAxSA7iatV_dK_40fg</string>
+    <string name="app_name">تن فیت</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">تنظیمات</string>
+    <string name="facebook_app_id">674632155971845</string>
+    <string name="facebook_app_id_test">175703936145004</string>
+
+    <!-- Error Messages -->
+    <string name="error_passwords_do_not_match">ر ﺰﻣورود وﺎﺴﮑﯾ ﮫﯾﺪﯿﯾﺎﺗ نﺪﻨﺘﺴﯿﻧ</string>
+    <string name="error_could_not_connect">ارتباط با سرور مقدور نیست. دوباره امتحان کنید</string>
+    <string name="error_cannot_create_account">این حساب کاربری موجود می باشد</string>
+    <string name="error_cannot_sign_in">لطفا ایمیل و رمز عبور درست وارد کنید</string>
+    <string name="crash_toast_text">با عرض پوزش، در حال برطرف کردن مشکل موجود ھستیم</string>
+    <string name="msg_connection_failed">خطا! ارتباط با سرور برقرار نشد</string>
+    <string name="msg_connection_error">بھ اینترنت وصل نیستید</string>
+
+    <!-- Date Time -->
+    <string name="common.months">ماهها</string>
+    <string name="common.weeks">ھفتھ ھا</string>
+    <string name="common.days">روزھﺎ</string>
+    <string name="common.hrs">ساعت</string>
+    <string name="common.mins">دقیقھ</string>
+    <string name="common.secs">ثانیھ</string>
+    <string name="common.ago">قبل</string>
+
+    <!-- AnyTextView -->
+    <string name="typeface_not_found">Typeface %$1 not found, or could not be loaded.
+        Showing default typeface.</string>
+    <string name="app">AnyTextView</string>
+    <string name="assets_fonts_folder">fonts/</string>
+    <string name="txt_enter_phone_no">شماره موبایل خود را وارد کنید</string>
+    <string name="txt_register_text">شماره موبایل شما باید تایید شود</string>
+    <string name="message_quit">آیا می خواھید خارج شوید</string>
+    <string name="message_wait">لطفا صبر کنید تا داده ھای شما بارگذاری شود</string>
+    <string name="password">رمز ورود</string>
+    <string name="confirm_pass">تایید رمز ورود</string>
+
+    <string name="click_here">اینجا را کلیک کنید</string>
+    <string name="imgdesc_signup">ثبت نام</string>
+    <string name="imgdesc_signin">ورود</string>
+    <string name="back_to_login"><u>بازگشت بھ ورود</u></string>
+    <string name="remember_me">مرا بھ خاطر بسپار</string>
+    <string name="login">ورود</string>
+    <string name="user_name">نام کاربری</string>
+    <string name="first_name">نام</string>
+    <string name="last_name">نام خانوادگی</string>
+    <string name="home">خانھ</string>
+    <string name="profile">حساب کاربری</string>
+    <string name="categories">دستھ بندی ھا</string>
+    <string name="messages">پیام ھا</string>
+
+    <string name="search_hint">جست و جوی تبلیغات، کاربر یا دستھ بندی</string>
+    <string name="password_sent">رمز عبور بھ آدرس ایمیل شما فرستاده شد</string>
+    <string name="change_password">رمز ورود را تغییر بده</string>
+    <string name="reason_for_rejection">دلیل</string>
+    <string name="old_password">پسورد قبلی</string>
+    <string name="new_password">پسورد جدید</string>
+    <string name="via_email">از طریق ایمیل</string>
+    <string name="via_sms">از طریق پیامک</string>
+    <string name="tell_a_friend">بھ دوست خود بگویید</string>
+    <string name="contact_email">contact@voltas.com</string>
+    <string name="contact_phone">5555 555 555</string>
+    <string name="enter_text">متن را وارد کنید</string>
+    <string name="you_paid">شما پرداخت کردید</string>
+    <string name="tap_to_rate">TAP A STAR TO RATE DRIVER</string>
+    <string name="contact_address">Columbus College of Arts, New York</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book. It has survived not only five centuries, but
+         also the leap into electronic typesetting, remaining essentially unchanged
+         . It was popularised in the 1960s with the release of Letraset sheets cont
+         aining Lorem Ipsum passages, and more recently with desktop publishing so
+         ftware like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="long_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book. It has survived not only five centuries, but
+         also the leap into electronic typesetting, remaining essentially unchanged
+         . It was popularised in the 1960s with the release of Letraset sheets cont
+         aining Lorem Ipsum passages, and more recently with desktop publishing so
+         ftware like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book. It has survived not only five centuries, but
+         also the leap into electronic typesetting, remaining essentially unchanged
+         . It was popularised in the 1960s with the release of Letraset sheets cont
+         aining Lorem Ipsum passages, and more recently with desktop publishing so
+         ftware like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="small_lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and types
+        etting industry. Lorem Ipsum has been the industrys standard dummy text ever sinc
+        e the 1500s, when an unknown printer took a galley of type and scrambled it t
+        o make a type specimen book.
+         </string>
+    <string name="this_is_login_fragment">This is Login Fragment</string>
+
+    <string name="default_hint_text">Where are you going?</string>
+
+    <string name="connection_lost">بھ اینترنت وصل نیستید</string>
+    <integer name="type_feature">0</integer>
+
+    <!--FONTS-->
+    <string name="font_normal">Poppins-Regular_1.ttf</string>
+    <string name="font_bold">Poppins-Bold_1.ttf</string>
+    <string name="font_italic_bold">Roboto-Italic_2.ttf</string>
+    <string name="font_bold_roboto">Roboto-Bold.ttf</string>
+    <string name="font_roboto">Roboto-Regular.ttf</string>
+    <string name="font_italic_light">Roboto-LightItalic_2.ttf</string>
+    <string name="font_handwriting">segoeprb_1.ttf</string>
+    <string name="notification">ھشدارھا</string>
+    <string name="skip">رد کن</string>
+    <string name="finish">تمام</string>
+    <string name="next">بعدی</string>
+    <string name="email">آدرس ایمیل</string>
+    <string name="signup">ثبت نام</string>
+    <string name="enter_valid_email">آدرس اﺖﺴﯿﻧ ﺮﺒﺘﻌﻣ ﺎﻤﺷ ﻞﯿﻤﯾ</string>
+    <string name="enter_password">ر ﺰﻣورود را واردﺪﯿﻨﮐ</string>
+    <string name="passwordLength">رمز ورود باید حداقل ۶ کاراکتر باشد</string>
+    <string name="enter_the_4_digit_code">کد ۴ رقمی را وارد کنید</string>
+    <string name="resend_code">کد را دوباره بفرست</string>
+    <string name="enter_email_forgot_password">آدرس ایمیل خود را وارد کنید</string>
+    <string name="forgot_password_email_message">آدرس ایمیل خود را وارد کنید تا لینک تغییر رمز ورود برای شما ایمیل شود</string>
+    <string name="email_address">آدرس ایمیل</string>
+    <string name="forgot_password">رمز ورود را فراموش کرده ام</string>
+    <string name="forgot_password_email_send_heading">ایمیل خود را چک کنید</string>
+    <string name="forgot_password_email_send_message">ما اطلاعات لازم برای تغییر رمز ورود را ایمیل کردیم</string>
+    <string name="forgot_password_email_send_message_query">سوالات خود را بھ این آدرس ایمیل بفرستید</string>
+    <string name="sample_email">tanfit@sampleemail.com</string>
+    <string name="email_app_error">ھیچ ایمیلی پیدا نشد</string>
+    <string name="forgot_password_send_mail">بھ ...... ایمیل بفرستید</string>
+    <string name="forgot_password_reset_heading">بازنشانی رمز ورود</string>
+    <string name="forgot_password_reset_message">رمز جدید را وارد کنید</string>
+    <string name="enter_the_4_digit_code_we_send_you_via_email_to_continue">کد ۴ رقمی کھ برای شما ایمیل کردیم را وارد کنید</string>
+    <string name="code_expires_in">کد در--- منتقضی می شود</string>
+    <string name="submit">ثبت</string>
+    <string name="verify_email">تایید ایمیل</string>
+    <string name="correct_verification_code">لطفا کد درست را وارد کنید</string>
+    <string name="full_name">نام کامل</string>
+    <string name="gender">جنسیت</string>
+    <string name="term_condition_agree">با قوانین و شرایط موافقم</string>
+    <string name="term_condition">قوانین و شرایط</string>
+    <string name="description">توضیحات</string>
+    <string name="special_features">امکانات</string>
+    <string name="trainer">مربی</string>
+    <string name="music">موزیک</string>
+    <string name="changing_room">اتاق تعویض لباس</string>
+    <string name="treadmil">تردمیل</string>
+    <string name="amenilities">امکانات</string>
+    <string name="view_studio_page">از صفحھ باشگاه دیدن بفرمایید</string>
+    <string name="book_now">رزرو کن</string>
+    <string name="location">مکان</string>
+    <string name="logout">خروج</string>
+    <string name="Cancel">بستھ ورزشی را کنسل کن</string>
+    <string name="are_you_sure_you_want_to_logout">آیا می خواھید خارج شوید</string>
+    <string name="are_you_sure_you_want_book_class">آیا می خواھید این کلاس را رزرو کنید</string>
+    <string name="are_you_sure_you_want_activate_account">می خواھید حساب کاربری خود را فعال کنید</string>
+    <string name="are_you_sure_you_want_delete_account">آیا مطمین ھستید</string>
+    <string name="are_you_sure_you_want_cancel_class">آیا می خواھید کلاس رزرو شده را کنسل کنید</string>
+    <string name="are_you_sure_you_want_to_pause_subcription">آیا می خواهید بسته ورزشی خود را نگه دارید</string>
+    <string name="are_you_sure_you_want_to_cancel_subcription">آیا می خواھید بستھ ورزشی خود راکنسل کنید</string>
+    <string name="yes">بلھ</string>
+    <string name="no">خیر</string>
+    <string name="about">درباره ی ما</string>
+    <string name="all_classes">همه کلاس ها</string>
+    <string name="contact">تماس با ما</string>
+    <string name="my_subscriptions">برنامھ عضویت من</string>
+    <string name="your_subscription_plan_is">برنامھ عضویت شما</string>
+    <string name="need_a_short_break">آیا می خواھید استراحت کنید</string>
+    <string name="visit_website">مراجعھ بھ وب سایت</string>
+    <string name="pause">نگھ دار</string>
+    <string name="you_can_pause_your_subscription_for">شما می توانید بستھ ورزشی خود را نگھ دارید برای ....... روز</string>
+    <string name="cancel_subscription">عضویت را کنسل کن</string>
+    <string name="no_data">داده ای برای نمایش وجود ندارد</string>
+    <string name="no_class_found">ھیچ کلاسی پیدا نشد</string>
+    <string name="fitness_classes">کلاس ھا</string>
+    <string name="studios">باشگاه ھا</string>
+    <string name="favorite">دلخواه ھای من</string>
+    <string name="pilates">پیلاتس</string>
+    <string name="trx">تیآراکس</string>
+    <string name="yoga">یوگا</string>
+    <string name="spinning">اسپینینگ</string>
+    <string name="gender_hint">لطفا انتخاب کنید</string>
+    <string name="gender_male">مرد</string>
+    <string name="gender_female">زن</string>
+    <string name="signup_head">ثبت نام</string>
+    <string name="enter_FullName">نام خود را وارد کنید</string>
+    <string name="sign_up_with_google">با گوگل ثبت نام کنید</string>
+    <string name="enter_Height">قد خود را وارد کنید</string>
+    <string name="enter_Weight">وزن خود را وارد کنید</string>
+    <string name="enter_Address">آدرس خود را وارد کنید</string>
+    <string name="enter_MobileNum">شماره موبایل خود را وارد کنید</string>
+    <string name="enter_email">آدرس ایمیل معتبر نمی باشد</string>
+    <string name="enter_activity">فعالیت را وارد کنید</string>
+    <string name="enter_valid_password">رمز ورود باید حداقل ۶ کاراکتر باشد</string>
+    <string name="confirm_password_error">رمز ورود و تاییدیھ یکسان نیستند</string>
+    <string name="select_gender_error">جنیسیت را وارد کنید</string>
+    <string name="select_term_condition_error">با قوانین و شرایط موافقم</string>
+    <string name="subscribe_now">ثبت نام</string>
+    <string name="subscription_plans">برنامھ ھای عضویت</string>
+    <string name="by_location">چھ جایی</string>
+    <string name="by_activity">چھ ورزشی</string>
+    <string name="by_available_hours">چھ ساعتی</string>
+    <string name="activity">فعالیت</string>
+    <string name="internet_not_connected">عدم اتصال بھ اینترنت</string>
+    <string name="gps_question">تشخیص مکان شما امکان پذیر نیست. لطفا گزینھ مکان را در تنظمات فعال کنید</string>
+    <string name="gps_yes">بلھ</string>
+    <string name="gps_no">خیر</string>
+    <string name="search">جست و جو</string>
+
+    <string name="notifications_settings">تنیمات ھشدارھا</string>
+    <string name="language">زبان</string>
+    <string name="english">انگلیسی</string>
+    <string name="persian">فارسی</string>
+    <string name="implemented_beta">در بتا پیاده سازی می شود</string>
+    <string name="current_password">رمز فعلی</string>
+    <string name="confirm_new_password">تایید رمز جدید</string>
+    <string name="conform_password_error">رمز ورود و تاییدیھ یکسان نیستند</string>
+    <string name="samePassword">رمز عبور جدید و قبلی باید متفاوت باشند</string>
+    <string name="no_result_found">ھیچ نتیجھ ای پیدا نشد</string>
+    <string name="date">تاریخ</string>
+    <string name="address">آدرس</string>
+    <string name="center">مرکز</string>
+    <string name="current_booking">کلاس ھای رزرو شده</string>
+    <string name="booking_history">تاریخچھ کلاس ھای رزرو شده</string>
+    <string name="my_gyms">باشگاه ھای من</string>
+    <string name="manage_subscription">مدیریت عضویت</string>
+    <string name="my_favorites">دلخواه ھای من</string>
+    <string name="settings">تنظیمات</string>
+    <string name="about_us">درباره ما</string>
+    <string name="contact_us">تماس با ما</string>
+    <string name="resume">Resume</string>
+    <string name="pauseSubscription">آیا می خواھید عضویت را نگھ دارید؟</string>
+    <string name="days">روزھا</string>
+    <string name="cancel_booking">کلاس رزروشده را کنسل کن</string>
+    <string name="subscribe">خرید بستھ ورزشی</string>
+    <string name="gym">باشگاه</string>
+    <string name="gallery">گالری</string>
+    <string name="timings">زمان</string>
+    <string name="men">مرد</string>
+    <string name="women">زن</string>
+    <string name="show_filters">نمایش انتخاب ھا</string>
+    <string name="skiptitle">رد کن</string>
+    <string name="max_gym_yoga">باشگاه ماکس یوگا</string>
+    <string name="showe">دوش</string>
+    <string name="steamroom">سونای بخار</string>
+    <string name="my_classes">کلاس ھای من</string>
+    <string name="book_class">کلاس را رزرو کن</string>
+    <string name="cancel_class">کلاس رزرو شده را کنسل کن</string>
+    <string name="ok">بلھ</string>
+    <string name="mobile_number">شماره موبایل</string>
+    <string name="responseerror">مشکلی پیش آمد</string>
+    <string name="select_class_slot">زمان کلاس را انتخاب کنید</string>
+    <string name="delete_account">حساب کاربری را پاک کن</string>
+    <string name="contact_number">شماره تماس</string>
+    <string name="edit_profile">ویرایش اطلاعات</string>
+    <string name="emergency_contact_number">شماره موبایل برای موارد اضطراری</string>
+    <string name="height">قد</string>
+    <string name="weight">وزن</string>
+    <string name="update">بھ روزرسانی</string>
+    <string name="please_wait">لطفا صبر کنید</string>
+    <string name="paused_subscrition">بستھ ورزشی شما نگھ داشتھ شده است</string>
+    <string name="activate_account">حساب کاربری را فعال کن</string>
+    <string name="profile_updated">اطلاعات شما با موفقیت بھ روزرسانی شد</string>
+    <string name="phone_number">شماره موبایل</string>
+    <string name="address_activity">آدرس یا فعالیت را وارد کنید</string>
+    <string name="no_class">ھیچ کلاسی وجود ندارد</string>
+    <string name="explore_all">تمامی کلاس ها را روی اپلیکیشن ما ببینید</string>
+    <string name="book_classes_with_one_click">با یک کلیک کلاسهای دلخواه خود را رزرو کنید</string>
+    <string name="enjoy">لذت ببرید</string>
+    <string name="no_nearby_studios_found">ھیچ باشگاھی نزدیک شما پیدا نشد</string>
+    <string name="no_studios_found">ھھیچ باشگاھی شما پیدا نشد</string>
+    <string name="no_nearby_classes_found">ھیچ کلاسی نزدیک شما پیدا نشد</string>
+    <string name="you_can_cacel_before">شما می توانید این کلاس را کنسل کنید</string>
+    <string name="hours_to_avoid_charges">ساعت تا شروع کلاس</string>
+    <string name="please_select_any_slot">یک زمان را انتخاب کنید</string>
+    <string name="no_class_is_scheduled_for_today">ھیچ کلاسی برای امروز وجود ندارد</string>
+    <string name="your_class_is_booked_successfully">کلاس شما با موفقیت رزرو شد</string>
+    <string name="url_missing">آدرس URL موجود نیست</string>
+    <string name="have_a_question">آیا سوالی دارید</string>
+    <string name="internet_issue">عدم اتصال بھ اینترنت. عکس را دوباره بارگذاری کنید</string>
+    <string name="min">حداقل</string>
+    <string name="verification_code">کد تایید</string>
+    <string name="enter_the_code_we_send_you_via_email_to_continue">کد تایید که از طریق ایمیل برای شما فرستاده شده را وارد نمایید</string>
+    <string name="group_classes">کلاس ھای گروھی</string>
+    <string name="express_circuit">اکسپرس سیرکت</string>
+    <string name="fitness_assessment">ارزیابی سلامت</string>
+    <string name="personal_training">مربی خصوصی</string>
+    <string name="inch">در</string>
+    <string name="kilometer">کیلوگرم</string>
+    <string name="we_regret_you_want_to_cancel_your_subscription">از این کھ عضویت خود را کنسل می کنید ناراحتیم</string>
+    <string name="you_still_have">شما ھنوز ...... روز دارید</string>
+    <string name="more_days_left">بستھ ورزشی شما فعال می شود در ..... روز</string>
+    <string name="enter_days_filed">روز را وارد کنید</string>
+    <string name="subscription_paused_successfully">برنامھ عضویت شما نگھ داشتھ شده است</string>
+    <string name="subscription_cancelled_successfully">کنسل کردن عضویت</string>
+    <string name="select_activity">فعالیت را انتخاب کنید</string>
+    <string name="apply">بگرد</string>
+    <string name="classes">کلاس ھا</string>
+    <string name="per">در</string>
+    <string name="total_no_of_subscribes_classes_are">تعداد کلاس ھای بستھ ورزشی</string>
+    <string name="limited">محدود</string>
+    <string name="maximum">*حداکثر</string>
+    <string name="classes_per_day">کلاس ھا در روز</string>
+    <string name="irr">ریال</string>
+    <string name="you_have_subscribed_successfully">شما با موفقیت بسته ورزشی خریدید</string>
+    <string name="donec_ultrices_scelerisque_nisi">Donec ultrices scelerisque nisi</string>
+    <string name="Nulla_ei_orci_aliquam">Nulla ei orci aliquam,condimentum tellus eaac,cursus tellius,In magna eros luctus non</string>
+    <string name="actually_i_d_rather_pause"><u>عضویت خود را نگھ دارم</u></string>
+    <string name="complete_cancellation">کامل کنسل شود</string>
+    <string name="are_you_sure_you_want_to_leave">آیا می خواھید عضویت خود را کنسل کنید</string>
+    <string name="don_t_forget_you_can_also_pause_your_membership_if_you_need_to_take_a_break">بھ یاد داشتھ باشید کھ ھمیشھ می توانید عضویت خود را نگھ دارید و استراحت کنید</string>
+    <string name="unsubscribe_now">کنسل کردن عضویت</string>
+    <string name="burn_upper_body">ورزش:آپربادی</string>
+    <string name="no_favorite_class">ھیچ کلاس دلخواھی ندارید</string>
+    <string name="no_favorite_studios">ھیچ کلاس دلخواھی ندارید</string>
+    <string name="no_cuttent_class">ھیچ کلاسی در حال حاضر وجود ندارد</string>
+    <string name="no_previous_classes">ھیچ کلاس قبلی وجود ندارد</string>
+    <string name="please_visit_our_website_for_any_questions">دییامرف هعجارم ام تیاسبو هب افطل</string>
+    <string name="allstudios">همه باشگاه ھا</string>
+    <string name="Upload_Profile_Pic">آپلود تصویر نمایه</string>
+    <string name="class_booked">کلاس قبلا رزرو شده است</string>
+
+
+
+</resources>

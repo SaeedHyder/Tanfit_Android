@@ -13,10 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,7 +41,6 @@ import com.ingic.tanfit.entities.IsFavoriteEnt;
 import com.ingic.tanfit.entities.SlotsEnt;
 import com.ingic.tanfit.entities.StudioFeature;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
-import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.helpers.DialogHelper;
@@ -47,6 +51,7 @@ import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.ExpandableGridView;
 import com.ingic.tanfit.ui.views.TitleBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -58,7 +63,8 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by saeedhyder on gym_image_11/21/2017.
@@ -66,7 +72,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallback {
 
     @BindView(R.id.iv_profileImage)
-    CircleImageView ivProfileImage;
+    ImageView ivProfileImage;
     @BindView(R.id.txt_title)
     AnyTextView txtTitle;
     @BindView(R.id.txt_address)
@@ -97,11 +103,15 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
     AnyTextView txt_cancel_hours;
     @BindView(R.id.rl_bookBtn)
     RelativeLayout RlBookBtn;
+    @BindView(R.id.mainFrameLayout)
+    LinearLayout mainFrameLayout;
 
 
     //    @BindView(R.id.map)
 //    ImageView map;
     ImageLoader imageLoader;
+    @BindView(R.id.ll_description)
+    LinearLayout llDescription;
     private GoogleMap mMap;
     private View viewParent;
     private SupportMapFragment mapFragment;
@@ -119,6 +129,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
     private static String IsFavoriteClassKey = "IsFavoriteClass";
     private boolean isfavorite = false;
     private static String Day = "Day";
+    private static String DayId = "DayId";
     private static String DateKey = "Date";
     private String jsonString;
     private FitnessClassess entiity;
@@ -143,11 +154,12 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         return fragment;
     }
 
-    public static ClassDetailFragment newInstance(FitnessClassess fitnessClassess, String DayKey, String Date) {
+    public static ClassDetailFragment newInstance(FitnessClassess fitnessClassess, String DayKey, String Date, String DayID) {
         Bundle args = new Bundle();
         args.putString(FitnessEnt, new Gson().toJson(fitnessClassess));
         args.putString(Day, DayKey);
         args.putString(DateKey, Date);
+        args.putString(DayId, DayID);
         ClassDetailFragment fragment = new ClassDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -164,6 +176,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
             jsonString = getArguments().getString(FitnessEnt);
             Day = getArguments().getString(Day);
             DateKey = getArguments().getString(DateKey);
+            DayId = getArguments().getString(DayId);
             isfavorite = getArguments().getBoolean(IsFavoriteClassKey);
         }
         if (jsonString != null) {
@@ -178,14 +191,6 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         titleBar.hideButtons();
         titleBar.showBackButton();
         titleBar.setSubHeading("");
-
-        titleBar.showHeartButton(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                serviceHelper.enqueueCall(headerWebService.addFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteClass);
-
-            }
-        });
     }
 
     @Override
@@ -212,15 +217,26 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
+        if (getTitleBar() != null) {
+            getTitleBar().hideHeartButton();
+        }
+
+
         if (isfavorite) {
             RlBookBtn.setVisibility(View.GONE);
             serviceHelper.enqueueCall(headerWebService.isFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId()), WebServiceConstants.isFavoriteClass);
         } else {
-            RlBookBtn.setVisibility(View.VISIBLE);
-            serviceHelper.enqueueCall(headerWebService.isFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId()), WebServiceConstants.isFavoriteClass);
-            serviceHelper.enqueueCall(headerWebService.isClassBooked(prefHelper.getUserAllData().getId(), entiity.getId(), DateKey), WebServiceConstants.isCLassBooked);
+            RlBookBtn.setVisibility(View.GONE);
+/*          serviceHelper.enqueueCall(headerWebService.isFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId()), WebServiceConstants.isFavoriteClass);
+            serviceHelper.enqueueCall(headerWebService.isClassBooked(prefHelper.getUserAllData().getId(), entiity.getId(), DayId), WebServiceConstants.isCLassBooked);*/
+            serviceHelper.enqueueCall(headerWebService.isBooked(prefHelper.getUserAllData().getId(), entiity.getId(), DayId), WebServiceConstants.isCLassBooked);
         }
-
 
 
         prefHelper.setIsFromStudio(false);
@@ -254,7 +270,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                     for (FitnessClassTime item2 : item.getFitnessClassTimes()) {
 
                         if (Day != null) {
-                            if (Day.equals(item.getDayName())) {
+                            if (Day.equals(item.getDayNameEn())) {
                                 slotsArray.add(new SlotsEnt(item2.getFitnessClassSelectedDayId(), item2.getId(), item.getFitnessClassId(), item2.getTimeIn(), item2.getTimeOut()));
                             }
                         } else {
@@ -271,20 +287,78 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         if (slotsArray.size() > 0) {
             txtTime.setText(DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", slotsArray.get(0).getTimeIn()) + " - " + DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", slotsArray.get(slotsArray.size() - 1).getTimeOut()));
         } else {
-            txtTime.setText("No Class");
+            txtTime.setText(R.string.no_class);
         }
     }
 
     private void setFitnessClassData(FitnessClassess enitity) {
 
-        imageLoader.displayImage(enitity.getFitnessClassActivityIcon(), ivProfileImage);
-        txtTitle.setText(enitity.getClassNameEng() + "");
-        txtAddress.setText(enitity.getStudioAddressEng() + "");
-        // txtTime.setText(DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", enitity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeIn()) + " - " + DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", enitity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeOut()));
-        txtDuration.setText(enitity.getClassDurationMin() + " Min");
-        txtDate.setText(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "MMM dd,yyyy", enitity.getFromDate()));
-        txt_description.setText(enitity.getClassDescriptionEng() + "");
-        txt_cancel_hours.setText("You can cancel before " + enitity.getClassCancellationDurationHrs() + " hours to avoid charges");
+
+        if (prefHelper.getUserAllData().getGenderId() == 1) {
+          /*  Picasso.with(getDockActivity())
+                    .load(enitity.getActivity().getMaleIcon())
+                    .placeholder(R.drawable.placeholder3)
+                    .into(ivProfileImage);*/
+            Glide.with(getDockActivity()).asGif()
+                    .load(enitity.getActivity().getMaleIcon())
+                    .apply(bitmapTransform(new CircleCrop()))
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.placeholder3))
+                    .into(ivProfileImage);
+        } else {
+         /*   Picasso.with(getDockActivity())
+                    .load(enitity.getActivity().getFemaleIcon())
+                    .placeholder(R.drawable.placeholder3)
+                    .into(ivProfileImage);*/
+            Glide.with(getDockActivity()).asGif()
+                    .load(enitity.getActivity().getFemaleIcon())
+                    .apply(bitmapTransform(new CircleCrop()))
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.placeholder3))
+                    .into(ivProfileImage);
+        }
+
+        if (prefHelper.isLanguagePersian()) {
+            txtTitle.setText(enitity.getClassNamePer() + "");
+
+            if (enitity.getStudioAddressPer() != null && !enitity.getStudioAddressPer().equals("")) {
+                txtAddress.setText(enitity.getStudioAddressPer() + "");
+            } else {
+                txtAddress.setText("-");
+            }
+            // txtTime.setText(DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", enitity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeIn()) + " - " + DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", enitity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeOut()));
+            txtDuration.setText(enitity.getClassDurationMinPr() + " Min");
+            txtDate.setText(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "MMM dd,yyyy", enitity.getFromDate()));
+            if (enitity.getClassDescriptionPer() != null && !enitity.getClassDescriptionPer().equals("null")) {
+                txt_description.setText(enitity.getClassDescriptionPer() + "");
+                llDescription.setVisibility(View.VISIBLE);
+            } else {
+                llDescription.setVisibility(View.GONE);
+            }
+            txt_cancel_hours.setText(getDockActivity().getResources().getString(R.string.you_can_cacel_before) + " " + enitity.getClassCancellationDurationHrsPr() + " " + getDockActivity().getResources().getString(R.string.hours_to_avoid_charges));
+
+        } else {
+            txtTitle.setText(enitity.getClassNameEng() + "");
+
+            if (enitity.getStudioAddressEng() != null && !enitity.getStudioAddressEng().equals("")) {
+                txtAddress.setText(enitity.getStudioAddressEng() + "");
+            } else {
+                txtAddress.setText("-");
+            }
+
+            // txtTime.setText(DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", enitity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeIn()) + " - " + DateHelper.getFormatedDate("HH:mm:ss", "HH:mm", enitity.getFitnessClassSelectedDays().get(0).getFitnessClassTimes().get(0).getTimeOut()));
+            txtDuration.setText(enitity.getClassDurationMin() + " Min");
+            txtDate.setText(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "MMM dd,yyyy", enitity.getFromDate()));
+            if (enitity.getClassDescriptionEng() != null && !enitity.getClassDescriptionEng().equals("null")) {
+                txt_description.setText(enitity.getClassDescriptionEng() + "");
+                llDescription.setVisibility(View.VISIBLE);
+            } else {
+                llDescription.setVisibility(View.GONE);
+            }
+            txt_cancel_hours.setText(getDockActivity().getResources().getString(R.string.you_can_cacel_before) + " " + enitity.getClassCancellationDurationHrs() + " " + getDockActivity().getResources().getString(R.string.hours_to_avoid_charges));
+        }
+
+
     }
 
 
@@ -300,7 +374,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         Double lng = enitity.getLongitude();
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.location2);
         mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(icon));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), AppConstants.zoomIn));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 15));
 
 //        String mapURL="https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lng+"&zoom=14&" +
 //                "&scale=2&size=500x300&maptype=roadmap&markers=color:blue|"+lat+","+lng+"&key=AIzaSyCDylplefNyWlLDoBL_n2VFjwlMWvq3sBg";
@@ -391,7 +465,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                                 bookingNowDialog(selectedSlot);
                                 classSlotsDialoge.hideDialog();
                             } else {
-                                UIHelper.showShortToastInCenter(getDockActivity(), "please select any slot");
+                                UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.please_select_any_slot));
                             }
 
 
@@ -405,7 +479,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
 
                     classSlotsDialoge.showDialog();
                 } else {
-                    UIHelper.showShortToastInCenter(getDockActivity(), "No Class is scheduled for today");
+                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.no_class_is_scheduled_for_today));
                 }
 
                 break;
@@ -418,7 +492,10 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                     @Override
                     public void onClick(View v) {
 
-                        serviceHelper.enqueueCall(headerWebService.cancelUserClass(prefHelper.getUserAllData().getId(), entiity.getId()), WebServiceConstants.cancelUserClass);
+                        //  getDockActivity().replaceDockableFragment(CancelSurveyFragment.newInstance(entiity.getId()+""),"CancelSurveyFragment");
+
+                        serviceHelper.enqueueCall(headerWebService.cancelClassCheck(prefHelper.getUserAllData().getId(), entiity.getId(), DayId), WebServiceConstants.CheckCancelClass);
+
                         cancelBookingDialoge.hideDialog();
                     }
                 }, new View.OnClickListener() {
@@ -472,6 +549,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         switch (Tag) {
             case WebServiceConstants.bookUserClass:
 
+
                 BookClassEnt bookClassEntity = (BookClassEnt) result;
 
                 conformDialoge();
@@ -510,7 +588,33 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                 btnCancelBooking.setVisibility(View.GONE);
                 break;
 
+            case WebServiceConstants.CheckCancelClass:
+
+                getDockActivity().replaceDockableFragment(CancelSurveyFragment.newInstance(entiity.getId() + ""), "CancelSurveyFragment");
+
+                break;
+
+
             case WebServiceConstants.isCLassBooked:
+
+                RlBookBtn.setVisibility(View.VISIBLE);
+                if (getTitleBar() != null) {
+                    getTitleBar().showHeartButton(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            serviceHelper.enqueueCall(headerWebService.addFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteClass);
+
+                        }
+                    });
+
+                    if (((IsFavoriteEnt) result).isFavorite()) {
+
+                        getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(true);
+
+                    } else {
+                        getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(false);
+                    }
+                }
 
                 if (((IsFavoriteEnt) result).isBooked()) {
                     btnBookNow.setVisibility(View.GONE);
@@ -522,23 +626,32 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                     txt_cancel_hours.setVisibility(View.GONE);
                 }
 
+
                 break;
 
             case WebServiceConstants.isFavoriteClass:
 
-                if (((IsFavoriteEnt) result).isFavorite()) {
+                if (getTitleBar() != null) {
+                    getTitleBar().showHeartButton(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            serviceHelper.enqueueCall(headerWebService.addFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteClass);
 
-                    getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(true);
+                        }
+                    });
+                    if (((IsFavoriteEnt) result).isFavorite()) {
 
-                } else {
-                    getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(false);
+                        getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(true);
+
+                    } else {
+                        getTitleBar().getHearCheckBox(R.id.cb_heart).setChecked(false);
+                    }
                 }
-
                 break;
 
 
             case WebServiceConstants.addFavoriteClass:
-
+                //  UIHelper.showShortToastInCenter(getDockActivity(),message);
                 break;
 
 
@@ -678,4 +791,6 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         mMap = googleMap;
         setMapLocation(entiity);
     }
+
+
 }

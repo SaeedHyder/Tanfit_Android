@@ -9,31 +9,52 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetSubscriptionEnt {
 
-
     @SerializedName("Id")
     @Expose
     private Integer id;
-    @SerializedName("Title")
+    @SerializedName("Title_En")
     @Expose
-    private String title;
+    private String titleEn;
+    @SerializedName("Title_Pr")
+    @Expose
+    private String titlePr;
     @SerializedName("PriceInIranianRiyal")
     @Expose
     private Integer priceInIranianRiyal;
+    @SerializedName("PriceInIranianRiyal_Pr")
+    @Expose
+    private String priceInIranianRiyalPr;
     @SerializedName("NoOfClassesADay")
     @Expose
     private Integer noOfClassesADay;
+    @SerializedName("NoOfClassesADay_Pr")
+    @Expose
+    private String noOfClassesADayPr;
     @SerializedName("NoOfSubscriptionDays")
     @Expose
     private Integer noOfSubscriptionDays;
+    @SerializedName("NoOfSubscriptionDays_Pr")
+    @Expose
+    private String noOfSubscriptionDaysPr;
     @SerializedName("SubscriptionTypeId")
     @Expose
     private Integer subscriptionTypeId;
+    @SerializedName("SubscriptionId")
+    @Expose
+    private Integer SubscriptionId;
+
     @SerializedName("SubscriptionType")
     @Expose
     private String subscriptionType;
+    @SerializedName("SubscriptionType_Pr")
+    @Expose
+    private String subscriptionTypePr;
     @SerializedName("TotalNoOfFitnessClasses")
     @Expose
-    private String totalNoOfFitnessClasses;
+    private Integer totalNoOfFitnessClasses;
+    @SerializedName("TotalNoOfFitnessClasses_Pr")
+    @Expose
+    private String totalNoOfFitnessClassesPr;
     @SerializedName("IsDeleted")
     @Expose
     private Boolean isDeleted;
@@ -43,21 +64,18 @@ public class GetSubscriptionEnt {
     @SerializedName("ModifiedOn")
     @Expose
     private String modifiedOn;
-    @SerializedName("IsServerError")
-    @Expose
-    private Boolean isServerError;
-    @SerializedName("IsSuccess")
-    @Expose
-    private Boolean isSuccess;
-    @SerializedName("Message")
-    @Expose
-    private Object message;
-    @SerializedName("Result")
-    @Expose
-    private Object result;
+
     @SerializedName("TotalRecords")
     @Expose
     private Integer totalRecords;
+
+    public Integer getSubscriptionId() {
+        return SubscriptionId;
+    }
+
+    public void setSubscriptionId(Integer subscriptionId) {
+        SubscriptionId = subscriptionId;
+    }
 
     public Integer getId() {
         return id;
@@ -67,12 +85,20 @@ public class GetSubscriptionEnt {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitleEn() {
+        return titleEn;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleEn(String titleEn) {
+        this.titleEn = titleEn;
+    }
+
+    public String getTitlePr() {
+        return titlePr;
+    }
+
+    public void setTitlePr(String titlePr) {
+        this.titlePr = titlePr;
     }
 
     public Integer getPriceInIranianRiyal() {
@@ -83,6 +109,14 @@ public class GetSubscriptionEnt {
         this.priceInIranianRiyal = priceInIranianRiyal;
     }
 
+    public String getPriceInIranianRiyalPr() {
+        return priceInIranianRiyalPr;
+    }
+
+    public void setPriceInIranianRiyalPr(String priceInIranianRiyalPr) {
+        this.priceInIranianRiyalPr = priceInIranianRiyalPr;
+    }
+
     public Integer getNoOfClassesADay() {
         return noOfClassesADay;
     }
@@ -91,12 +125,28 @@ public class GetSubscriptionEnt {
         this.noOfClassesADay = noOfClassesADay;
     }
 
+    public String getNoOfClassesADayPr() {
+        return noOfClassesADayPr;
+    }
+
+    public void setNoOfClassesADayPr(String noOfClassesADayPr) {
+        this.noOfClassesADayPr = noOfClassesADayPr;
+    }
+
     public Integer getNoOfSubscriptionDays() {
         return noOfSubscriptionDays;
     }
 
     public void setNoOfSubscriptionDays(Integer noOfSubscriptionDays) {
         this.noOfSubscriptionDays = noOfSubscriptionDays;
+    }
+
+    public String getNoOfSubscriptionDaysPr() {
+        return noOfSubscriptionDaysPr;
+    }
+
+    public void setNoOfSubscriptionDaysPr(String noOfSubscriptionDaysPr) {
+        this.noOfSubscriptionDaysPr = noOfSubscriptionDaysPr;
     }
 
     public Integer getSubscriptionTypeId() {
@@ -115,20 +165,36 @@ public class GetSubscriptionEnt {
         this.subscriptionType = subscriptionType;
     }
 
-    public String getTotalNoOfFitnessClasses() {
+    public String getSubscriptionTypePr() {
+        return subscriptionTypePr;
+    }
+
+    public void setSubscriptionTypePr(String subscriptionTypePr) {
+        this.subscriptionTypePr = subscriptionTypePr;
+    }
+
+    public Integer getTotalNoOfFitnessClasses() {
         return totalNoOfFitnessClasses;
     }
 
-    public void setTotalNoOfFitnessClasses(String totalNoOfFitnessClasses) {
+    public void setTotalNoOfFitnessClasses(Integer totalNoOfFitnessClasses) {
         this.totalNoOfFitnessClasses = totalNoOfFitnessClasses;
     }
 
-    public Boolean getIsDeleted() {
+    public String getTotalNoOfFitnessClassesPr() {
+        return totalNoOfFitnessClassesPr;
+    }
+
+    public void setTotalNoOfFitnessClassesPr(String totalNoOfFitnessClassesPr) {
+        this.totalNoOfFitnessClassesPr = totalNoOfFitnessClassesPr;
+    }
+
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public String getCreatedOn() {
@@ -147,38 +213,6 @@ public class GetSubscriptionEnt {
         this.modifiedOn = modifiedOn;
     }
 
-    public Boolean getIsServerError() {
-        return isServerError;
-    }
-
-    public void setIsServerError(Boolean isServerError) {
-        this.isServerError = isServerError;
-    }
-
-    public Boolean getIsSuccess() {
-        return isSuccess;
-    }
-
-    public void setIsSuccess(Boolean isSuccess) {
-        this.isSuccess = isSuccess;
-    }
-
-    public Object getMessage() {
-        return message;
-    }
-
-    public void setMessage(Object message) {
-        this.message = message;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
-    }
-
     public Integer getTotalRecords() {
         return totalRecords;
     }
@@ -186,5 +220,4 @@ public class GetSubscriptionEnt {
     public void setTotalRecords(Integer totalRecords) {
         this.totalRecords = totalRecords;
     }
-
 }

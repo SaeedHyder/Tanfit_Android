@@ -9,15 +9,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetActivitiesEnt {
 
+
     @SerializedName("Id")
     @Expose
     private Integer id;
-    @SerializedName("Name")
+    @SerializedName("Name_En")
     @Expose
-    private String name;
-    @SerializedName("Icon")
+    private String nameEn;
+    @SerializedName("Name_Pr")
     @Expose
-    private String icon;
+    private String namePr;
+    @SerializedName("MaleIcon")
+    @Expose
+    private String maleIcon;
+    @SerializedName("FemaleIcon")
+    @Expose
+    private String femaleIcon;
     @SerializedName("IsDeleted")
     @Expose
     private Boolean isDeleted;
@@ -30,27 +37,43 @@ public class GetActivitiesEnt {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameEn() {
+        return nameEn;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getNamePr() {
+        return namePr;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setNamePr(String namePr) {
+        this.namePr = namePr;
     }
 
-    public Boolean getIsDeleted() {
+    public String getMaleIcon() {
+        return maleIcon;
+    }
+
+    public void setMaleIcon(String maleIcon) {
+        this.maleIcon = maleIcon;
+    }
+
+    public String getFemaleIcon() {
+        return femaleIcon;
+    }
+
+    public void setFemaleIcon(String femaleIcon) {
+        this.femaleIcon = femaleIcon;
+    }
+
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }

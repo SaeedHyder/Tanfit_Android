@@ -61,6 +61,17 @@ public class UserSubscription {
     @SerializedName("Result")
     @Expose
     private Object result;
+    @SerializedName("SubscriptionType_Pr")
+    @Expose
+    private String subscriptionTypePr;
+
+    public String getSubscriptionTypePr() {
+        return subscriptionTypePr;
+    }
+
+    public void setSubscriptionTypePr(String subscriptionTypePr) {
+        this.subscriptionTypePr = subscriptionTypePr;
+    }
 
     public String getSubscriptionType() {
         return SubscriptionType;

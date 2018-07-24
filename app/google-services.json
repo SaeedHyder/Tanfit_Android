@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "553782012207",
+    "firebase_url": "https://tanfit-190212.firebaseio.com",
+    "project_id": "tanfit-190212",
+    "storage_bucket": "tanfit-190212.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553782012207:android:4a5cccd3cb57fc21",
+        "android_client_info": {
+          "package_name": "com.ingic.tanfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553782012207-7ti7nqa0rirjiqiqt480k0atq77elf41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ingic.tanfit",
+            "certificate_hash": "d3b45d4958b305c928fc34c7f1facd13048c5c25"
+          }
+        },
+        {
+          "client_id": "553782012207-ap2c6fe7jcgv4cqsog3np1shn5k9uqua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHXekmudYABTm8JEfR-rkIDsyvy_6z1JM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553782012207-ap2c6fe7jcgv4cqsog3np1shn5k9uqua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

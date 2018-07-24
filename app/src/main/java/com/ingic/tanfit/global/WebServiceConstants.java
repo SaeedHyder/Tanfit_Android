@@ -3,7 +3,8 @@ package com.ingic.tanfit.global;
 public class WebServiceConstants {
     public static final String SERVICE_URL = "";
     //public static final String Local_SERVICE_URL = "http://10.1.30.219:8085/";
-    public static final String Local_SERVICE_URL = "http://tanfit.ingicweb.com/service/";
+    //public static final String Local_SERVICE_URL = "https://tanfit.ingicweb.com/service/";
+    public static final String Local_SERVICE_URL = "http://services.tan-fit.com/";
     public static final String SUCCESS_RESPONSE_CODE = "2000";
 
         //ServicesTags
@@ -25,6 +26,7 @@ public class WebServiceConstants {
     public static final String searchNearestStudios = "searchNearestStudios";
     public static final String bookUserClass = "bookUserClass";
     public static final String cancelUserClass = "cancelUserClass";
+    public static final String CheckCancelClass = "CheckCancelClass";
     public static final String isCLassBooked = "isCLassBooked";
     public static final String isFavoriteClass = "isFavoriteClass";
     public static final String isFavoriteStudio = "isFavoriteStudio";
@@ -45,4 +47,16 @@ public class WebServiceConstants {
     public static final String getSubscriptionData = "getSubscriptionData";
     public static final String getUserAppSetting = "getUserAppSetting";
     public static final String iVerified = "iVerified";
+    public static final String StudioDetail = "StudioDetail";
+    public static final String SurveyQuestions = "SurveyQuestions";
+    public static final String AllAnswers = "AllAnswers";
+    public static final String getAllStudios = "getAllStudios";
+    public static final String getAllClassess = "getAllClassess";
+    public static final String getAllStudiosPaging = "getAllStudiosPaging";
+    public static final String getAllClassessPaging = "getAllClassessPaging";
+
+
+    public static final String SurveyFollowUpFragment = "SurveyFollowUpFragment";
+    public static final String SurveyRadioBtnFragment = "SurveyRadioBtnFragment";
+    public static final String SurveyTextBoxFragment = "SurveyTextBoxFragment";
 }

@@ -45,7 +45,12 @@ public class speacialFeatureItemBinder extends ViewBinder<StudioFeature> {
         final speacialFeatureItemBinder.ViewHolder viewHolder = (speacialFeatureItemBinder.ViewHolder) view.getTag();
 
         imageLoader.displayImage(entity.getIcon(),viewHolder.ivFeature);
-        viewHolder.txtFeature.setText(entity.getFeatureName()+"");
+        if(prefHelper.isLanguagePersian()){
+            viewHolder.txtFeature.setText(entity.getFeatureNamePr()+"");
+        }else{
+            viewHolder.txtFeature.setText(entity.getFeatureNameEn()+"");
+        }
+
 
     }
 

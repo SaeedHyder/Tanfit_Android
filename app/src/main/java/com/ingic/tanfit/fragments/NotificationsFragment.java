@@ -66,7 +66,7 @@ public class NotificationsFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.notification));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.notification));
     }
 
     @Nullable
@@ -94,12 +94,7 @@ public class NotificationsFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
 
-    }
 
     public void bindData(ArrayList<NotificationEnt> result) {
 

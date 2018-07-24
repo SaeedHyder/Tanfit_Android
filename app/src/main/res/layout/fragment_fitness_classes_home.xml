@@ -5,6 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/ll_calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,7 +16,7 @@
             android:layout_height="wrap_content"
             />
 
-        <ListView
+        <com.ingic.tanfit.ui.views.CustomRecyclerView
             android:id="@+id/lv_fitnessClasses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,11 +32,11 @@
         android:paddingBottom="@dimen/x5"
         android:paddingLeft="@dimen/x8"
         android:paddingTop="@dimen/x2"
-        android:text="@string/no_class_found"
+        android:text="@string/no_nearby_classes_found"
         android:textColor="@color/black"
         android:textSize="@dimen/x20"
         android:textStyle="normal"
-        android:visibility="visible"
+        android:visibility="gone"
         app:typeface="Roboto-Regular.ttf"/>
 
 

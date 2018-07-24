@@ -7,10 +7,14 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.UpdateUserEnt;
@@ -36,6 +40,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by saeedhyder on 1/11/2018.
@@ -100,13 +106,33 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+          /*  edtHeight.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            edtWeight.setImeOptions(EditorInfo.IME_ACTION_NEXT);*/
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+           /* edtHeight.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+            edtWeight.setImeOptions(EditorInfo.IME_ACTION_DONE);*/
+        }
+
         setUserData();
         getMainActivity().setImageSetter(this);
+
     }
 
     private void setUserData() {
 
-        imageLoader.displayImage(prefHelper.getUserAllData().getUserThumbnailImage(), imgProfile);
+
+      /*  Glide.with(getDockActivity()).asGif()
+                .load(prefHelper.getUserAllData().getUserThumbnailImage())
+                .apply(bitmapTransform(new CircleCrop()))
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.com_facebook_profile_picture_blank_square))
+                .into(imgProfile);*/
+
+        imageLoader.displayImage(prefHelper.getUserAllData().getUserThumbnailImage(),imgProfile);
+
         edtFullname.setText(prefHelper.getUserAllData().getFullName() + "");
         edtEmail.setText(prefHelper.getUserAllData().getEmail() + "");
         edtGender.setText(prefHelper.getUserAllData().getGender() + "");
@@ -130,25 +156,25 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
             if (edtFullname.requestFocus()) {
                 setEditTextFocus(edtFullname);
             }
-            edtFullname.setError(getString(R.string.enter_FullName));
+            edtFullname.setError(getDockActivity().getResources().getString(R.string.enter_FullName));
             return false;
         } else if (edtMobileNumber.getText() == null || (edtMobileNumber.getText().toString().isEmpty())) {
             if (edtMobileNumber.requestFocus()) {
                 setEditTextFocus(edtMobileNumber);
             }
-            edtMobileNumber.setError(getString(R.string.enter_MobileNum));
+            edtMobileNumber.setError(getDockActivity().getResources().getString(R.string.enter_MobileNum));
             return false;
         } else if (edtHeight.getText() == null || (edtHeight.getText().toString().isEmpty())) {
             if (edtHeight.requestFocus()) {
                 setEditTextFocus(edtHeight);
             }
-            edtHeight.setError(getString(R.string.enter_Height));
+            edtHeight.setError(getDockActivity().getResources().getString(R.string.enter_Height));
             return false;
         } else if (edtWeight.getText() == null || (edtWeight.getText().toString().isEmpty())) {
             if (edtWeight.requestFocus()) {
                 setEditTextFocus(edtWeight);
             }
-            edtWeight.setError(getString(R.string.enter_Weight));
+            edtWeight.setError(getDockActivity().getResources().getString(R.string.enter_Weight));
             return false;
         } else {
             return true;
@@ -181,6 +207,7 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
                 prefHelper.getUserAllData().getId(),
                 edtEmail.getText().toString(),
                 edtFullname.getText().toString(),
+                prefHelper.getUserAllData().getPhoneNumber()+"",
                 //  profilePath != null ? convertToBase64(profilePath) : prefHelper.getUserAllData().getUserThumbnailImage(),
                 profilePicBitmap != null ? convertBitmapToBase64(profilePicBitmap) : prefHelper.getUserAllData().getUserThumbnailImage(),
                 //profilePath != null ? convertToBase64(profilePath) : prefHelper.getUserAllData().getUserThumbnailImage(),
@@ -197,7 +224,7 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.edit_profile));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.edit_profile));
     }
 
     @Override
@@ -224,14 +251,16 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
            // profilePic = new File(imagePath);
 
             //profilePath = imagePath;
-            Picasso.with(getDockActivity())
+          /*  Picasso.with(getDockActivity())
                     .load("file:///" + imagePath)
-                    .into(imgProfile);
+                    .into(imgProfile);*/
+
+            imageLoader.displayImage("file:///" + imagePath,imgProfile);
             try {
               profilePicBitmap = SiliCompressor.with(getDockActivity()).getCompressBitmap(imagePath);
             } catch (Exception e) {
                 e.printStackTrace();
-                UIHelper.showShortToastInCenter(getDockActivity(), "Internet Issue,Upload Image Again");
+                UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.internet_issue));
             }
         }
     }
@@ -273,7 +302,7 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
                 prefHelper.putUser(homeUserData);
 
                 //  getMainActivity().popFragment();
-                UIHelper.showShortToastInCenter(getDockActivity(),getString(R.string.profile_updated));
+                UIHelper.showShortToastInCenter(getDockActivity(),getDockActivity().getResources().getString(R.string.profile_updated));
                 getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
                 //  getDockActivity().replaceDockableFragment(MyProfileFragment.newInstance(), "MyProfileFragment");
                 break;

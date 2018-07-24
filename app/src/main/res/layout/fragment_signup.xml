@@ -97,7 +97,6 @@
             android:layout_marginEnd="@dimen/x2"
             android:layout_marginStart="@dimen/x2"
             android:layout_marginTop="@dimen/x10"
-
             android:paddingStart="@dimen/x10" />
 
         <com.ingic.tanfit.ui.views.AnyTextView
@@ -118,6 +117,7 @@
             android:layout_marginTop="@dimen/x10"
             android:background="@drawable/boxsignup1"
             android:hint="@string/email_address"
+            android:maxLength="50"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:maxLines="1"

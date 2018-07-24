@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -26,6 +28,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -55,6 +58,7 @@ import com.ingic.tanfit.fragments.NotificationsFragment;
 import com.ingic.tanfit.fragments.SideMenuFragment;
 import com.ingic.tanfit.fragments.WelcomeFragment;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.SideMenuChooser;
 import com.ingic.tanfit.global.SideMenuDirection;
 import com.ingic.tanfit.global.WebServiceConstants;
@@ -62,6 +66,7 @@ import com.ingic.tanfit.helpers.ScreenHelper;
 import com.ingic.tanfit.helpers.ServiceHelper;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.ImageSetter;
+import com.ingic.tanfit.interfaces.LocationUpdateListner;
 import com.ingic.tanfit.interfaces.locationInterface;
 import com.ingic.tanfit.interfaces.webServiceResponseLisener;
 import com.ingic.tanfit.residemenu.ResideMenu;
@@ -117,6 +122,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     private locationInterface locationInterface;
     private String address="";
     private String country="";
+    private LocationUpdateListner locationUpdateListner;
 
 
     public void setImageSetter(ImageSetter imageSetter) {
@@ -209,6 +215,10 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         return null;
     }
 
+    public void setLocationListner(LocationUpdateListner locationListner){
+        this.locationUpdateListner=locationListner;
+    }
+
     public boolean statusCheck() {
         if (isNetworkAvailable()) {
             final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -219,7 +229,29 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
                 return true;
             }
         } else {
+
             UIHelper.showShortToastInCenter(this, getString(R.string.internet_not_connected));
+            return false;
+        }
+    }
+
+    public boolean statusCheckMainThread() {
+        if (isNetworkAvailable()) {
+            final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps();
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    UIHelper.showShortToastInCenter(MainActivity.this, getString(R.string.internet_not_connected));
+                }
+            });
+
             return false;
         }
     }
@@ -239,7 +271,8 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
                 .setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.gps_yes), new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                      // startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), AppConstants.LocationUpdateListner);
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.gps_no), new DialogInterface.OnClickListener() {
@@ -258,24 +291,12 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
     }
 
+
     public View getDrawerView() {
         return getLayoutInflater().inflate(getSideMenuFrameLayoutId(), null);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK
-                && (requestCode == ChooserType.REQUEST_PICK_PICTURE || requestCode == ChooserType.REQUEST_CAPTURE_PICTURE)) {
-            if (imageChooserManager == null) {
-                reinitializeImageChooser();
-            }
-            imageChooserManager.submit(requestCode, data);
-        } else {
-            // progressBar.setVisibility(View.GONE);
-        }
 
-    }
 
     private void settingSideMenu(String type, String direction) {
 
@@ -405,6 +426,8 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dock);
         ButterKnife.bind(this);
+
+        setCurrentLocale();
         titleBar = header_main;
         // setBehindContentView(R.layout.fragment_frame);
         mContext = this;
@@ -423,7 +446,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
             serviceHelper = new ServiceHelper(this, this, headerWebService);
         }
 
-       // serviceHelper.enqueueCall(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
+        serviceHelper.enqueueCall(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
 
 
         titleBar.setMenuButtonListener(new OnClickListener() {
@@ -468,8 +491,10 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
             }
         });
 
-        if (savedInstanceState == null)
+       // if (savedInstanceState == null)
             initFragment();
+
+
 
     }
 
@@ -477,6 +502,25 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
 
     }
+
+    private void setCurrentLocale() {
+        if (prefHelper.isLanguagePersian()) {
+            Resources resources = getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            Configuration conf = resources.getConfiguration();
+            conf.locale = new Locale("fa");
+            resources.updateConfiguration(conf, dm);
+
+        } else {
+            Resources resources = getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            Configuration conf = resources.getConfiguration();
+            conf.locale = new Locale("en");
+            resources.updateConfiguration(conf, dm);
+
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -513,6 +557,27 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
     @Override
     public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        setCurrentLocale();
+        if(requestCode== AppConstants.LocationUpdateListner){
+            locationUpdateListner.updateLocationFragment();
+        }
+
+        if (resultCode == RESULT_OK
+                && (requestCode == ChooserType.REQUEST_PICK_PICTURE || requestCode == ChooserType.REQUEST_CAPTURE_PICTURE)) {
+            if (imageChooserManager == null) {
+                reinitializeImageChooser();
+            }
+            imageChooserManager.submit(requestCode, data);
+        } else {
+            // progressBar.setVisibility(View.GONE);
+        }
 
     }
 
@@ -631,6 +696,12 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
     @Override
     public void ResponseFailure(String tag) {
 
+    }
+
+    public void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 /*
     public void getLocationGoogle() {

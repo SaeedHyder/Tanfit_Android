@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/x10"
+    android:layout_marginStart="@dimen/x10"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x5"
+        android:layout_marginTop="@dimen/x10"
+        android:text="Improve Tanfit"
+        android:textColor="@color/app_blue"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal" />
+
+    <com.ingic.tanfit.ui.views.AnyTextView
+        android:id="@+id/txt_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x5"
+        android:alpha="0.8"
+        android:text="@string/small_lorem_ipsum"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal" />
+
+    <com.ingic.tanfit.ui.views.AnyEditTextView
+        android:id="@+id/txt_textBox"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x130"
+        android:background="@drawable/rectangle_box_white"
+        android:layout_marginTop="@dimen/x5"
+        android:layout_marginBottom="@dimen/x15"
+        android:gravity="top"
+        android:hint="Write here...."
+        android:padding="@dimen/x10"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/x14"
+        app:typeface="@string/font_normal"/>
+
+
+</LinearLayout>

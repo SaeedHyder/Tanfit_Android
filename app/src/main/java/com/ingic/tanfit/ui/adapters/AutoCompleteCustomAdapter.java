@@ -6,17 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.entities.ActivityAutoCompleteEnt;
 import com.ingic.tanfit.entities.GetActivitiesEnt;
+import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * Created by saeedhyder on 8/23/2017.
@@ -27,13 +35,17 @@ public class AutoCompleteCustomAdapter extends ArrayAdapter<GetActivitiesEnt> {
         ArrayList<GetActivitiesEnt> customers, tempCustomer, suggestions;
         ImageLoader imageLoader;
         private int activityId;
+        private BasePreferenceHelper prefHelper;
+        private DockActivity dockActivity;
 
-        public AutoCompleteCustomAdapter(Context context, ArrayList<GetActivitiesEnt> objects) {
+        public AutoCompleteCustomAdapter(DockActivity context, ArrayList<GetActivitiesEnt> objects, BasePreferenceHelper prefHelper) {
             super(context, android.R.layout.simple_list_item_1, objects);
             this.customers = objects;
             this.tempCustomer = new ArrayList<GetActivitiesEnt>(objects);
             this.suggestions = new ArrayList<GetActivitiesEnt>(objects);
             imageLoader=ImageLoader.getInstance();
+            this.prefHelper=prefHelper;
+            this.dockActivity=context;
 
 
         }
@@ -50,10 +62,25 @@ public class AutoCompleteCustomAdapter extends ArrayAdapter<GetActivitiesEnt> {
             TextView txtDistance = (TextView) convertView.findViewById(R.id.distance);
 
             if (activity != null) {
-                CircleImageView ivCustomerImage = (CircleImageView) convertView.findViewById(R.id.image);
-                txtCustomer.setText(activity.getName());
-                ivCustomerImage.setImageResource(R.drawable.power_yoga);
-                if (ivCustomerImage != null && activity.getIcon() != null ){
+                ImageView ivCustomerImage = (ImageView) convertView.findViewById(R.id.image);
+                txtCustomer.setText(activity.getNameEn());
+               // ivCustomerImage.setImageResource(R.drawable.power_yoga);
+                if (ivCustomerImage != null && activity.getMaleIcon() != null ){
+                    if (prefHelper.getUserAllData().getGenderId() == 1) {
+                        Glide.with(dockActivity).asGif()
+                                .load(activity.getMaleIcon())
+                                .apply(bitmapTransform(new CircleCrop()))
+                                .apply(new RequestOptions()
+                                        .placeholder(R.drawable.placeholder3))
+                                .into(ivCustomerImage);
+                    } else {
+                        Glide.with(dockActivity).asGif()
+                                .load(activity.getFemaleIcon())
+                                .apply(bitmapTransform(new CircleCrop()))
+                                .apply(new RequestOptions()
+                                        .placeholder(R.drawable.placeholder3))
+                                .into(ivCustomerImage);
+                    }
                   //  imageLoader.displayImage(activity.getIcon(),ivCustomerImage);
                    // Picasso.with(getContext()).load(activity.getActivityImage()).into(ivCustomerImage);
                 }
@@ -76,7 +103,7 @@ public class AutoCompleteCustomAdapter extends ArrayAdapter<GetActivitiesEnt> {
             @Override
             public CharSequence convertResultToString(Object resultValue) {
                 GetActivitiesEnt activity = (GetActivitiesEnt) resultValue;
-                return activity.getName();
+                return activity.getNameEn();
             }
 
             @Override
@@ -84,7 +111,7 @@ public class AutoCompleteCustomAdapter extends ArrayAdapter<GetActivitiesEnt> {
                 if (constraint != null) {
                     suggestions.clear();
                     for (GetActivitiesEnt people : tempCustomer) {
-                        if (people.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                        if (people.getNameEn().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
                             suggestions.add(people);
                         }
                     }

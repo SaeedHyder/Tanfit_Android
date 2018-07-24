@@ -49,7 +49,7 @@
         android:padding="@dimen/x8"
         android:paddingBottom="@dimen/x5"
         android:paddingTop="@dimen/x5"
-        android:src="@drawable/ic_launcher"
+
         android:visibility="visible"/>
 
     <ImageView
@@ -62,7 +62,7 @@
         android:padding="@dimen/x8"
         android:paddingBottom="@dimen/x5"
         android:paddingTop="@dimen/x5"
-        android:src="@drawable/ic_launcher"
+
         android:visibility="visible"/>
 
     <CheckBox
@@ -89,7 +89,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/x18"
         android:textAllCaps="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:typeface="OpenSans-Regular.ttf"/>
 
     <RelativeLayout

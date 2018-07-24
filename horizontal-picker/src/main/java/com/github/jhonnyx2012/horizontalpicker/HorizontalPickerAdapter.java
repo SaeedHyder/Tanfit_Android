@@ -27,6 +27,7 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<HorizontalPick
     private final int primaryTextColor;
     private int itemWidth;
     private ArrayList<Day> items;
+    private Context context;
 
     public HorizontalPickerAdapter(int itemWidth, OnItemClickedListener listener, Context context, int daysToCreate, int offset) {
         items = new ArrayList<>();
@@ -34,6 +35,7 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<HorizontalPick
         this.listener = listener;
         this.primaryTextColor = context.getResources().getColor(R.color.primaryTextColor);
         generateDays(daysToCreate, new DateTime().minusDays(offset).getMillis(), false);
+        this.context=context;
     }
 
     public void generateDays(int n, long initialDate, boolean cleanArray) {
@@ -57,9 +59,9 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<HorizontalPick
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Day item = getItem(position);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy",context.getResources().getConfiguration().locale);
         holder.tvDay.setText(simpleDateFormat.format(item.getDate().toDate()));
-        holder.tvWeekDay.setText(item.getWeekDay());
+        holder.tvWeekDay.setText(item.getWeekDay(context.getResources().getConfiguration().locale));
         if (item.isSelected()) {
             holder.itemView.setBackgroundResource(R.drawable.background_day_selected);
             holder.tvDay.setTextColor(Color.WHITE);

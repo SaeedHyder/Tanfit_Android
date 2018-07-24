@@ -35,8 +35,7 @@ public class OKHttpClientCreator {
         OkHttpClient client = new OkHttpClient.Builder()
 
                 .addNetworkInterceptor(new CustomInterceptor(progressListener))
-                .connectTimeout(100, TimeUnit.SECONDS)
-                .readTimeout(100, TimeUnit.SECONDS)
+
                 .addInterceptor(new Interceptor() {
                                     @Override
                                     public Response intercept(Chain chain) throws IOException {

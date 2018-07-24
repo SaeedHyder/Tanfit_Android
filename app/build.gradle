@@ -44,6 +44,9 @@ afterEvaluate {
 repositories {
     jcenter()
 
+    mavenCentral()
+    google()
+
     maven { url "https://maven.google.com" }
     maven { url 'https://jitpack.io' }
 
@@ -59,6 +62,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile "com.google.android.gms:play-services:$googleAPIs"
+
    /* compile 'com.google.android.gms:play-services-plus:11.8.0'
     compile 'com.google.android.gms:play-services-auth:11.8.0'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
@@ -118,11 +122,21 @@ dependencies {
     compile 'com.github.aryarohit07:picasso-facedetection-transformation:0.3.0'
     compile 'com.github.IsPra94:EasyGifView:1.0.1'
 
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+
     compile 'com.koushikdutta.ion:ion:2.2.1'
     compile 'id.zelory:compressor:2.1.0'
     compile 'jp.wasabeef:glide-transformations:3.0.1'
     compile 'com.iceteck.silicompressorr:silicompressor:2.1'
+   // compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:glide:4.1.1'
+    compile 'com.xw.repo:xedittext:2.0.0@aar'
+
+
+
+
+
+
+
 
 
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.entities.BookingHistoryEnt;
 import com.ingic.tanfit.entities.CurrentBookingEnt;
 import com.ingic.tanfit.entities.CurrentBookingEntWithHeader;
 import com.ingic.tanfit.entities.FitnessClassess;
@@ -34,7 +35,7 @@ public class CurrentBookingFragment extends BaseFragment {
     @BindView(R.id.elv_current_booking)
     ExpandableListView elvCurrentBooking;
     Unbinder unbinder;
-    private ArrayList<FitnessClassess> currentBooking = new ArrayList<>();
+    private ArrayList<BookingHistoryEnt> currentBooking = new ArrayList<>();
     private ArrayList<FitnessClassess> CurrentFitnessClasses = new ArrayList<>();
     private ArrayList<CurrentBookingEntWithHeader> headerList=new ArrayList<>();
 
@@ -53,7 +54,7 @@ public class CurrentBookingFragment extends BaseFragment {
         return fragment;
     }
 
-    public void setContent(ArrayList<FitnessClassess> currentBooking) {
+    public void setContent(ArrayList<BookingHistoryEnt> currentBooking) {
         this.currentBooking = currentBooking;
     }
 
@@ -76,6 +77,12 @@ public class CurrentBookingFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
        /* for (int i = 0; i < prefHelper.getNearestStuidos().getFitnessClassess().size(); i++) {
             for (int j = 0; j < currentBooking.size(); j++) {
                 if (prefHelper.getNearestStuidos().getFitnessClassess().get(i).getId().equals(currentBooking.get(j).getFitnessClassId())) {
@@ -84,11 +91,19 @@ public class CurrentBookingFragment extends BaseFragment {
             }
         }*/
 
-        for(FitnessClassess item:currentBooking){
+        for(BookingHistoryEnt item:currentBooking){
 
-            headerList.add(new CurrentBookingEntWithHeader(item.getClassNameEng(),
-                    new CurrentBookingEnt(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "MMMM dd,yyyy", item.getCreatedOn()),
-                            item.getStudioNameEng(),item.getStudioAddressEng())));
+            if(prefHelper.isLanguagePersian()){
+                headerList.add(new CurrentBookingEntWithHeader(item.getClassNamePer(),
+                        new CurrentBookingEnt(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "HH:mm MMMM dd,yyyy", item.getBookingDateTime()),
+                                item.getStudioNamePer(),item.getAddressPer())));
+            }
+            else{
+                headerList.add(new CurrentBookingEntWithHeader(item.getClassNameEng(),
+                        new CurrentBookingEnt(DateHelper.getFormatedDate("yyyy-MM-dd'T'HH:mm:ss", "HH:mm MMMM dd,yyyy", item.getBookingDateTime()),
+                                item.getStudioNameEng(),item.getAddressEng())));
+            }
+
         }
 
         setCurrentBookingData(headerList);
@@ -141,9 +156,5 @@ public class CurrentBookingFragment extends BaseFragment {
         titleBar.hideTitleBar();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 }

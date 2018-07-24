@@ -80,6 +80,13 @@ public class ChangePasswordFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
+
     }
 
     @Override
@@ -87,33 +94,28 @@ public class ChangePasswordFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getResources().getString(R.string.change_password));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.change_password));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     private boolean isvalidate() {
         if (edtcurrentPassword.getText() == null || (edtcurrentPassword.getText().toString().isEmpty())) {
-            edtcurrentPassword.setError(getString(R.string.enter_password));
+            edtcurrentPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } else if (editNewPassword.getText() == null || (editNewPassword.getText().toString().isEmpty())) {
-            editNewPassword.setError(getString(R.string.enter_password));
+            editNewPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } else if (editNewPassword.getText().toString().equals(edtcurrentPassword.getText().toString())) {
-            editNewPassword.setError(getString(R.string.samePassword));
+            editNewPassword.setError(getDockActivity().getResources().getString(R.string.samePassword));
             return false;
         } else if (editNewPassword.getText().toString().length() < 6) {
-            editNewPassword.setError(getString(R.string.passwordLength));
+            editNewPassword.setError(getDockActivity().getResources().getString(R.string.passwordLength));
             return false;
         } else if (editConfirmPassword.getText() == null || (editConfirmPassword.getText().toString().isEmpty()) || editConfirmPassword.getText().toString().length() < 6) {
-            editConfirmPassword.setError(getString(R.string.enter_password));
+            editConfirmPassword.setError(getDockActivity().getResources().getString(R.string.enter_password));
             return false;
         } else if (!editConfirmPassword.getText().toString().equals(editNewPassword.getText().toString())) {
-            editConfirmPassword.setError(getString(R.string.conform_password_error));
+            editConfirmPassword.setError(getDockActivity().getResources().getString(R.string.conform_password_error));
             return false;
         } else {
             return true;

@@ -67,6 +67,12 @@ public class SettingFragment extends BaseFragment {
 
         // serviceHelper.enqueueCall(headerWebService.getUserSetting(prefHelper.getUserAllData().getId()),WebServiceConstants.getUserAppSetting);
 
+        if (prefHelper.isLanguagePersian()) {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        } else {
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         if (prefHelper.getUserAllData().getUserAppSetting().size() > 0) {
             if (prefHelper.getUserAllData().getUserAppSetting().get(0).getNotification()) {
                 toggleNotification.setChecked(true);
@@ -121,7 +127,7 @@ public class SettingFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.settings));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.settings));
     }
 
     @Override
@@ -137,12 +143,19 @@ public class SettingFragment extends BaseFragment {
                 txtEnglishLanguage.setTextColor(getResources().getColor(R.color.app_green));
                 txtPersianLanguage.setTextColor(getResources().getColor(R.color.app_text_gray));
 
+                prefHelper.putLang(getDockActivity(),"en");
+
                 if (prefHelper.getUserAllData() != null && prefHelper.getAppDefaultSetting() != null &&  serviceHelper != null)
                     if (prefHelper.getUserAllData().getUserAppSetting().size() > 0) {
                         serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getUserAppSetting().get(0).getNotification(), 1), WebServiceConstants.englishLanguage);
-                        UserAllDataEnt englishLanguage = prefHelper.getUserAllData();
+                     /*   UserAllDataEnt englishLanguage = prefHelper.getUserAllData();
                         englishLanguage.getUserAppSetting().get(0).setLangId(1);
-                        prefHelper.putUserAllData(englishLanguage);
+                        prefHelper.putUserAllData(englishLanguage);*/
+
+                        ArrayList<AppDefaultSettingEnt> lang=prefHelper.getUserAllData().getUserAppSetting();
+                        lang.get(0).setLangId(1);
+                        prefHelper.getUserAllData().setUserAppSetting(lang);
+
                     } else {
                         serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), prefHelper.getAppDefaultSetting().getNotification(), 1), WebServiceConstants.userAppNotification);
 
@@ -158,12 +171,18 @@ public class SettingFragment extends BaseFragment {
                 txtEnglishLanguage.setTextColor(getResources().getColor(R.color.app_text_gray));
                 txtPersianLanguage.setTextColor(getResources().getColor(R.color.app_green));
 
+                prefHelper.putLang(getDockActivity(),"fa");
+
                 if (prefHelper.getUserAllData() != null && prefHelper.getAppDefaultSetting() != null && serviceHelper != null)
                     if (prefHelper.getUserAllData().getUserAppSetting().size() > 0) {
                         serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getUserAppSetting().get(0).getNotification(), 2), WebServiceConstants.persianlanguage);
-                        UserAllDataEnt persianLanguage = prefHelper.getUserAllData();
+                       /* UserAllDataEnt persianLanguage = prefHelper.getUserAllData();
                         persianLanguage.getUserAppSetting().get(0).setLangId(2);
-                        prefHelper.putUserAllData(persianLanguage);
+                        prefHelper.putUserAllData(persianLanguage);*/
+
+                        ArrayList<AppDefaultSettingEnt> persianLanguage=prefHelper.getUserAllData().getUserAppSetting();
+                        persianLanguage.get(0).setLangId(2);
+                        prefHelper.getUserAllData().setUserAppSetting(persianLanguage);
                     } else {
                         serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), prefHelper.getAppDefaultSetting().getNotification(), 2), WebServiceConstants.userAppNotification);
 
@@ -180,7 +199,8 @@ public class SettingFragment extends BaseFragment {
                 deleteAccount.iniDeleteAccount(R.layout.delete_account_dialoge, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getEmail(), prefHelper.getUserAllData().getFullName(), prefHelper.getUserAllData().getUserThumbnailImage(), prefHelper.getUserAllData().getGenderId() + "", true), WebServiceConstants.deleteAccount);
+                       // serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getEmail(), prefHelper.getUserAllData().getFullName(), prefHelper.getUserAllData().getUserThumbnailImage(), prefHelper.getUserAllData().getGenderId() + "", true), WebServiceConstants.deleteAccount);
+                        serviceHelper.enqueueCall(headerWebService.deactivateUser(prefHelper.getUserAllData().getId()), WebServiceConstants.deleteAccount);
                         deleteAccount.hideDialog();
                     }
                 }, new View.OnClickListener() {
@@ -200,9 +220,9 @@ public class SettingFragment extends BaseFragment {
         switch (Tag) {
 
             case WebServiceConstants.deleteAccount:
-                UserEnt entity = prefHelper.getUser();
+             /*   UserEnt entity = prefHelper.getUser();
                 entity.setIsDeleted("True");
-                prefHelper.putUser(entity);
+                prefHelper.putUser(entity);*/
                 getMainActivity().popBackStackTillEntry(0);
                 prefHelper.setLoginStatus(false);
                 getDockActivity().replaceDockableFragment(LoginFragment.newInstance(), "LoginFragment");

@@ -6,7 +6,8 @@
 
             <item android:drawable="@drawable/boxsignup1" />
             <item
-                android:right="15dp">
+                android:right="15dp"
+                android:left="15dp">
 
                 <bitmap android:gravity="center_vertical|end" android:src="@drawable/down_arrow" />
                 // you can place your dropdown image

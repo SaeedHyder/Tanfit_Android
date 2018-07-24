@@ -6,16 +6,23 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.location.places.Place;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.GetNearestStudiosEnt;
+import com.ingic.tanfit.entities.LocationModel;
+import com.ingic.tanfit.entities.Studio;
 import com.ingic.tanfit.entities.UserAllDataEnt;
 import com.ingic.tanfit.entities.UserSubscription;
 import com.ingic.tanfit.entities.remindingClassEnt;
@@ -23,18 +30,22 @@ import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.DateHelper;
+import com.ingic.tanfit.helpers.ISO8601TimeStampHelper;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.AnyTextView;
+import com.ingic.tanfit.ui.views.AutoCompleteLocation;
 import com.ingic.tanfit.ui.views.TitleBar;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
-public class HomeFragment extends BaseFragment  {
+public class HomeFragment extends BaseFragment {
 
 
     @BindView(R.id.txt_gym_type)
@@ -47,12 +58,22 @@ public class HomeFragment extends BaseFragment  {
     TabLayout tabLayout;
     @BindView(R.id.rl_remindingClass)
     RelativeLayout rlRemindingClass;
+    @BindView(R.id.autoComplete)
+    AutoCompleteLocation autoComplete;
+    @BindView(R.id.img_gps)
+    ImageView imgGps;
+    @BindView(R.id.rl_searchAutoComplete)
+    RelativeLayout rlSearchAutoComplete;
 
 
     private TabViewPagerAdapter adapter;
     private SetChildTitlebar childTitlebar;
 
     GetNearestStudiosEnt entity;
+    private ArrayList<Studio> data;
+    private double locationLat;
+    private double locationLng;
+    private ISO8601TimeStampHelper timeStamp = new ISO8601TimeStampHelper();
 
 
     public static HomeFragment newInstance() {
@@ -63,10 +84,15 @@ public class HomeFragment extends BaseFragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new TabViewPagerAdapter(getChildFragmentManager());
+
     }
 
     public void setContent(GetNearestStudiosEnt data) {
         this.entity = data;
+    }
+
+    public void setStudiosContent(ArrayList<Studio> data) {
+        this.data = data;
     }
 
     @Nullable
@@ -85,29 +111,126 @@ public class HomeFragment extends BaseFragment  {
        /* swipeContainer.setOnRefreshListener(this);
 
         swipeContainer.setColorSchemeColors(getResources().getColor(R.color.app_blue));*/
+        setGpsIcon();
+        setLatLngOnAutoComplete();
 
         serviceHelper.enqueueCall(headerWebService.RemindingFitnessClass(prefHelper.getUser().getUserId() + ""), WebServiceConstants.RemindingCLass);
         serviceHelper.enqueueCall(headerWebService.getSubsccriptionData(prefHelper.getUser().getUserId() + ""), WebServiceConstants.getSubscription);
 
 
+
         setViewPager();
         setViewInTabLayout();
+        //   onBackStack();
 
-        if (prefHelper.isStudio()) {
+      /*  if (prefHelper.isStudio()) {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
-        }
+        }*/
 
+    }
+
+    private void setGpsIcon() {
+
+        autoComplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (s.toString().equals("")) {
+                    imgGps.setVisibility(View.VISIBLE);
+                } else {
+                    imgGps.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void setLatLngOnAutoComplete() {
+
+        autoComplete.setAutoCompleteTextListener(new AutoCompleteLocation.AutoCompleteLocationListener() {
+            @Override
+            public void onTextClear() {
+
+            }
+
+            @Override
+            public void onItemSelected(Place selectedPlace) {
+                locationLat = selectedPlace.getLatLng().latitude;
+                locationLng = selectedPlace.getLatLng().longitude;
+
+                serviceHelper.enqueueCall(headerWebService.getNearestStudiosLite(prefHelper.getUserAllData().getId(), String.valueOf(locationLat), String.valueOf(locationLng),
+                        timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+            }
+        }, prefHelper);
+    }
+
+    public void hideSearchBar() {
+        if (rlSearchAutoComplete != null)
+            rlSearchAutoComplete.setVisibility(View.GONE);
+    }
+
+    public void showSearchBar() {
+        if (rlSearchAutoComplete != null)
+            rlSearchAutoComplete.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (childTitlebar != null) {
-            childTitlebar.setChildTitlebar(getString(R.string.home), AppConstants.HOME_FRAGMENT_TAG);
+            childTitlebar.setChildTitlebar(getDockActivity().getResources().getString(R.string.home), AppConstants.HOME_FRAGMENT_TAG);
         }
+
+
     }
 
+    /*   void onBackStack(){
+           getDockActivity().getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener()
+           {
+               public void onBackStackChanged()
+               {
+                   android.support.v4.app.Fragment currentFragment = getDockActivity().getSupportFragmentManager().findFragmentById(getDockActivity().getDockFrameLayoutId());
+    //
+                   if (currentFragment instanceof MainFragment) {
+
+                       if(((MainFragment)getParentFragment()).getTitleBarInstance()!=null){
+                       TitleBar titleBar=((MainFragment)getParentFragment()).getTitleBarInstance();
+                       titleBar.showTitleBar();
+                       titleBar.hideButtons();
+                       titleBar.showMenuButton(getDockActivity(), prefHelper.getUser().getUserThumbnailImage());
+                       titleBar.showFilterButton(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View v) {
+                               MainFragment mainFragment = MainFragment.newInstance();
+                               mainFragment.setStartWithTab(AppConstants.SEARCH_FRAGMENT_TAG);
+                               getDockActivity().replaceDockableFragment(mainFragment);
+
+                           }
+                       });
+                       titleBar.setSubHeading(getDockActivity().getString(R.string.home));
+                   }
+               }else{
+                       if(((MainFragment)getParentFragment()).getTitleBarInstance()!=null){
+                           TitleBar titleBar=((MainFragment)getParentFragment()).getTitleBarInstance();
+                           titleBar.showTitleBar();
+                           titleBar.hideButtons();
+                           titleBar.showBackButton();
+                       }
+                   }
+               }
+           });
+       }*/
     @Override
     public void ResponseSuccess(Object result, String Tag, String message) {
         super.ResponseSuccess(result, Tag, message);
@@ -129,10 +252,19 @@ public class HomeFragment extends BaseFragment  {
 
                 ArrayList<UserSubscription> userSubscriptions = (ArrayList<UserSubscription>) result;
 
-                userAppData.setUserSubscription(userSubscriptions);
+                if (userSubscriptions.size() > 0) {
+                    userAppData.setUserSubscription(userSubscriptions);
+                    prefHelper.putUserAllData(userAppData);
+                }
 
-                prefHelper.putUserAllData(userAppData);
+                break;
 
+            case WebServiceConstants.getNearestStudios:
+
+                GetNearestStudiosEnt data = (GetNearestStudiosEnt) result;
+                prefHelper.putNearestStudios(data);
+                setContent(data);
+                setViewPager();
 
                 break;
 
@@ -151,6 +283,8 @@ public class HomeFragment extends BaseFragment  {
         linearLayout.setDividerDrawable(drawable);
     }
 
+
+
     private void setViewPager() {
 
 
@@ -158,15 +292,34 @@ public class HomeFragment extends BaseFragment  {
             adapter.clearList();
         }
 
-        HomeFitnessClassFragment homeFitnessClass = new HomeFitnessClassFragment();
-        homeFitnessClass.setContent(entity.getFitnessClassess());
-        adapter.addFragment(homeFitnessClass, getString(R.string.fitness_classes));
+        if(entity!=null) {
 
-        HomeStudioFragment homeStudiosClass = new HomeStudioFragment();
-        homeStudiosClass.setContent(entity.getStudios());
-        adapter.addFragment(homeStudiosClass, getString(R.string.studios));
+            HomeFitnessClassFragment homeFitnessClass = new HomeFitnessClassFragment();
+            homeFitnessClass.setContent(entity.getFitnessClassess());
+            adapter.addFragment(homeFitnessClass, getDockActivity().getResources().getString(R.string.fitness_classes));
+
+            HomeStudioFragment homeStudiosClass = new HomeStudioFragment();
+            homeStudiosClass.setContent(entity.getStudios());
+            adapter.addFragment(homeStudiosClass, getDockActivity().getResources().getString(R.string.studios));
+
+       /* HomeStudioAllFragment homeAllStudioFragment = new HomeStudioAllFragment();
+        adapter.addFragment(homeAllStudioFragment, getDockActivity().getResources().getString(R.string.allstudios));*/
+
+
+            HomeFitnessAllClassesFragment homeFitnessAllClass = new HomeFitnessAllClassesFragment();
+            adapter.addFragment(homeFitnessAllClass, getDockActivity().getResources().getString(R.string.all_classes));
+
+        }
+
+
+
         viewpager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewpager);
+
+         if (prefHelper.isStudio()) {
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            tab.select();
+        }
         //viewpager.getAdapter().notifyDataSetChanged();
 
        /* if(swipeContainer!=null && swipeContainer.isRefreshing()){
@@ -185,7 +338,34 @@ public class HomeFragment extends BaseFragment  {
 
     }
 
-/*
+
+    @OnClick(R.id.img_gps)
+    public void onViewClicked() {
+        UIHelper.hideSoftKeyboard(getDockActivity(), imgGps);
+        getLocation(autoComplete);
+    }
+
+
+    private void getLocation(AutoCompleteTextView textView) {
+        if (getMainActivity().statusCheck()) {
+            LocationModel locationModel = getMainActivity().getMyCurrentLocation();
+            if (locationModel != null) {
+                textView.setText(locationModel.getAddress());
+                locationLat = locationModel.getLat();
+                locationLng = locationModel.getLng();
+
+                serviceHelper.enqueueCall(headerWebService.getNearestStudiosLite(prefHelper.getUserAllData().getId(), String.valueOf(locationLat), String.valueOf(locationLng),
+                        timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+            } else {
+                getLocation(autoComplete);
+            }
+        }
+    }
+
+
+
+    /*
     @Override
     public void onRefresh() {
         setViewPager();

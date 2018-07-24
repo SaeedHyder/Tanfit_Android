@@ -36,7 +36,7 @@
             android:layout_marginTop="@dimen/x25"
             android:alpha="0.7"
             android:gravity="center"
-            android:text="Your Class is booked successfully"
+            android:text="@string/your_class_is_booked_successfully"
             android:textColor="@color/black"
             android:textSize="@dimen/x17"
             app:typeface="Roboto-Regular.ttf" />

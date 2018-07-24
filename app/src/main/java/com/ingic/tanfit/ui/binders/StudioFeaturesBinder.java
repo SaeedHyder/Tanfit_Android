@@ -5,11 +5,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ingic.tanfit.R;
+import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.entities.StudioFeature;
+import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.viewbinders.abstracts.RecyclerViewBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,11 +25,15 @@ public class StudioFeaturesBinder extends RecyclerViewBinder<StudioFeature> {
 
     private ImageLoader imageLoader;
     private RecyclerViewItemListener recyclerViewItemListener;
+    private DockActivity dockActivity;
+    BasePreferenceHelper preferenceHelper;
 
-    public StudioFeaturesBinder(RecyclerViewItemListener recyclerViewItemListener) {
+    public StudioFeaturesBinder(RecyclerViewItemListener recyclerViewItemListener, BasePreferenceHelper preferenceHelper, DockActivity dockActivity) {
         super(R.layout.row_item_studio_features);
         imageLoader = ImageLoader.getInstance();
         this.recyclerViewItemListener = recyclerViewItemListener;
+        this.preferenceHelper=preferenceHelper;
+        this.dockActivity=dockActivity;
     }
 
     @Override
@@ -38,8 +45,19 @@ public class StudioFeaturesBinder extends RecyclerViewBinder<StudioFeature> {
     public void bindView(StudioFeature entity, int position, Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
 
-        imageLoader.displayImage(entity.getIcon(),holder.ivFeaturelogo);
-       holder.txtFeature.setText(entity.getFeatureName());
+        if(preferenceHelper.isLanguagePersian()){
+            holder.txtFeature.setText(entity.getFeatureNamePr());
+        }else{
+            holder.txtFeature.setText(entity.getFeatureNameEn());
+        }
+
+        Picasso.with((dockActivity))
+                .load(entity.getIcon())
+                .placeholder(R.drawable.placeholder3)
+                .into(holder.ivFeaturelogo);
+
+     //   imageLoader.displayImage(entity.getIcon(),holder.ivFeaturelogo);
+
 
 
     }

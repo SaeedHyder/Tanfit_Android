@@ -11,12 +11,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ingic.tanfit.R;
-import com.ingic.tanfit.entities.FitnessClassess;
+import com.ingic.tanfit.entities.BookingHistoryEnt;
 import com.ingic.tanfit.entities.UserFitnessClasses;
-import com.ingic.tanfit.entities.remindingClassEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.WebServiceConstants;
-import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
 
@@ -35,8 +33,8 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
     @BindView(R.id.pager)
     ViewPager pager;
     Unbinder unbinder;
-    ArrayList<FitnessClassess> currentBooking;
-    ArrayList<FitnessClassess> bookingHistory;
+    ArrayList<BookingHistoryEnt> currentBooking;
+    ArrayList<BookingHistoryEnt> bookingHistory;
 
     ArrayList<UserFitnessClasses> userFitnessClasses;
 
@@ -94,15 +92,15 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
             adapter.clearList();
         }
 
-        CurrentBookingFragment currentBookingFragment=new CurrentBookingFragment();
+        CurrentBookingFragment currentBookingFragment = new CurrentBookingFragment();
         currentBookingFragment.setContent(currentBooking);
-        adapter.addFragment(currentBookingFragment, getString(R.string.current_booking));
+        adapter.addFragment(currentBookingFragment, getDockActivity().getResources().getString(R.string.current_booking));
 
-        BookingHistoryFragment bookingHistoryFragment=new BookingHistoryFragment();
+        BookingHistoryFragment bookingHistoryFragment = new BookingHistoryFragment();
         bookingHistoryFragment.setContent(bookingHistory);
-        adapter.addFragment(bookingHistoryFragment, getString(R.string.booking_history));
+        adapter.addFragment(bookingHistoryFragment, getDockActivity().getResources().getString(R.string.booking_history));
         pager.setAdapter(adapter);
-     //   pager.getAdapter().notifyDataSetChanged();
+        //   pager.getAdapter().notifyDataSetChanged();
         tabLayout.setupWithViewPager(pager);
     }
 
@@ -111,14 +109,9 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
         super.setTitleBar(titleBar);
         titleBar.hideButtons();
         titleBar.showBackButton();
-        titleBar.setSubHeading(getString(R.string.booking_history));
+        titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.booking_history));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @Override
     public void ResponseSuccess(Object result, String Tag, String message) {
@@ -126,9 +119,25 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
         switch (Tag) {
 
             case WebServiceConstants.getBookingHistory:
-                userFitnessClasses = new ArrayList<>();
+
+                ArrayList<BookingHistoryEnt> data = (ArrayList<BookingHistoryEnt>) result;
                 currentBooking = new ArrayList<>();
                 bookingHistory = new ArrayList<>();
+
+                if (data.size() > 0) {
+                    for (BookingHistoryEnt item : data) {
+                        if (item.getFitnessClassStatusId() == 1) {
+                            currentBooking.add(item);
+                        } else {
+                            bookingHistory.add(item);
+
+                        }
+                    }
+                }
+
+
+              /*  userFitnessClasses = new ArrayList<>();
+
                 userFitnessClasses = (ArrayList<UserFitnessClasses>)result;
 
                 if (userFitnessClasses.size() > 0) {
@@ -139,7 +148,7 @@ public class BookingHistoryTabLayFragment extends BaseFragment {
                             bookingHistory.add(item.getFitnessClassess());
                         }
                     }
-                }
+                }*/
 
                 setViewPager();
                 break;

@@ -3,7 +3,12 @@ package com.ingic.tanfit.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
+import com.ingic.tanfit.activities.MainActivity;
 import com.ingic.tanfit.entities.AppDefaultSettingEnt;
 import com.ingic.tanfit.entities.FavoriteDataEnt;
 import com.ingic.tanfit.entities.GetNearestStudiosEnt;
@@ -12,6 +17,8 @@ import com.ingic.tanfit.entities.UserAllDataEnt;
 import com.ingic.tanfit.entities.UserEnt;
 import com.ingic.tanfit.entities.UserSubscription;
 import com.ingic.tanfit.retrofit.GsonFactory;
+
+import java.util.Locale;
 
 
 public class BasePreferenceHelper extends PreferenceHelper {
@@ -38,6 +45,7 @@ public class BasePreferenceHelper extends PreferenceHelper {
     protected static final String KEY_DRIVER_SESSION = "DRIVERHOME";
 
     protected static final String NotificationCount = "NotificationCount";
+    protected static final String KEY_DEFAULT_LANG = "keyLanguage";
 
 
     public BasePreferenceHelper(Context c) {
@@ -178,6 +186,36 @@ public class BasePreferenceHelper extends PreferenceHelper {
     public void removeRideSessionPreferences() {
         removePreference(context, FILENAME, KEY_DRIVER_SESSION);
 
+    }
+
+    public void putLang(Activity activity, String lang) {
+        Log.v("lang", "|" + lang);
+        Resources resources = context.getResources();
+
+        if (lang.equals("fa")){
+            lang = "fa";}
+        else{
+            lang = "en";}
+
+        putStringPreference(context, FILENAME, KEY_DEFAULT_LANG, lang);
+        //Resources resources = context.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        android.content.res.Configuration conf = resources.getConfiguration();
+//        conf.setLocale(new Locale(lang));
+        conf.locale = new Locale(lang);
+        resources.updateConfiguration(conf, dm);
+        ((MainActivity) activity).restartActivity();
+
+    }
+
+
+
+    public String getLang() {
+        return getStringPreference(context, FILENAME, KEY_DEFAULT_LANG);
+    }
+
+    public boolean isLanguagePersian() {
+        return getLang().equalsIgnoreCase("fa");
     }
 
 }
