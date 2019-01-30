@@ -35,6 +35,8 @@ public class AppConstants {
     public static String HeaderToken = "HeaderToken";
     public static String GrantType = "password";
     public static String Distance = "5000";
+    public static String Base64 = "data:image/jpeg;base64,";
+
 
 
 

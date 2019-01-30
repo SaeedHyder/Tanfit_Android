@@ -19,12 +19,16 @@ import com.andreabaccega.formedittextvalidator.Validator;
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.activities.DockActivity;
 import com.ingic.tanfit.activities.MainActivity;
+import com.ingic.tanfit.fragments.HomeFragment;
+import com.ingic.tanfit.fragments.MainFragment;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.helpers.GPSTracker;
 import com.ingic.tanfit.helpers.ServiceHelper;
 import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.LoadingListener;
+import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.interfaces.webServiceResponseLisener;
 import com.ingic.tanfit.retrofit.WebService;
 import com.ingic.tanfit.retrofit.WebServiceFactory;
@@ -46,6 +50,7 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
 
     protected DockActivity myDockActivity;
     protected WebService headerWebService;
+    private SetChildTitlebar childTitlebar;
     //private DockActivity activity;
     /**
      * Trigger when receives broadcasts from device to check wifi connectivity
@@ -155,6 +160,7 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
 
         mGpsTracker = new GPSTracker(getDockActivity());
 
+
         if (webService == null) {
             webService = WebServiceFactory.getWebServiceInstanceWithCustomInterceptor(getDockActivity(), WebServiceConstants.Local_SERVICE_URL);
         }
@@ -175,6 +181,13 @@ public abstract class BaseFragment extends Fragment implements webServiceRespons
         if (getDockActivity().getDrawerLayout() != null) {
             getDockActivity().lockDrawer();
         }
+
+      /* Fragment currentFragment = getDockActivity().getSupportFragmentManager().findFragmentById(getDockActivity().getDockFrameLayoutId());
+
+        if (currentFragment instanceof MainFragment) {
+            ((MainFragment) currentFragment).setChildTitlebar(getDockActivity().getResources().getString(R.string.home), AppConstants.HOME_FRAGMENT_TAG);
+        }*/
+
     }
 
     @Override

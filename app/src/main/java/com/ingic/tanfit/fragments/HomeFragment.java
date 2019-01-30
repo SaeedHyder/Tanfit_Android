@@ -1,12 +1,17 @@
 package com.ingic.tanfit.fragments;
 
 
+import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +34,7 @@ import com.ingic.tanfit.entities.remindingClassEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.CustomViewPager;
 import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.helpers.ISO8601TimeStampHelper;
 import com.ingic.tanfit.helpers.UIHelper;
@@ -37,8 +43,16 @@ import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.AutoCompleteLocation;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,9 +132,10 @@ public class HomeFragment extends BaseFragment {
         serviceHelper.enqueueCall(headerWebService.getSubsccriptionData(prefHelper.getUser().getUserId() + ""), WebServiceConstants.getSubscription);
 
 
-
         setViewPager();
         setViewInTabLayout();
+
+        getDockActivity().getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         //   onBackStack();
 
       /*  if (prefHelper.isStudio()) {
@@ -128,6 +143,28 @@ public class HomeFragment extends BaseFragment {
             tab.select();
         }*/
 
+    }
+
+    private FragmentManager.OnBackStackChangedListener getListener() {
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener() {
+            public void onBackStackChanged() {
+                FragmentManager manager = getDockActivity().getSupportFragmentManager();
+
+                if (manager != null) {
+                    Fragment currFrag = getDockActivity().getSupportFragmentManager().findFragmentById(getDockActivity().getDockFrameLayoutId());
+                    if (currFrag != null) {
+                        if (currFrag instanceof MainFragment) {
+                            if (childTitlebar != null) {
+                                childTitlebar.setChildTitlebar(getDockActivity().getResources().getString(R.string.home), AppConstants.HOME_FRAGMENT_TAG);
+                            }
+                        }
+                        //currFrag.onResume();
+                    }
+                }
+            }
+        };
+
+        return result;
     }
 
     private void setGpsIcon() {
@@ -156,7 +193,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void setLatLngOnAutoComplete() {
-
         autoComplete.setAutoCompleteTextListener(new AutoCompleteLocation.AutoCompleteLocationListener() {
             @Override
             public void onTextClear() {
@@ -193,6 +229,14 @@ public class HomeFragment extends BaseFragment {
         }
 
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+
+        }
     }
 
     /*   void onBackStack(){
@@ -250,6 +294,10 @@ public class HomeFragment extends BaseFragment {
             case WebServiceConstants.getSubscription:
                 UserAllDataEnt userAppData = prefHelper.getUserAllData();
 
+                if (userAppData == null) {
+                    userAppData = new UserAllDataEnt();
+                }
+
                 ArrayList<UserSubscription> userSubscriptions = (ArrayList<UserSubscription>) result;
 
                 if (userSubscriptions.size() > 0) {
@@ -284,7 +332,6 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
     private void setViewPager() {
 
 
@@ -292,7 +339,7 @@ public class HomeFragment extends BaseFragment {
             adapter.clearList();
         }
 
-        if(entity!=null) {
+        if (entity != null) {
 
             HomeFitnessClassFragment homeFitnessClass = new HomeFitnessClassFragment();
             homeFitnessClass.setContent(entity.getFitnessClassess());
@@ -312,11 +359,11 @@ public class HomeFragment extends BaseFragment {
         }
 
 
-
+        viewpager.setOffscreenPageLimit(0);
         viewpager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewpager);
 
-         if (prefHelper.isStudio()) {
+        if (prefHelper.isStudio()) {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
         }
@@ -342,7 +389,7 @@ public class HomeFragment extends BaseFragment {
     @OnClick(R.id.img_gps)
     public void onViewClicked() {
         UIHelper.hideSoftKeyboard(getDockActivity(), imgGps);
-        getLocation(autoComplete);
+        requestLocationPermission();
     }
 
 
@@ -362,6 +409,62 @@ public class HomeFragment extends BaseFragment {
             }
         }
     }
+
+    private void requestLocationPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            getLocation(autoComplete);
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestLocationPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestLocationPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Location Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+
+
 
 
 

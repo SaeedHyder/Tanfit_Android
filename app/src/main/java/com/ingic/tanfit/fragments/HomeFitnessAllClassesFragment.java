@@ -3,10 +3,12 @@ package com.ingic.tanfit.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +34,7 @@ import com.ingic.tanfit.entities.IsFavoriteEnt;
 import com.ingic.tanfit.entities.SlotsEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.WebServiceConstants;
+import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.helpers.DialogHelper;
 import com.ingic.tanfit.helpers.UIHelper;
@@ -42,6 +45,13 @@ import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.joda.time.DateTime;
 
@@ -51,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -112,7 +123,7 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     /*   adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new HomeFitnessBinder(getDockActivity(), prefHelper, this));*/
+        /*   adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new HomeFitnessBinder(getDockActivity(), prefHelper, this));*/
         if (getArguments() != null) {
         }
 
@@ -148,7 +159,7 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
         canCallForMore = true;
         String date = formatter.format(new Date());
         selectedDate = new DateTime();
-        serviceHelper.enqueueCallHome(headerWebService.getAllClasses(date, prefHelper.getUserAllData().getGenderId() + "", currentPageNumber, totalCount), WebServiceConstants.getAllClassess);
+        // serviceHelper.enqueueCallHome(headerWebService.getAllClasses(date, prefHelper.getUserAllData().getGenderId() + "", currentPageNumber, totalCount), WebServiceConstants.getAllClassess);
 
         if (prefHelper.isLanguagePersian()) {
             view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -187,6 +198,12 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
             if (prefHelper != null) {
                 prefHelper.setIsFromStudio(false);
             }
+
+            if (formatter != null && prefHelper != null && entity==null) {
+                formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                serviceHelper.enqueueCall(headerWebService.getAllClasses(formatter.format(new Date()), prefHelper.getUserAllData().getGenderId() + "", currentPageNumber, totalCount), WebServiceConstants.getAllClassess);
+            }
+
         }
 
     }
@@ -256,7 +273,7 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
                 if (((IsFavoriteEnt) result).isBooked()) {
                     UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.class_booked));
                 } else {
-                    classBooking();
+                    requestCalendarPermission();
                 }
 
 
@@ -481,7 +498,7 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
             }
         }
 
-        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(fitnessClassData, Day, Date, DayId), "ClassDetailFragment");
+        getDockActivity().addDockableFragment(ClassDetailFragment.newInstance(fitnessClassData, Day, Date, DayId), "ClassDetailFragment");
     }
 
     @Override
@@ -633,7 +650,7 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
         // confirmed (1) or canceled
         // (2):
         eventValues.put("eventTimezone", "UTC/GMT +2:00");
-   /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
+        /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
 
     /*eventValues.put("visibility", 3); // visibility to default (0),
                                         // confidential (1), private
@@ -707,6 +724,63 @@ public class HomeFitnessAllClassesFragment extends BaseFragment implements DateP
         }
         return EventIdGlobal;
 
+    }
+
+    private void requestCalendarPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.WRITE_CALENDAR,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            classBooking();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestCalendarPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestCalendarPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Calendar Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.style.CharacterStyle;
 import android.text.style.StyleSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -64,6 +65,10 @@ public class AutoCompleteAdapter extends ArrayAdapter<AutocompletePrediction>
         TextView textView2 = (TextView) row.findViewById(android.R.id.text2);
         textView1.setText(item.getPrimaryText(STYLE_BOLD));
         textView2.setText(item.getSecondaryText(STYLE_BOLD));
+        textView1.setGravity(Gravity.LEFT);
+        textView2.setGravity(Gravity.LEFT);
+        textView1.setPadding(0,0,15,0);
+        textView2.setPadding(0,0,15,0);
 
         return row;
     }

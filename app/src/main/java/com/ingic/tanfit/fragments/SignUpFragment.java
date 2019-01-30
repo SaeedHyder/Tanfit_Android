@@ -1,12 +1,15 @@
 package com.ingic.tanfit.fragments;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -46,6 +49,13 @@ import com.ingic.tanfit.interfaces.ImageSetter;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -55,6 +65,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,7 +158,7 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
         ButterKnife.bind(this, view);
-        imageLoader= ImageLoader.getInstance();
+        imageLoader = ImageLoader.getInstance();
         return view;
     }
 
@@ -192,6 +203,12 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     @Override
     public void onStop() {
         super.onStop();
+        googleHelper.DisconnectGoogleApi();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         googleHelper.DisconnectGoogleApi();
     }
 
@@ -284,38 +301,71 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
                 googleHelper.intentGoogleSign();
                 break;
             case R.id.btn_camera:
-                CameraHelper.uploadPhotoDialog(getMainActivity());
+                requestCameraPermission();
+
                 break;
         }
     }
 
     private void registerUser() {
 
-        MultipartBody.Part filePart;
-        if (profilePic != null) {
-            filePart = MultipartBody.Part.createFormData("profile_picture",
-                    profilePic.getName(), RequestBody.create(MediaType.parse("image*//*"), profilePic));
-        } else {
-            filePart = MultipartBody.Part.createFormData("profile_picture", "",
-                    RequestBody.create(MediaType.parse("**/*//*"), ""));
-        }
+        getDockActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getMainActivity().onLoadingStarted();
+            }
+        });
+
+        Thread t = new Thread() {
+            public void run() {
+
+                MultipartBody.Part filePart;
+                if (profilePic != null) {
+                    filePart = MultipartBody.Part.createFormData("profile_picture",
+                            profilePic.getName(), RequestBody.create(MediaType.parse("image*//*"), profilePic));
+                } else {
+                    filePart = MultipartBody.Part.createFormData("profile_picture", "",
+                            RequestBody.create(MediaType.parse("**/*//*"), ""));
+                }
 
 
-        String gender;
-        if (spnGender.getSelectedItemPosition() == 1) {
-            gender = "1";
-        } else {
-            gender = "2";
-        }
-        serviceHelper.enqueueCall(webService.registerUser(
-                edtEmail.getText().toString(),
-                edtPassword.getText().toString(),
-                edtConfirmPassword.getText().toString(),
-                edtMobileNumber.getText().toString(),
-                edtFullname.getText().toString(),
-                profilePicBitmap != null ? convertBitmapToBase64(profilePicBitmap) : "",
-                gender), WebServiceConstants.registeruser);
+                String gender;
+                if (spnGender.getSelectedItemPosition() == 1) {
+                    gender = "1";
+                } else {
+                    gender = "2";
+                }
+                String image;
+                if (profilePicBitmap != null && !profilePicBitmap.equals("")) {
+                    image = AppConstants.Base64+convertBitmapToBase64(profilePicBitmap);
+                } else {
+                    image = "";
+                }
 
+                serviceHelper.enqueueCallHome(webService.registerUser(
+                        edtEmail.getText().toString(),
+                        edtPassword.getText().toString(),
+                        edtConfirmPassword.getText().toString(),
+                        edtMobileNumber.getText().toString(),
+                        edtFullname.getText().toString(),
+                        image,
+                        gender), WebServiceConstants.registeruser);
+            }
+        };
+        t.start();
+
+
+
+
+
+
+    }
+
+    @Override
+    public void ResponseFailure(String tag) {
+        super.ResponseFailure(tag);
+
+        getMainActivity().onLoadingFinished();
     }
 
     private String convertToBase64(String imagePath)
@@ -354,6 +404,7 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
         switch (Tag) {
 
             case WebServiceConstants.registeruser:
+                getMainActivity().onLoadingFinished();
                 googleHelper.googleRevokeAccess();
                 googleHelper.googleSignOut();
                 UserEnt entity = (UserEnt) result;
@@ -396,7 +447,7 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
                 setEditTextFocus(edtPassword);
             }
             return false;
-        }else if (edtMobileNumber.getText() == null || (edtMobileNumber.getText().toString().isEmpty())) {
+        } else if (edtMobileNumber.getText() == null || (edtMobileNumber.getText().toString().isEmpty())) {
             if (edtMobileNumber.requestFocus()) {
                 setEditTextFocus(edtMobileNumber);
             }
@@ -414,10 +465,10 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
                 setEditTextFocus(edtConfirmPassword);
             }
             return false;
-        }  else if (!checkboxTermCondition.isChecked()) {
+        } else if (!checkboxTermCondition.isChecked()) {
             UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.select_term_condition_error));
             return false;
-        } else if (profilePath==null || profilePath.equals("") || profilePath.isEmpty()) {
+        } else if (profilePath == null || profilePath.equals("") || profilePath.isEmpty()) {
             UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.Upload_Profile_Pic));
             return false;
         } else {
@@ -435,14 +486,13 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
            /* Picasso.with(getDockActivity())
                     .load("file:///" + imagePath)
                     .into(imgProfile);*/
-            imageLoader.displayImage("file:///" + imagePath,imgProfile);
+            imageLoader.displayImage("file:///" + imagePath, imgProfile);
             try {
                 //profilePicBitmap = new Compressor(getDockActivity()).compressToBitmap(new File(imagePath));
                 profilePicBitmap = SiliCompressor.with(getDockActivity()).getCompressBitmap(imagePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
 
         }
@@ -557,4 +607,68 @@ public class SignUpFragment extends BaseFragment implements ImageSetter, Compoun
     }
 
 
+
+
+
+    private void requestCameraPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            CameraHelper.uploadPhotoDialog(getMainActivity());
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestCameraPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestCameraPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Camera And Storage Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (profilePath != null && !profilePath.equals(""))
+            imageLoader.displayImage("file:///" + profilePath, imgProfile);
+    }
+
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
 }

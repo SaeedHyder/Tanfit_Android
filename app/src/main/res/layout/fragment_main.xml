@@ -12,7 +12,20 @@
         android:layout_height="0dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="0.9"
-        android:animationCache="true"></FrameLayout>
+        android:animationCache="true">
+
+        <ProgressBar
+            android:id="@+id/progressBarHome"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+
+    </FrameLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

@@ -404,5 +404,20 @@ public class GymDetailFragment extends BaseFragment implements RecyclerViewItemL
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getTitleBar() != null) {
+            getTitleBar().hideButtons();
+            getTitleBar().showBackButton();
+            getTitleBar().setSubHeading("");
+            getTitleBar().showHeartButton(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    serviceHelper.enqueueCall(headerWebService.addFavoriteStudio(prefHelper.getUserAllData().getId(), enitity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteStudio);
 
+                }
+            });
+        }
+    }
 }

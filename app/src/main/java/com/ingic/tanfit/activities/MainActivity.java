@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -133,7 +134,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
 
         String address = "";
-        LocationModel locationObj = new LocationModel(address,36.303627,59.591809);
+        LocationModel locationObj = new LocationModel(address,35.705240,51.435577);
       //  LocationModel locationObj = new LocationModel(address,24.829759,67.073822);
 
 
@@ -428,6 +429,10 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         ButterKnife.bind(this);
 
         setCurrentLocale();
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         titleBar = header_main;
         // setBehindContentView(R.layout.fragment_frame);
         mContext = this;
@@ -446,7 +451,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
             serviceHelper = new ServiceHelper(this, this, headerWebService);
         }
 
-        serviceHelper.enqueueCall(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
+        serviceHelper.enqueueCallHome(headerWebService.getDefaultSetting(), WebServiceConstants.getDefaultSetting);
 
 
         titleBar.setMenuButtonListener(new OnClickListener() {
@@ -498,10 +503,7 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
 
     }
 
-    private void webServiceInstances() {
 
-
-    }
 
     private void setCurrentLocale() {
         if (prefHelper.isLanguagePersian()) {
@@ -703,159 +705,10 @@ public class MainActivity extends DockActivity implements OnClickListener, Image
         finish();
         startActivity(intent);
     }
-/*
-    public void getLocationGoogle() {
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        } else {
-        *//*Getting the location after aquiring location service*//*
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
-
-            if (mLastLocation != null) {
-
-                Log.e("Current Location", String.valueOf(mLastLocation.getLatitude()) + " , " + String.valueOf(mLastLocation.getLongitude()));
-                if (mLastLocation != null)
-                    locationInterface.getGoogleLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-            } else {
-            *//*if there is no last known location. Which means the device has no data for the loction currently.
-            * So we will get the current location.
-            * For this we'll implement Location Listener and override onLocationChanged*//*
-                Log.i("Current Location", "No data for location found");
-
-                if (!mGoogleApiClient.isConnected())
-                    mGoogleApiClient.connect();
-
-                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
-            }
-        }
-    }
 
 
     @Override
-    public void onLocationChanged(Location location) {
-        LocationModel locationObj = null;
-
-        locationObj = new LocationModel("", location.getLatitude(), location.getLongitude());
+    protected void onResume() {
+        super.onResume();
     }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        settingRequest();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mGoogleApiClient != null)
-            mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Connection Failed!", Toast.LENGTH_SHORT).show();
-        if (connectionResult.hasResolution()) {
-            try {
-// Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this, 90000);
-            } catch (IntentSender.SendIntentException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Log.i("Current Location", "Location services connection failed with code " + connectionResult.getErrorCode());
-        }
-
-    }
-
-    public void settingRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000); // 10 seconds, in milliseconds
-        mLocationRequest.setFastestInterval(1000); // 1 second, in milliseconds
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient,
-                        builder.build());
-
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-
-            @Override
-            public void onResult(@NonNull LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                final LocationSettingsStates state = result.getLocationSettingsStates();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-// All location settings are satisfied. The client can
-// initialize location requests here.
-                        getLocationGoogle();
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-// Location settings are not satisfied, but this can be fixed
-// by showing the user a dialog.
-                        try {
-// Show the dialog by calling startResolutionForResult(),
-// and check the result in onActivityResult().
-                            status.startResolutionForResult(MainActivity.this, 1000);
-                        } catch (IntentSender.SendIntentException e) {
-// Ignore the error.
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-// Location settings are not satisfied. However, we have no way
-// to fix the settings so we won't show the dialog.
-                        break;
-                }
-            }
-
-        });
-    }
-
-    public void getCurrentLocation() {
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        } else
-            Toast.makeText(this, "Not Connected!", Toast.LENGTH_SHORT).show();
-    }*/
-
 }

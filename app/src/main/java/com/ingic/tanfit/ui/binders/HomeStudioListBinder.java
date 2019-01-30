@@ -1,5 +1,6 @@
 package com.ingic.tanfit.ui.binders;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,27 +18,24 @@ import com.ingic.tanfit.helpers.BasePreferenceHelper;
 import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.viewbinders.abstracts.RecyclerViewBinder;
+import com.ingic.tanfit.ui.viewbinders.abstracts.ViewBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
-/**
- * Created on 11/25/2017.
- */
 
-public class HomeStudioBinder extends RecyclerViewBinder<Studio> implements RecyclerViewItemListener {
+public class HomeStudioListBinder extends ViewBinder<Studio> implements RecyclerViewItemListener {
     private DockActivity dockActivity;
     private BasePreferenceHelper prefHelper;
     private RecyclerViewItemListener clickListner;
     private ImageLoader imageLoader;
 
-    public HomeStudioBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper, RecyclerViewItemListener clickListner) {
+    public HomeStudioListBinder(DockActivity dockActivity, BasePreferenceHelper prefHelper, RecyclerViewItemListener clickListner) {
         super(R.layout.row_item_home_studio);
         this.dockActivity = dockActivity;
         this.prefHelper = prefHelper;
@@ -50,9 +48,10 @@ public class HomeStudioBinder extends RecyclerViewBinder<Studio> implements Recy
         return new ViewHolder(view);
     }
 
-    public void bindView(final Studio entity, final int position, Object viewHolder, Context context) {
 
-        final ViewHolder holder = (ViewHolder) viewHolder;
+    public void bindView(final Studio entity, final int position, int grpPosition, View view, Activity activity) {
+
+        final ViewHolder holder = (ViewHolder) view.getTag();
 
         if (entity.getStudioLogo() != null && !entity.getStudioLogo().equals("")) {
             Glide.with(dockActivity)
@@ -118,9 +117,7 @@ public class HomeStudioBinder extends RecyclerViewBinder<Studio> implements Recy
         LinearLayout llMainframe;
 
         ViewHolder(View view) {
-            super(view);
             ButterKnife.bind(this, view);
         }
     }
 }
-

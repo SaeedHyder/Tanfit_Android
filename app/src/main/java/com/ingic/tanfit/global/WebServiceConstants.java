@@ -4,7 +4,7 @@ public class WebServiceConstants {
     public static final String SERVICE_URL = "";
     //public static final String Local_SERVICE_URL = "http://10.1.30.219:8085/";
     //public static final String Local_SERVICE_URL = "https://tanfit.ingicweb.com/service/";
-    public static final String Local_SERVICE_URL = "http://services.tan-fit.com/";
+    public static final String Local_SERVICE_URL = "https://services.tan-fit.com/";
     public static final String SUCCESS_RESPONSE_CODE = "2000";
 
         //ServicesTags

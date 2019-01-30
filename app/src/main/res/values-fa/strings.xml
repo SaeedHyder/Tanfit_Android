@@ -6,7 +6,7 @@
     <string name="successful">دلخواه شما با موفقیت ثبت گردید</string>
 
     <string name="drawer_open">باز شود</string>
-    <string name="drawer_close">بستھ شود</string>
+    <string name="drawer_close">بسته شود</string>
 
     <string name="api_key">AIzaSyBJmrp9C2culZ2W_zAxSA7iatV_dK_40fg</string>
     <string name="app_name">تن فیت</string>
@@ -54,7 +54,7 @@
     <string name="user_name">نام کاربری</string>
     <string name="first_name">نام</string>
     <string name="last_name">نام خانوادگی</string>
-    <string name="home">خانھ</string>
+    <string name="home">خانه</string>
     <string name="profile">حساب کاربری</string>
     <string name="categories">دستھ بندی ھا</string>
     <string name="messages">پیام ھا</string>
@@ -64,7 +64,7 @@
     <string name="change_password">رمز ورود را تغییر بده</string>
     <string name="reason_for_rejection">دلیل</string>
     <string name="old_password">پسورد قبلی</string>
-    <string name="new_password">پسورد جدید</string>
+    <string name="new_password">رمز جدید</string>
     <string name="via_email">از طریق ایمیل</string>
     <string name="via_sms">از طریق پیامک</string>
     <string name="tell_a_friend">بھ دوست خود بگویید</string>
@@ -140,7 +140,7 @@
     <string name="forgot_password_send_mail">بھ ...... ایمیل بفرستید</string>
     <string name="forgot_password_reset_heading">بازنشانی رمز ورود</string>
     <string name="forgot_password_reset_message">رمز جدید را وارد کنید</string>
-    <string name="enter_the_4_digit_code_we_send_you_via_email_to_continue">کد ۴ رقمی کھ برای شما ایمیل کردیم را وارد کنید</string>
+    <string name="enter_the_4_digit_code_we_send_you_via_email_to_continue">کد ۴ رقمی که برای شما ایمیل کردیم را وارد کنید</string>
     <string name="code_expires_in">کد در--- منتقضی می شود</string>
     <string name="submit">ثبت</string>
     <string name="verify_email">تایید ایمیل</string>
@@ -160,29 +160,29 @@
     <string name="book_now">رزرو کن</string>
     <string name="location">مکان</string>
     <string name="logout">خروج</string>
-    <string name="Cancel">بستھ ورزشی را کنسل کن</string>
-    <string name="are_you_sure_you_want_to_logout">آیا می خواھید خارج شوید</string>
+    <string name="Cancel">بسته ورزشی را کنسل کن</string>
+    <string name="are_you_sure_you_want_to_logout">آیا می خواهید خارج شوید؟</string>
     <string name="are_you_sure_you_want_book_class">آیا می خواھید این کلاس را رزرو کنید</string>
     <string name="are_you_sure_you_want_activate_account">می خواھید حساب کاربری خود را فعال کنید</string>
-    <string name="are_you_sure_you_want_delete_account">آیا مطمین ھستید</string>
+    <string name="are_you_sure_you_want_delete_account">آیا مطمئن ھستید؟</string>
     <string name="are_you_sure_you_want_cancel_class">آیا می خواھید کلاس رزرو شده را کنسل کنید</string>
     <string name="are_you_sure_you_want_to_pause_subcription">آیا می خواهید بسته ورزشی خود را نگه دارید</string>
-    <string name="are_you_sure_you_want_to_cancel_subcription">آیا می خواھید بستھ ورزشی خود راکنسل کنید</string>
-    <string name="yes">بلھ</string>
+    <string name="are_you_sure_you_want_to_cancel_subcription">آیا می خواھید بسته ورزشی خود راکنسل کنید</string>
+    <string name="yes">بله</string>
     <string name="no">خیر</string>
     <string name="about">درباره ی ما</string>
-    <string name="all_classes">همه کلاس ها</string>
+    <string name="all_classes">همه کلاس های</string>
     <string name="contact">تماس با ما</string>
-    <string name="my_subscriptions">برنامھ عضویت من</string>
-    <string name="your_subscription_plan_is">برنامھ عضویت شما</string>
+    <string name="my_subscriptions">برنامه عضویت من</string>
+    <string name="your_subscription_plan_is">برنامه عضویت شما</string>
     <string name="need_a_short_break">آیا می خواھید استراحت کنید</string>
-    <string name="visit_website">مراجعھ بھ وب سایت</string>
-    <string name="pause">نگھ دار</string>
-    <string name="you_can_pause_your_subscription_for">شما می توانید بستھ ورزشی خود را نگھ دارید برای ....... روز</string>
+    <string name="visit_website">مراجعه به وب سایت</string>
+    <string name="pause">نگهداری</string>
+    <string name="you_can_pause_your_subscription_for">شما می توانید بسته ورزشی خود را نگه دارید برای ....... روز</string>
     <string name="cancel_subscription">عضویت را کنسل کن</string>
     <string name="no_data">داده ای برای نمایش وجود ندارد</string>
     <string name="no_class_found">ھیچ کلاسی پیدا نشد</string>
-    <string name="fitness_classes">کلاس ھا</string>
+    <string name="fitness_classes">کلاس های</string>
     <string name="studios">باشگاه ھا</string>
     <string name="favorite">دلخواه ھای من</string>
     <string name="pilates">پیلاتس</string>
@@ -206,18 +206,18 @@
     <string name="select_gender_error">جنیسیت را وارد کنید</string>
     <string name="select_term_condition_error">با قوانین و شرایط موافقم</string>
     <string name="subscribe_now">ثبت نام</string>
-    <string name="subscription_plans">برنامھ ھای عضویت</string>
-    <string name="by_location">چھ جایی</string>
-    <string name="by_activity">چھ ورزشی</string>
-    <string name="by_available_hours">چھ ساعتی</string>
+    <string name="subscription_plans">برنامه ھای عضویت</string>
+    <string name="by_location">چه جایی</string>
+    <string name="by_activity">چه ورزشی</string>
+    <string name="by_available_hours">چه ساعتی</string>
     <string name="activity">فعالیت</string>
     <string name="internet_not_connected">عدم اتصال بھ اینترنت</string>
     <string name="gps_question">تشخیص مکان شما امکان پذیر نیست. لطفا گزینھ مکان را در تنظمات فعال کنید</string>
-    <string name="gps_yes">بلھ</string>
+    <string name="gps_yes">بله</string>
     <string name="gps_no">خیر</string>
     <string name="search">جست و جو</string>
 
-    <string name="notifications_settings">تنیمات ھشدارھا</string>
+    <string name="notifications_settings">تنظیمات ھشدارھا</string>
     <string name="language">زبان</string>
     <string name="english">انگلیسی</string>
     <string name="persian">فارسی</string>
@@ -231,7 +231,7 @@
     <string name="address">آدرس</string>
     <string name="center">مرکز</string>
     <string name="current_booking">کلاس ھای رزرو شده</string>
-    <string name="booking_history">تاریخچھ کلاس ھای رزرو شده</string>
+    <string name="booking_history">تاریخچه کلاس ھای رزرو شده</string>
     <string name="my_gyms">باشگاه ھای من</string>
     <string name="manage_subscription">مدیریت عضویت</string>
     <string name="my_favorites">دلخواه ھای من</string>
@@ -240,9 +240,9 @@
     <string name="contact_us">تماس با ما</string>
     <string name="resume">Resume</string>
     <string name="pauseSubscription">آیا می خواھید عضویت را نگھ دارید؟</string>
-    <string name="days">روزھا</string>
+    <string name="days">روز</string>
     <string name="cancel_booking">کلاس رزروشده را کنسل کن</string>
-    <string name="subscribe">خرید بستھ ورزشی</string>
+    <string name="subscribe">خرید بسته ورزشی</string>
     <string name="gym">باشگاه</string>
     <string name="gallery">گالری</string>
     <string name="timings">زمان</string>
@@ -268,13 +268,13 @@
     <string name="weight">وزن</string>
     <string name="update">بھ روزرسانی</string>
     <string name="please_wait">لطفا صبر کنید</string>
-    <string name="paused_subscrition">بستھ ورزشی شما نگھ داشتھ شده است</string>
+    <string name="paused_subscrition">بسته ورزشی شما نگھ داشتھ شده است</string>
     <string name="activate_account">حساب کاربری را فعال کن</string>
     <string name="profile_updated">اطلاعات شما با موفقیت بھ روزرسانی شد</string>
     <string name="phone_number">شماره موبایل</string>
     <string name="address_activity">آدرس یا فعالیت را وارد کنید</string>
     <string name="no_class">ھیچ کلاسی وجود ندارد</string>
-    <string name="explore_all">تمامی کلاس ها را روی اپلیکیشن ما ببینید</string>
+    <string name="explore_all">تمامی کلاس های را روی اپلیکیشن ما ببینید</string>
     <string name="book_classes_with_one_click">با یک کلیک کلاسهای دلخواه خود را رزرو کنید</string>
     <string name="enjoy">لذت ببرید</string>
     <string name="no_nearby_studios_found">ھیچ باشگاھی نزدیک شما پیدا نشد</string>
@@ -297,20 +297,20 @@
     <string name="personal_training">مربی خصوصی</string>
     <string name="inch">در</string>
     <string name="kilometer">کیلوگرم</string>
-    <string name="we_regret_you_want_to_cancel_your_subscription">از این کھ عضویت خود را کنسل می کنید ناراحتیم</string>
+    <string name="we_regret_you_want_to_cancel_your_subscription">از این که عضویت خود را کنسل می کنید ناراحتیم</string>
     <string name="you_still_have">شما ھنوز ...... روز دارید</string>
-    <string name="more_days_left">بستھ ورزشی شما فعال می شود در ..... روز</string>
+    <string name="more_days_left">بسته ورزشی شما فعال می شود در ..... روز</string>
     <string name="enter_days_filed">روز را وارد کنید</string>
-    <string name="subscription_paused_successfully">برنامھ عضویت شما نگھ داشتھ شده است</string>
+    <string name="subscription_paused_successfully">برنامه عضویت شما نگھ داشتھ شده است</string>
     <string name="subscription_cancelled_successfully">کنسل کردن عضویت</string>
     <string name="select_activity">فعالیت را انتخاب کنید</string>
     <string name="apply">بگرد</string>
-    <string name="classes">کلاس ھا</string>
+    <string name="classes">کلاس های</string>
     <string name="per">در</string>
-    <string name="total_no_of_subscribes_classes_are">تعداد کلاس ھای بستھ ورزشی</string>
+    <string name="total_no_of_subscribes_classes_are">جلسه ای کلاس های ورزشی</string>
     <string name="limited">محدود</string>
     <string name="maximum">*حداکثر</string>
-    <string name="classes_per_day">کلاس ھا در روز</string>
+    <string name="classes_per_day">کلاس های در روز</string>
     <string name="irr">ریال</string>
     <string name="you_have_subscribed_successfully">شما با موفقیت بسته ورزشی خریدید</string>
     <string name="donec_ultrices_scelerisque_nisi">Donec ultrices scelerisque nisi</string>
@@ -318,7 +318,7 @@
     <string name="actually_i_d_rather_pause"><u>عضویت خود را نگھ دارم</u></string>
     <string name="complete_cancellation">کامل کنسل شود</string>
     <string name="are_you_sure_you_want_to_leave">آیا می خواھید عضویت خود را کنسل کنید</string>
-    <string name="don_t_forget_you_can_also_pause_your_membership_if_you_need_to_take_a_break">بھ یاد داشتھ باشید کھ ھمیشھ می توانید عضویت خود را نگھ دارید و استراحت کنید</string>
+    <string name="don_t_forget_you_can_also_pause_your_membership_if_you_need_to_take_a_break">بھ یاد داشتھ باشید که ھمیشھ می توانید عضویت خود را نگھ دارید و استراحت کنید</string>
     <string name="unsubscribe_now">کنسل کردن عضویت</string>
     <string name="burn_upper_body">ورزش:آپربادی</string>
     <string name="no_favorite_class">ھیچ کلاس دلخواھی ندارید</string>
@@ -329,6 +329,8 @@
     <string name="allstudios">همه باشگاه ھا</string>
     <string name="Upload_Profile_Pic">آپلود تصویر نمایه</string>
     <string name="class_booked">کلاس قبلا رزرو شده است</string>
+    <string name="network_issue">مشکل شبکه ..</string>
+    <string name="package_type">پکیج</string>
 
 
 

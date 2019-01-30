@@ -103,17 +103,22 @@ public class SettingFragment extends BaseFragment {
                 //  prefHelper.getUserAllData().getUserAppSetting().get(0).setNotification(isChecked);
                 if (prefHelper.getUserAllData() != null && prefHelper.getAppDefaultSetting() != null && serviceHelper != null)
                     if (prefHelper.getUserAllData().getUserAppSetting().size() > 0) {
-                        serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), isChecked, prefHelper.getUserAllData().getUserAppSetting().get(0).getLangId()), WebServiceConstants.userAppNotification);
-                        UserAllDataEnt notification = prefHelper.getUserAllData();
-                        notification.getUserAppSetting().get(0).setNotification(isChecked);
-                        prefHelper.putUserAllData(notification);
-                    } else {
-                        serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), isChecked, prefHelper.getAppDefaultSetting().getLangId()), WebServiceConstants.userAppNotification);
+                        if (prefHelper.getUserAllData().getUserAppSetting().get(0).getLangId() != null) {
+                            serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), isChecked, prefHelper.getUserAllData().getUserAppSetting().get(0).getLangId()), WebServiceConstants.userAppNotification);
+                            UserAllDataEnt notification = prefHelper.getUserAllData();
+                            notification.getUserAppSetting().get(0).setNotification(isChecked);
+                            prefHelper.putUserAllData(notification);
+                        }
 
-                        UserAllDataEnt notification = prefHelper.getUserAllData();
-                        notification.getUserAppSetting().add(new AppDefaultSettingEnt());
-                        notification.getUserAppSetting().get(0).setNotification(isChecked);
-                        prefHelper.putUserAllData(notification);
+                    } else {
+                        if (prefHelper.getAppDefaultSetting().getLangId() != null) {
+                            serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), isChecked, prefHelper.getAppDefaultSetting().getLangId()), WebServiceConstants.userAppNotification);
+
+                            UserAllDataEnt notification = prefHelper.getUserAllData();
+                            notification.getUserAppSetting().add(new AppDefaultSettingEnt());
+                            notification.getUserAppSetting().get(0).setNotification(isChecked);
+                            prefHelper.putUserAllData(notification);
+                        }
                     }
 
 
@@ -143,16 +148,16 @@ public class SettingFragment extends BaseFragment {
                 txtEnglishLanguage.setTextColor(getResources().getColor(R.color.app_green));
                 txtPersianLanguage.setTextColor(getResources().getColor(R.color.app_text_gray));
 
-                prefHelper.putLang(getDockActivity(),"en");
+                prefHelper.putLang(getDockActivity(), "en");
 
-                if (prefHelper.getUserAllData() != null && prefHelper.getAppDefaultSetting() != null &&  serviceHelper != null)
+                if (prefHelper.getUserAllData() != null && prefHelper.getAppDefaultSetting() != null && serviceHelper != null)
                     if (prefHelper.getUserAllData().getUserAppSetting().size() > 0) {
                         serviceHelper.enqueueCall(headerWebService.updateUserAppSetting(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getUserAppSetting().get(0).getNotification(), 1), WebServiceConstants.englishLanguage);
                      /*   UserAllDataEnt englishLanguage = prefHelper.getUserAllData();
                         englishLanguage.getUserAppSetting().get(0).setLangId(1);
                         prefHelper.putUserAllData(englishLanguage);*/
 
-                        ArrayList<AppDefaultSettingEnt> lang=prefHelper.getUserAllData().getUserAppSetting();
+                        ArrayList<AppDefaultSettingEnt> lang = prefHelper.getUserAllData().getUserAppSetting();
                         lang.get(0).setLangId(1);
                         prefHelper.getUserAllData().setUserAppSetting(lang);
 
@@ -171,7 +176,7 @@ public class SettingFragment extends BaseFragment {
                 txtEnglishLanguage.setTextColor(getResources().getColor(R.color.app_text_gray));
                 txtPersianLanguage.setTextColor(getResources().getColor(R.color.app_green));
 
-                prefHelper.putLang(getDockActivity(),"fa");
+                prefHelper.putLang(getDockActivity(), "fa");
 
                 if (prefHelper.getUserAllData() != null && prefHelper.getAppDefaultSetting() != null && serviceHelper != null)
                     if (prefHelper.getUserAllData().getUserAppSetting().size() > 0) {
@@ -180,7 +185,7 @@ public class SettingFragment extends BaseFragment {
                         persianLanguage.getUserAppSetting().get(0).setLangId(2);
                         prefHelper.putUserAllData(persianLanguage);*/
 
-                        ArrayList<AppDefaultSettingEnt> persianLanguage=prefHelper.getUserAllData().getUserAppSetting();
+                        ArrayList<AppDefaultSettingEnt> persianLanguage = prefHelper.getUserAllData().getUserAppSetting();
                         persianLanguage.get(0).setLangId(2);
                         prefHelper.getUserAllData().setUserAppSetting(persianLanguage);
                     } else {
@@ -199,7 +204,7 @@ public class SettingFragment extends BaseFragment {
                 deleteAccount.iniDeleteAccount(R.layout.delete_account_dialoge, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       // serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getEmail(), prefHelper.getUserAllData().getFullName(), prefHelper.getUserAllData().getUserThumbnailImage(), prefHelper.getUserAllData().getGenderId() + "", true), WebServiceConstants.deleteAccount);
+                        // serviceHelper.enqueueCall(headerWebService.deleteAccount(prefHelper.getUserAllData().getId(), prefHelper.getUserAllData().getEmail(), prefHelper.getUserAllData().getFullName(), prefHelper.getUserAllData().getUserThumbnailImage(), prefHelper.getUserAllData().getGenderId() + "", true), WebServiceConstants.deleteAccount);
                         serviceHelper.enqueueCall(headerWebService.deactivateUser(prefHelper.getUserAllData().getId()), WebServiceConstants.deleteAccount);
                         deleteAccount.hideDialog();
                     }

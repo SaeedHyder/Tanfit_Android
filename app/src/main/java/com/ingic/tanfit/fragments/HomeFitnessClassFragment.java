@@ -1,9 +1,12 @@
 package com.ingic.tanfit.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +37,13 @@ import com.ingic.tanfit.ui.binders.HomeFitnessBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.joda.time.DateTime;
 
@@ -43,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -77,6 +88,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     private Date startDate;
     private FitnessClassess entityFitnessClassClicked;
 
+    private boolean _hasLoadedOnce = false;
 
     public static HomeFitnessClassFragment newInstance() {
         Bundle args = new Bundle();
@@ -89,7 +101,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     /*   adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new HomeFitnessBinder(getDockActivity(), prefHelper, this));*/
+        /*   adapter = new ArrayListAdapter<FitnessClassess>(getDockActivity(), new HomeFitnessBinder(getDockActivity(), prefHelper, this));*/
         if (getArguments() != null) {
         }
 
@@ -144,7 +156,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
                 .setDays(7)
                 .setOffset(0)
                 .init();
-        datePicker.setDate(new DateTime());
+          datePicker.setDate(new DateTime());
 
 
         if (!prefHelper.isStudio())
@@ -165,9 +177,12 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
             if (prefHelper != null) {
                 prefHelper.setIsFromStudio(false);
             }
+
         }
 
     }
+
+
 
   /*  @Override
     public void setMenuVisibility(final boolean visible) {
@@ -257,6 +272,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
         }
 
 
+
         for (FitnessClassess item : filterCollection) {
             for (int i = 0; i < item.getFitnessClassSelectedDays().size(); i++) {
                 if (item.getFitnessClassSelectedDays().get(i).getDayNameEn().equals(Day)) {
@@ -283,7 +299,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
             }
         }
 
-        getDockActivity().replaceDockableFragment(ClassDetailFragment.newInstance(fitnessClassData, Day, Date, DayId), "ClassDetailFragment");
+        getDockActivity().addDockableFragment(ClassDetailFragment.newInstance(fitnessClassData, Day, Date, DayId), "ClassDetailFragment");
     }
 
     @Override
@@ -349,7 +365,8 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
                 if (((IsFavoriteEnt) result).isBooked()) {
                     UIHelper.showShortToastInCenter(getDockActivity(), getString(R.string.class_booked));
                 } else {
-                    classBooking();
+                    requestCalendarPermission();
+                    //classBooking();
                 }
 
 
@@ -484,7 +501,7 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
         // confirmed (1) or canceled
         // (2):
         eventValues.put("eventTimezone", "UTC/GMT +2:00");
-   /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
+        /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
 
     /*eventValues.put("visibility", 3); // visibility to default (0),
                                         // confidential (1), private
@@ -555,8 +572,65 @@ public class HomeFitnessClassFragment extends BaseFragment implements DatePicker
 
         }
 
-            return EventIdGlobal;
-
-        }
+        return EventIdGlobal;
 
     }
+
+    private void requestCalendarPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.WRITE_CALENDAR,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            classBooking();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestCalendarPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestCalendarPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Calendar Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+}

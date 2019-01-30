@@ -64,13 +64,13 @@ public class SubscriptionFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         childTitlebar = (MainFragment) getParentFragment();
-        if (childTitlebar != null) {
-            childTitlebar.setChildTitlebar(getString(R.string.subscription_plans), AppConstants.SUBSCRIPTION_FRAGMENT_TAG);
-        }
+
 
 
         serviceHelper.enqueueCall(headerWebService.getSubscriptionsPlan(), WebServiceConstants.getSubscription);
-
+        if (childTitlebar != null) {
+            childTitlebar.setChildTitlebar(getString(R.string.subscription_plans), AppConstants.SUBSCRIPTION_FRAGMENT_TAG);
+        }
     }
 
     public void ResponseSuccess(Object result, String Tag, String message) {

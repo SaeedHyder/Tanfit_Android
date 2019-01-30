@@ -1,6 +1,9 @@
 package com.ingic.tanfit.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import com.ingic.tanfit.ui.views.TitleBar;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -51,6 +55,8 @@ public class SubscriptionPagerItem extends BaseFragment {
     @BindView(R.id.bottom)
     RelativeLayout bottom;
     Unbinder unbinder;
+
+    String uniqueID="";
 
     View mainFrame;
 
@@ -90,51 +96,46 @@ public class SubscriptionPagerItem extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mainFrame=view;
+        mainFrame = view;
         mainFrame.setVisibility(View.GONE);
 
-        if((entity.getId() %2)==0){
+        if ((entity.getId() % 2) == 0) {
             header.setBackground(getDockActivity().getResources().getDrawable(R.drawable.golden));
 
-        } else{
+        } else {
             header.setBackground(getDockActivity().getResources().getDrawable(R.drawable.brown));
         }
 
         serviceHelper.enqueueCall(headerWebService.getSubsccriptionData(prefHelper.getUser().getUserId() + ""), WebServiceConstants.getSubscription);
 
-      //  UIHelper.showShortToastInCenter(getDockActivity(), entity.getSubscriptionType());
-        if(prefHelper.isLanguagePersian()){
+        //  UIHelper.showShortToastInCenter(getDockActivity(), entity.getSubscriptionType());
+        if (prefHelper.isLanguagePersian()) {
             txtTitle.setText(entity.getTitlePr());
-            txtDescription.setText(entity.getSubscriptionTypePr()+" "+getDockActivity().getResources().getString(R.string.classes) + " "+System.getProperty("line.separator") + " "+getDockActivity().getResources().getString(R.string.per)+entity.getNoOfSubscriptionDaysPr()+" "+getDockActivity().getResources().getString(R.string.days));
+            txtDescription.setText(getDockActivity().getResources().getString(R.string.classes) + " " + entity.getSubscriptionTypePr() + " " + System.getProperty("line.separator") + " " + getDockActivity().getResources().getString(R.string.per) + entity.getNoOfSubscriptionDaysPr() + " " + getDockActivity().getResources().getString(R.string.days));
 
-            if(entity.getSubscriptionTypePr().equals(getDockActivity().getResources().getString(R.string.limited))){
-                txtDescription2.setText(getDockActivity().getResources().getString(R.string.total_no_of_subscribes_classes_are)+" "+entity.getTotalNoOfFitnessClassesPr());
+            if (entity.getSubscriptionTypePr().equals(getDockActivity().getResources().getString(R.string.limited))) {
+                txtDescription2.setText( getDockActivity().getResources().getString(R.string.package_type)+" "+ entity.getTotalNoOfFitnessClassesPr()+" "+ getDockActivity().getResources().getString(R.string.total_no_of_subscribes_classes_are));
+            } else {
+                txtDescription2.setText(getDockActivity().getResources().getString(R.string.maximum) + " " + entity.getNoOfSubscriptionDaysPr() + " " + getDockActivity().getResources().getString(R.string.classes_per_day));
+
             }
-            else{
-                txtDescription2.setText(getDockActivity().getResources().getString(R.string.maximum)+" "+entity.getNoOfSubscriptionDaysPr()+" "+getDockActivity().getResources().getString(R.string.classes_per_day));
 
-            }
-
-            txtPrice.setText(getDockActivity().getResources().getString(R.string.irr)+" "+entity.getPriceInIranianRiyalPr());
-        }
-        else{
+            txtPrice.setText(getDockActivity().getResources().getString(R.string.irr) + " " + entity.getPriceInIranianRiyalPr());
+        } else {
             txtTitle.setText(entity.getTitleEn());
-            txtDescription.setText(entity.getSubscriptionType()+" "+getDockActivity().getResources().getString(R.string.classes) +" "+System.getProperty("line.separator") +" "+ getDockActivity().getResources().getString(R.string.per)+" "+entity.getNoOfSubscriptionDays()+" "+getDockActivity().getResources().getString(R.string.days));
+            txtDescription.setText(entity.getSubscriptionType() + " " + getDockActivity().getResources().getString(R.string.classes) + " " + System.getProperty("line.separator") + " " + getDockActivity().getResources().getString(R.string.per) + " " + entity.getNoOfSubscriptionDays() + " " + getDockActivity().getResources().getString(R.string.days));
 
-            if(entity.getSubscriptionType().equals(getDockActivity().getResources().getString(R.string.limited))){
-                txtDescription2.setText(getDockActivity().getResources().getString(R.string.total_no_of_subscribes_classes_are)+" "+entity.getTotalNoOfFitnessClasses());
+            if (entity.getSubscriptionType().equals(getDockActivity().getResources().getString(R.string.limited))) {
+                txtDescription2.setText(getDockActivity().getResources().getString(R.string.total_no_of_subscribes_classes_are) + " " + entity.getTotalNoOfFitnessClasses());
+            } else {
+                txtDescription2.setText(getDockActivity().getResources().getString(R.string.maximum) + " " + entity.getNoOfClassesADay() + " " + getDockActivity().getResources().getString(R.string.classes_per_day));
+
             }
-            else{
-                txtDescription2.setText(getDockActivity().getResources().getString(R.string.maximum)+" "+entity.getNoOfClassesADay()+" "+getDockActivity().getResources().getString(R.string.classes_per_day));
 
-            }
-
-            txtPrice.setText(getDockActivity().getResources().getString(R.string.irr)+" "+entity.getPriceInIranianRiyal());
+            txtPrice.setText(getDockActivity().getResources().getString(R.string.irr) + " " + entity.getPriceInIranianRiyal());
         }
 
-       // txtTitle1.setText("");
-
-
+        // txtTitle1.setText("");
 
 
     }
@@ -149,10 +150,15 @@ public class SubscriptionPagerItem extends BaseFragment {
 
     @OnClick(R.id.btn_SubcribeNow)
     public void onViewClicked() {
-        if(btnSubcribeNow.getText().toString().equals(getDockActivity().getResources().getString(R.string.subscribe_now))) {
+        if (btnSubcribeNow.getText().toString().equals(getDockActivity().getResources().getString(R.string.subscribe_now))) {
             ISO8601TimeStampHelper timeStamp = new ISO8601TimeStampHelper();
-            serviceHelper.enqueueCall(headerWebService.addUserSubscription(prefHelper.getUserId(), String.valueOf(entity.getId()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.addUserSubscription);
-        }else {
+            uniqueID = UUID.randomUUID().toString();
+           // uniqueID = uniqueID.replaceAll("[-+.^:,]","");
+
+            //  serviceHelper.enqueueCall(headerWebService.addUserSubscription(prefHelper.getUserId(), String.valueOf(entity.getId()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.addUserSubscription);
+            serviceHelper.enqueueCall(headerWebService.PreTransectionInfo(prefHelper.getUserId(), String.valueOf(entity.getId()), uniqueID, timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.addUserSubscription);
+
+        } else {
             final DialogHelper cancel = new DialogHelper(getDockActivity());
             cancel.subcriptionDialoge(R.layout.pause_subscription_dialoge, getDockActivity().getResources().getString(R.string.cancel_subscription), getDockActivity().getResources().getString(R.string.are_you_sure_you_want_to_cancel_subcription), new View.OnClickListener() {
                 @Override
@@ -177,8 +183,12 @@ public class SubscriptionPagerItem extends BaseFragment {
         switch (Tag) {
 
             case WebServiceConstants.addUserSubscription:
-                UIHelper.showShortToastInCenter(getDockActivity(),getDockActivity().getResources().getString(R.string.you_have_subscribed_successfully));
-                serviceHelper.enqueueCall(headerWebService.getSubsccriptionData(prefHelper.getUser().getUserId() + ""), WebServiceConstants.getSubscription);
+              //  UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.you_have_subscribed_successfully));
+                //  serviceHelper.enqueueCall(headerWebService.getSubsccriptionData(prefHelper.getUser().getUserId() + ""), WebServiceConstants.getSubscription);
+
+            //    getDockActivity().replaceDockableFragment(WebViewMembershipFragment.newInstance(uniqueID,entity.getPriceInIranianRiyal()+""), "WebViewMembershipFragment");
+                getDockActivity().replaceDockableFragment(WebViewMembershipFragment.newInstance(uniqueID,"4000"), "WebViewMembershipFragment");
+
                 break;
 
             case WebServiceConstants.getSubscription:
@@ -188,11 +198,11 @@ public class SubscriptionPagerItem extends BaseFragment {
 
                 ArrayList<UserSubscription> userSubscriptions = (ArrayList<UserSubscription>) result;
 
-               if(userSubscriptions.size()>0){
-                    for(UserSubscription item: userSubscriptions){
-                        if(item.getSubscriptionId()==entity.getId() && item.getUserSubscriptionStatusId()==1){
+                if (userSubscriptions.size() > 0) {
+                    for (UserSubscription item : userSubscriptions) {
+                        if (item.getSubscriptionId() == entity.getId() && item.getUserSubscriptionStatusId() == 1) {
                             btnSubcribeNow.setText(R.string.unsubscribe_now);
-                        } else{
+                        } else {
                             btnSubcribeNow.setText(R.string.subscribe_now);
                         }
                     }
@@ -212,4 +222,6 @@ public class SubscriptionPagerItem extends BaseFragment {
 
         }
     }
+
+
 }

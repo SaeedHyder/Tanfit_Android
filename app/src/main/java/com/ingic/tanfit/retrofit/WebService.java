@@ -142,6 +142,15 @@ public interface WebService {
             @Field("UserDateTimeOffSet") String UserDateTimeOffSet);
 
     @FormUrlEncoded
+    @POST("api/SampardakhBank/PreTransectionInfo")
+    Call<ResponseWrapper> PreTransectionInfo(
+            @Field("UserId") String UserId,
+            @Field("SubscriptionId") String SubscriptionId,
+            @Field("ResNum") String ResNum,
+            @Field("UserDateTimeOffSet") String UserDateTimeOffSet);
+
+
+    @FormUrlEncoded
     @POST("api/User/GetUserNearestStudios")
     Call<ResponseWrapper<GetNearestStudiosEnt>> getNearestStudios(
             @Field("UserId") String UserId,

@@ -1,33 +1,53 @@
 package com.ingic.tanfit.fragments;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.GetNearestStudiosEnt;
 import com.ingic.tanfit.entities.LocationModel;
-import com.ingic.tanfit.entities.Studio;
 import com.ingic.tanfit.entities.UserAllDataEnt;
 import com.ingic.tanfit.entities.UserLocationModel;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.ISO8601TimeStampHelper;
+import com.ingic.tanfit.helpers.UIHelper;
 import com.ingic.tanfit.interfaces.LocationUpdateListner;
 import com.ingic.tanfit.interfaces.SetChildTitlebar;
 import com.ingic.tanfit.interfaces.locationInterface;
 import com.ingic.tanfit.ui.adapters.TabViewPagerAdapter;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +62,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     Unbinder unbinder;
+    @BindView(R.id.progressBarHome)
+    ProgressBar progressBarHome;
     private TabViewPagerAdapter adapter;
     private TitleBar titleBar;
     private int[] tabIcons = {R.drawable.home, R.drawable.search, R.drawable.subscription};
@@ -51,7 +73,8 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     private Handler mHandler;
     private Runnable mUpdateResults;
     ISO8601TimeStampHelper timeStamp = new ISO8601TimeStampHelper();
-    HomeFragment home = new HomeFragment();
+    public boolean loading;
+
 
     public static MainFragment newInstance() {
 //        Bundle args = new Bundle();
@@ -73,13 +96,6 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         if (getArguments() != null) {
         }
 
-        mHandler = new Handler();
-
-      /*  mUpdateResults = new Runnable() {
-            public void run() {
-                updateResultsInUi();
-            }
-        };*/
 
     }
 
@@ -122,13 +138,13 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         getDockActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                getDockActivity().onLoadingStarted();
+                // UIHelper.showLongToastInCenter(getDockActivity(),"asdasdasdasdasdasd");
+                LoadingStarted();
             }
         });
 
 
     }
-
 
 
     protected void homeServicesCalling() {
@@ -137,14 +153,56 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         Thread t = new Thread() {
             public void run() {
 
-                updateResultsInUi();
+                requestLocationPermission();
 
             }
         };
         t.start();
     }
 
-    public TitleBar getTitleBarInstance(){
+    private void requestLocationPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            updateResultsInUi();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestLocationPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestLocationPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                       /* UIHelper.showShortToastInCenter(getDockActivity(), "Grant Location Permission to processed");
+                        openSettings();*/
+                        updateResultsInUi();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    public TitleBar getTitleBarInstance() {
 
         return titleBar;
 
@@ -153,7 +211,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     private void updateResultsInUi() {
 
         if (getMainActivity().statusCheckMainThread()) {
-          //  serviceHelper.enqueueCallHome(headerWebService.getAllStudios(0,10),WebServiceConstants.getAllStudios);
+            //  serviceHelper.enqueueCallHome(headerWebService.getAllStudios(0,10),WebServiceConstants.getAllStudios);
             if (!prefHelper.getIsUserGetData()) {
                 locationModel = getMainActivity().getMyCurrentLocation();
                 prefHelper.setIsGetUser(true);
@@ -161,8 +219,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             } /*else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() <= 0) {
                 locationModel = getMainActivity().getMyCurrentLocation();
                 serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
-            }else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {*/
-            else if (prefHelper.getNearestStuidos() != null ) {
+            }else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {*/ else if (prefHelper.getNearestStuidos() != null) {
                 getDockActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -174,7 +231,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             getDockActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    getDockActivity().onLoadingFinished();
+                    //    getDockActivity().onLoadingFinished();
                     GetNearestStudiosEnt getNearestStudiosEnt = new GetNearestStudiosEnt();
                     setViewPager(getNearestStudiosEnt);
                 }
@@ -213,15 +270,40 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
                 prefHelper.setUserId(entity.getId());
 
                 if (entity.getUserLocationModel().size() == 0) {
-                    if (locationModel != null)
+                    if (locationModel != null && String.valueOf(locationModel.getLat()) != null)
                         serviceHelper.enqueueCallHome(headerWebService.addUserLocation(entity.getId(), String.valueOf(locationModel.getLat()), String.valueOf(locationModel.getLng()), locationModel.getAddress()), WebServiceConstants.addUserLocation);
+                    else {
+                        serviceHelper.enqueueCallHome(headerWebService.addUserLocation(entity.getId(), "35.705240", "51.435577", "Tehran Province, Iran"), WebServiceConstants.addUserLocation);
+                    }
 
                 } else {
-                    if (locationModel != null) {
+                   /* if (locationModel != null) {
                         serviceHelper.enqueueCallHome(headerWebService.addUserLocation(entity.getId(), String.valueOf(locationModel.getLat()), String.valueOf(locationModel.getLng()), locationModel.getAddress()), WebServiceConstants.addUserLocation);
+                    } else {*/
+                    //  serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), 5000), WebServiceConstants.getNearestStudios);
+
+                    //serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+                    //requestLocationPermission(entity);
+
+                    LocationModel locationModel = getMainActivity().getMyCurrentLocation();
+
+                    if (getMainActivity().statusCheck()) {
+                        double latitude = 0.0;
+                        double longitude = 0.0;
+
+                        if (locationModel != null && String.valueOf(locationModel.getLat()) != null) {
+                            latitude = locationModel.getLat();
+                            longitude = locationModel.getLng();
+                        }
+
+                        if (latitude != 0.0)
+                            serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(latitude), String.valueOf(longitude), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+                        else
+                            serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
                     } else {
-                      //  serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), 5000), WebServiceConstants.getNearestStudios);
                         serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
                     }
                 }
                 break;
@@ -229,25 +311,12 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             case WebServiceConstants.addUserLocation:
                 UserLocationModel locationModel = (UserLocationModel) result;
 
-               // serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(prefHelper.getUserAllData().getId(), locationModel.getLatitude() + "", locationModel.getLongitude() + "", 5000), WebServiceConstants.getNearestStudios);
+                // serviceHelper.enqueueCallHome(headerWebService.getNearestStudios(prefHelper.getUserAllData().getId(), locationModel.getLatitude() + "", locationModel.getLongitude() + "", 5000), WebServiceConstants.getNearestStudios);
                 serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(prefHelper.getUserAllData().getId(), locationModel.getLatitude() + "", locationModel.getLongitude() + "", timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
 
 
                 break;
 
-            case WebServiceConstants.getAllStudios:
-
-                getDockActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Studio> allStudios=(ArrayList<Studio>)result;
-                        home.setStudiosContent(allStudios);
-                    }
-                });
-
-
-
-                break;
 
             case WebServiceConstants.getNearestStudios:
                 getDockActivity().runOnUiThread(new Runnable() {
@@ -270,6 +339,86 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
         }
     }
 
+    private void requestLocationPermission(final UserAllDataEnt entity) {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        LocationModel locationModel = getMainActivity().getMyCurrentLocation();
+
+
+                        if (report.areAllPermissionsGranted()) {
+                            if (getMainActivity().statusCheck()) {
+                                double latitude = locationModel.getLat();
+                                double longitude = locationModel.getLng();
+
+                                if (latitude != 0.0)
+                                    serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(latitude), String.valueOf(longitude), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+                                else
+                                    serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+                            } else {
+                                serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+                            }
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        //    serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        serviceHelper.enqueueCallHome(headerWebService.getNearestStudiosLite(entity.getId(), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLatitude()), String.valueOf(entity.getUserLocationModel().get(entity.getUserLocationModel().size() - 1).getLongitude()), timeStamp.getISO8601StringForCurrentDate()), WebServiceConstants.getNearestStudios);
+
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
+
+    @Override
+    public void ResponseFailure(String tag) {
+        super.ResponseFailure(tag);
+        LoadingFinished();
+        //  UIHelper.showLongToastInCenter(getDockActivity(), getString(R.string.network_issue));
+
+        if (getMainActivity().statusCheckMainThread()) {
+            if (prefHelper.getNearestStuidos() != null) {
+                getDockActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setViewPager(prefHelper.getNearestStuidos());
+                    }
+                });
+            }
+        } else {
+            getDockActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    GetNearestStudiosEnt getNearestStudiosEnt = new GetNearestStudiosEnt();
+                    setViewPager(getNearestStudiosEnt);
+                }
+            });
+        }
+    }
 
     private void setViewInTabLayout() {
 
@@ -286,7 +435,7 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
 
         if (adapter.getItem(position) != null) {
 
-            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager()
+            FragmentTransaction transaction = getChildFragmentManager()
                     .beginTransaction();
             transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
 
@@ -344,16 +493,18 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     private void setViewPager(GetNearestStudiosEnt data) {
 
         System.gc();
-        getDockActivity().onLoadingFinished();
+
         if (adapter.getCount() > 0) {
             adapter.clearList();
         }
 
-
+        HomeFragment home = new HomeFragment();
         home.setContent(data);
         adapter.addFragment(home, getDockActivity().getResources().getString(R.string.home));
         adapter.addFragment(new SearchFragment(), getDockActivity().getResources().getString(R.string.search));
         adapter.addFragment(new SubscriptionFragment(), getDockActivity().getResources().getString(R.string.subscription_plans));
+
+        LoadingFinished();
 //        viewpager.setAdapter(adapter);
 //        viewpager.setPageMargin(0);
 //        viewpager.getAdapter().notifyDataSetChanged();
@@ -404,7 +555,6 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     }
 
 
-
     @Override
     public void setChildTitlebar(String heading, int Tag) {
         tabTag = Tag;
@@ -451,7 +601,36 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
     @Override
     public void updateLocationFragment() {
 
+
         if (getMainActivity().statusCheckMainThread()) {
+            //  serviceHelper.enqueueCallHome(headerWebService.getAllStudios(0,10),WebServiceConstants.getAllStudios);
+            if (!prefHelper.getIsUserGetData()) {
+                locationModel = getMainActivity().getMyCurrentLocation();
+                prefHelper.setIsGetUser(true);
+                serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
+            } /*else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() <= 0) {
+                locationModel = getMainActivity().getMyCurrentLocation();
+                serviceHelper.enqueueCallHome(headerWebService.userAllData(prefHelper.getUser().getUserId()), WebServiceConstants.userAllDAta);
+            }else if (prefHelper.getNearestStuidos() != null && prefHelper.getNearestStuidos().getStudios().size() > 0) {*/ else if (prefHelper.getNearestStuidos() != null) {
+                getDockActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setViewPager(prefHelper.getNearestStuidos());
+                    }
+                });
+            }
+        } else {
+            getDockActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //    getDockActivity().onLoadingFinished();
+                    GetNearestStudiosEnt getNearestStudiosEnt = new GetNearestStudiosEnt();
+                    setViewPager(getNearestStudiosEnt);
+                }
+            });
+        }
+
+      /*  if (getMainActivity().statusCheckMainThread()) {
             if (!prefHelper.getIsUserGetData()) {
                 locationModel = getMainActivity().getMyCurrentLocation();
                 prefHelper.setIsGetUser(true);
@@ -471,19 +650,60 @@ public class MainFragment extends BaseFragment implements SetChildTitlebar, loca
             getDockActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    getDockActivity().onLoadingFinished();
+                    //   getDockActivity().onLoadingFinished();
                     GetNearestStudiosEnt getNearestStudiosEnt = new GetNearestStudiosEnt();
                     setViewPager(getNearestStudiosEnt);
                 }
             });
 
-        }
+        }*/
 
     }
 
 
-  /*  @Override
-    public void onRefresh() {
+    public void LoadingStarted() {
 
-    }*/
+        if (viewpager != null) {
+            getMainActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            viewpager.setVisibility(View.VISIBLE);
+            if (progressBarHome != null) {
+                progressBarHome.setVisibility(View.VISIBLE);
+            }
+            loading = true;
+        }
+    }
+
+
+    public void LoadingFinished() {
+        viewpager.setVisibility(View.VISIBLE);
+        getMainActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        if (progressBarHome != null) {
+
+            progressBarHome.setVisibility(View.INVISIBLE);
+        }
+        loading = false;
+
+    }
+
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+
 }

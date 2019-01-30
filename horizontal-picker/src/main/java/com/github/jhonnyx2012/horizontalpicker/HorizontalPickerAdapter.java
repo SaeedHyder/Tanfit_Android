@@ -60,8 +60,10 @@ public class HorizontalPickerAdapter extends RecyclerView.Adapter<HorizontalPick
     public void onBindViewHolder(ViewHolder holder, int position) {
         Day item = getItem(position);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy",context.getResources().getConfiguration().locale);
+       // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy",Locale.ENGLISH);
         holder.tvDay.setText(simpleDateFormat.format(item.getDate().toDate()));
         holder.tvWeekDay.setText(item.getWeekDay(context.getResources().getConfiguration().locale));
+      //  holder.tvWeekDay.setText(item.getWeekDay(Locale.ENGLISH));
         if (item.isSelected()) {
             holder.itemView.setBackgroundResource(R.drawable.background_day_selected);
             holder.tvDay.setTextColor(Color.WHITE);

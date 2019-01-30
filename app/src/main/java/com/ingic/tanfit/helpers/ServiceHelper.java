@@ -72,6 +72,7 @@ public class ServiceHelper<T> {
                             UIHelper.showShortToastInCenter(context, response.body().getMessageEN());
                         }
                     } else {
+                        serviceResponseLisener.ResponseFailure(tag);
                         UIHelper.showShortToastInCenter(context, response.message() == null ? context.getString(R.string.responseerror) : response.message());
                     }
 
@@ -81,6 +82,7 @@ public class ServiceHelper<T> {
                 public void onFailure(Call<ResponseWrapper<T>> call, Throwable t) {
                     //   context.onLoadingFinished();
                     t.printStackTrace();
+                    serviceResponseLisener.ResponseFailure(tag);
                     Log.e(ServiceHelper.class.getSimpleName() + " by tag: " + tag, t.toString());
                 }
             });

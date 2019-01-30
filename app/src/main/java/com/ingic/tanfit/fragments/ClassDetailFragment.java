@@ -1,5 +1,6 @@
 package com.ingic.tanfit.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -7,6 +8,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +45,7 @@ import com.ingic.tanfit.entities.IsFavoriteEnt;
 import com.ingic.tanfit.entities.SlotsEnt;
 import com.ingic.tanfit.entities.StudioFeature;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.DateHelper;
 import com.ingic.tanfit.helpers.DialogHelper;
@@ -50,6 +55,13 @@ import com.ingic.tanfit.ui.binders.speacialFeatureClassItemBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.ExpandableGridView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +71,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -256,6 +269,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         setSpecialFeatures(entiity.getFitnessClassFeatures());
         setAmenitiesData();
 
+
     }
 
     private void getSelectedSlots() {
@@ -416,6 +430,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         switch (view.getId()) {
             case R.id.btn_book_now:
 
+                requestCalendarPermission();
                /* final ArrayList<SlotsEnt> slotsArray = new ArrayList<>();
 
                 try {
@@ -441,50 +456,10 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                     e.printStackTrace();
                 }*/
 
-                if (slotsArray.size() > 0) {
-
-                    final DialogHelper classSlotsDialoge = new DialogHelper(getDockActivity());
-                    classSlotsDialoge.initSlotDialoge(R.layout.class_slots_dialoge, new RadioGroup.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(RadioGroup group, int checkedId) {
-                            View radioButton = group.findViewById(checkedId);
-                            int idx = group.indexOfChild(radioButton);
-                            selectedSlot = slotsArray.get(idx);
-                        }
-                    }, new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (isChecked) {
-                                radioChecked = true;
-                            }
-                        }
-                    }, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (radioChecked) {
-                                bookingNowDialog(selectedSlot);
-                                classSlotsDialoge.hideDialog();
-                            } else {
-                                UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.please_select_any_slot));
-                            }
-
-
-                        }
-                    }, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            classSlotsDialoge.hideDialog();
-                        }
-                    }, getDockActivity(), slotsArray);
-
-                    classSlotsDialoge.showDialog();
-                } else {
-                    UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.no_class_is_scheduled_for_today));
-                }
 
                 break;
             case R.id.btn_viewStudioPage:
-                getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(entiity.getStudioId()), "GymDetailFragment");
+                getDockActivity().addDockableFragment(GymDetailFragment.newInstance(entiity.getStudioId()), "GymDetailFragment");
                 break;
             case R.id.btn_cancel_booking:
                 final DialogHelper cancelBookingDialoge = new DialogHelper(getDockActivity());
@@ -508,6 +483,49 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
                 break;
 
 
+        }
+    }
+
+    private void bookNowClick() {
+        if (slotsArray.size() > 0) {
+
+            final DialogHelper classSlotsDialoge = new DialogHelper(getDockActivity());
+            classSlotsDialoge.initSlotDialoge(R.layout.class_slots_dialoge, new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    View radioButton = group.findViewById(checkedId);
+                    int idx = group.indexOfChild(radioButton);
+                    selectedSlot = slotsArray.get(idx);
+                }
+            }, new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        radioChecked = true;
+                    }
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (radioChecked) {
+                        bookingNowDialog(selectedSlot);
+                        classSlotsDialoge.hideDialog();
+                    } else {
+                        UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.please_select_any_slot));
+                    }
+
+
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    classSlotsDialoge.hideDialog();
+                }
+            }, getDockActivity(), slotsArray);
+
+            classSlotsDialoge.showDialog();
+        } else {
+            UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.no_class_is_scheduled_for_today));
         }
     }
 
@@ -704,7 +722,7 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         // confirmed (1) or canceled
         // (2):
         eventValues.put("eventTimezone", "UTC/GMT +2:00");
-   /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
+        /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
 
     /*eventValues.put("visibility", 3); // visibility to default (0),
                                         // confidential (1), private
@@ -792,5 +810,110 @@ public class ClassDetailFragment extends BaseFragment implements OnMapReadyCallb
         setMapLocation(entiity);
     }
 
+    private void requestCalendarPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.WRITE_CALENDAR,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            bookNowClick();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestCalendarPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestCalendarPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Calendar Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getTitleBar() != null) {
+            getTitleBar().hideButtons();
+            getTitleBar().showBackButton();
+            getTitleBar().setSubHeading("");
+            getTitleBar().showHeartButton(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    serviceHelper.enqueueCall(headerWebService.addFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteClass);
+
+                }
+            });
+        }
+    }
+
+    private FragmentManager.OnBackStackChangedListener getListener() {
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener() {
+            public void onBackStackChanged() {
+                FragmentManager manager = getDockActivity().getSupportFragmentManager();
+
+                if (manager != null) {
+                    Fragment currFrag = getDockActivity().getSupportFragmentManager().findFragmentById(getDockActivity().getDockFrameLayoutId());
+                    if (currFrag != null) {
+                        if (currFrag instanceof ClassDetailFragment) {
+                            if (getTitleBar() != null) {
+                                getTitleBar().hideButtons();
+                                getTitleBar().showBackButton();
+                                getTitleBar().setSubHeading("");
+                                getTitleBar().showHeartButton(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        serviceHelper.enqueueCall(headerWebService.addFavoriteClass(prefHelper.getUserAllData().getId(), entiity.getId(), isChecked ? false : true), WebServiceConstants.addFavoriteClass);
+
+                                    }
+                                });
+
+                            }
+                        }
+                        //currFrag.onResume();
+                    }
+                }
+            }
+        };
+
+        return result;
+    }
 
 }

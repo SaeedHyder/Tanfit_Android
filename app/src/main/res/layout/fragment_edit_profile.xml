@@ -162,8 +162,8 @@
             android:textAlignment="viewStart"
             android:imeOptions="actionNext"
             android:inputType="phone"
+            android:digits="+0123456789"
             android:maxLength="25"
-
             android:maxLines="1"
             android:paddingStart="@dimen/x10"
             android:paddingEnd="@dimen/x10"
@@ -192,6 +192,7 @@
             android:imeOptions="actionNext"
             android:textAlignment="viewStart"
             android:inputType="phone"
+            android:digits="+0123456789"
             android:selectAllOnFocus="false"
             android:maxLength="30"
             android:maxLines="1"

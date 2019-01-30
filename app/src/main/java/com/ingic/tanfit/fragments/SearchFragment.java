@@ -1,7 +1,13 @@
 package com.ingic.tanfit.fragments;
 
+import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -51,8 +57,16 @@ import com.ingic.tanfit.ui.views.AutoCompleteLocation;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.RangeSeekBar;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -140,6 +154,9 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     @Override
     public void onResume() {
         super.onResume();
+        if (childTitlebar != null) {
+            childTitlebar.setChildTitlebar(getDockActivity().getResources().getString(R.string.home), AppConstants.SEARCH_FRAGMENT_TAG);
+        }
         UIHelper.hideSoftKeyboard(getDockActivity(), getMainActivity().getWindow().getDecorView());
     }
 
@@ -180,8 +197,10 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
 
         if (prefHelper.isLanguagePersian()) {
             view.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            autoComplete.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         } else {
             view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            autoComplete.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         }
 
         if (mapFragment == null) {
@@ -202,8 +221,32 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
         setRangeSeekBar();
         serviceHelper.enqueueCall(headerWebService.getActivities(), WebServiceConstants.getActivities);
 
+        getDockActivity().getSupportFragmentManager().addOnBackStackChangedListener(getListener());
+
 
     }
+
+    private FragmentManager.OnBackStackChangedListener getListener() {
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener() {
+            public void onBackStackChanged() {
+                FragmentManager manager = getDockActivity().getSupportFragmentManager();
+
+                if (manager != null) {
+                    Fragment currFrag = getDockActivity().getSupportFragmentManager().findFragmentById(getDockActivity().getDockFrameLayoutId());
+                    if (currFrag != null) {
+                        if (currFrag instanceof MainFragment) {
+                            if (childTitlebar != null) {
+                                childTitlebar.setChildTitlebar(null, AppConstants.SEARCH_FRAGMENT_TAG);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        return result;
+    }
+
 
     private void setLatLngOnAutoComplete() {
 
@@ -437,7 +480,8 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
                 break;
             case R.id.img_gps:
                 UIHelper.hideSoftKeyboard(getDockActivity(), view);
-                getLocation(autoComplete);
+                requestLocationPermission();
+
                 break;
 
             case R.id.btn_showFilters:
@@ -541,7 +585,60 @@ public class SearchFragment extends BaseFragment implements OnMapReadyCallback, 
     @Override
     public void onRecyclerItemClicked(Object Ent, int position) {
         if (entity != null)
-            getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(entity.get(position).getId()), "GymDetailFragment");
+            getDockActivity().addDockableFragment(GymDetailFragment.newInstance(entity.get(position).getId()), "GymDetailFragment");
+    }
+
+    private void requestLocationPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            getLocation(autoComplete);
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestLocationPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestLocationPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Location Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
 

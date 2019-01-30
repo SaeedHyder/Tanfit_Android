@@ -62,7 +62,7 @@ public class HomeStudioAllFragment extends BaseFragment implements DatePickerLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  adapter = new ArrayListAdapter<Studio>(getDockActivity(), new HomeStudioBinder(getDockActivity(),prefHelper,this));
+      //    adapter = new ArrayListAdapter<Studio>(getDockActivity(), new HomeStudioBinder(getDockActivity(),prefHelper,this));
         if (getArguments() != null) {
         }
 

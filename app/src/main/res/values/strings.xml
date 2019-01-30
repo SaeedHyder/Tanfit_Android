@@ -331,6 +331,8 @@
     <string name="please_visit_our_website_for_any_questions">Please visit our website for any questions</string>
     <string name="feedback_cannot_empty">Feedback cannot be empty</string>
     <string name="class_booked">Class is already booked.</string>
+    <string name="network_issue">Network Issue..</string>
+    <string name="payment_method">Payment Method</string>
 
 
 </resources>

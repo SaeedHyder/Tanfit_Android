@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <com.ingic.tanfit.ui.views.CustomRecyclerView
+    <ListView
         android:id="@+id/lv_fitnessClasses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

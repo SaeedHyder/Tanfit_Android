@@ -1,8 +1,12 @@
 package com.ingic.tanfit.fragments;
 
+import android.Manifest;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +25,7 @@ import com.ingic.tanfit.entities.UpdateUserEnt;
 import com.ingic.tanfit.entities.UserAllDataEnt;
 import com.ingic.tanfit.entities.UserEnt;
 import com.ingic.tanfit.fragments.abstracts.BaseFragment;
+import com.ingic.tanfit.global.AppConstants;
 import com.ingic.tanfit.global.WebServiceConstants;
 import com.ingic.tanfit.helpers.CameraHelper;
 import com.ingic.tanfit.helpers.UIHelper;
@@ -28,11 +33,19 @@ import com.ingic.tanfit.interfaces.ImageSetter;
 import com.ingic.tanfit.ui.views.AnyEditTextView;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.TitleBar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,12 +144,12 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
                         .placeholder(R.drawable.com_facebook_profile_picture_blank_square))
                 .into(imgProfile);*/
 
-        imageLoader.displayImage(prefHelper.getUserAllData().getUserThumbnailImage(),imgProfile);
+        imageLoader.displayImage(prefHelper.getUserAllData().getUserThumbnailImage(), imgProfile);
 
         edtFullname.setText(prefHelper.getUserAllData().getFullName() + "");
         edtEmail.setText(prefHelper.getUserAllData().getEmail() + "");
         edtGender.setText(prefHelper.getUserAllData().getGender() + "");
-        edtPhone.setText(prefHelper.getUserAllData().getPhoneNumber()+"");
+        edtPhone.setText(prefHelper.getUserAllData().getPhoneNumber() + "");
         if (prefHelper.getUserAllData().getEmergencyContact() != null && !prefHelper.getUserAllData().getEmergencyContact().equals("")) {
             edtMobileNumber.setText(prefHelper.getUserAllData().getEmergencyContact() + "");
         }
@@ -202,19 +215,25 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
 
     private void UpdateUser() {
 
+        String image = "";
+        if (profilePicBitmap != null && !profilePicBitmap.equals("")) {
+            image = AppConstants.Base64+convertBitmapToBase64(profilePicBitmap);
+        } else {
+            image = prefHelper.getUserAllData().getUserThumbnailImage();
+        }
+
 
         serviceHelper.enqueueCall(headerWebService.updateProfile(
                 prefHelper.getUserAllData().getId(),
                 edtEmail.getText().toString(),
                 edtFullname.getText().toString(),
-                prefHelper.getUserAllData().getPhoneNumber()+"",
-                //  profilePath != null ? convertToBase64(profilePath) : prefHelper.getUserAllData().getUserThumbnailImage(),
-                profilePicBitmap != null ? convertBitmapToBase64(profilePicBitmap) : prefHelper.getUserAllData().getUserThumbnailImage(),
-                //profilePath != null ? convertToBase64(profilePath) : prefHelper.getUserAllData().getUserThumbnailImage(),
+                prefHelper.getUserAllData().getPhoneNumber() + "",
+                image,
                 edtHeight.getText().toString(),
                 edtWeight.getText().toString(),
                 edtMobileNumber.getText().toString(),
-                prefHelper.getUserAllData().getGenderId() + "", false), WebServiceConstants.updateUser);
+                prefHelper.getUserAllData().getGenderId() + "", false),
+                WebServiceConstants.updateUser);
 
     }
 
@@ -227,11 +246,7 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
         titleBar.setSubHeading(getDockActivity().getResources().getString(R.string.edit_profile));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 
     public String convertBitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -248,16 +263,16 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
     public void setImage(String imagePath) {
         if (imagePath != null) {
 
-           // profilePic = new File(imagePath);
+           //  profilePic = new File(imagePath);
 
-            //profilePath = imagePath;
+           // profilePath = imagePath;
           /*  Picasso.with(getDockActivity())
                     .load("file:///" + imagePath)
                     .into(imgProfile);*/
 
-            imageLoader.displayImage("file:///" + imagePath,imgProfile);
+            imageLoader.displayImage("file:///" + imagePath, imgProfile);
             try {
-              profilePicBitmap = SiliCompressor.with(getDockActivity()).getCompressBitmap(imagePath);
+                profilePicBitmap = SiliCompressor.with(getDockActivity()).getCompressBitmap(imagePath);
             } catch (Exception e) {
                 e.printStackTrace();
                 UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.internet_issue));
@@ -291,7 +306,7 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
                 updateUser.setWeight(Integer.valueOf(edtWeight.getText().toString()));
 
 
-                if (profilePicBitmap != null && UserResult.getUserThumbnailImage() != null) {
+                if (profilePicBitmap != null && !profilePicBitmap.equals("") && UserResult.getUserThumbnailImage() != null) {
                     updateUser.setUserThumbnailImage(UserResult.getUserThumbnailImage());
                     homeUserData.setUserThumbnailImage(UserResult.getUserThumbnailImage());
                 } else {
@@ -302,7 +317,7 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
                 prefHelper.putUser(homeUserData);
 
                 //  getMainActivity().popFragment();
-                UIHelper.showShortToastInCenter(getDockActivity(),getDockActivity().getResources().getString(R.string.profile_updated));
+                UIHelper.showShortToastInCenter(getDockActivity(), getDockActivity().getResources().getString(R.string.profile_updated));
                 getDockActivity().replaceDockableFragment(MainFragment.newInstance(), "MainFragment");
                 //  getDockActivity().replaceDockableFragment(MyProfileFragment.newInstance(), "MyProfileFragment");
                 break;
@@ -314,7 +329,8 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_camera:
-                CameraHelper.uploadPhotoDialog(getMainActivity());
+                requestCameraPermission();
+
                 break;
             case R.id.btn_submit:
                 if (isValidated()) {
@@ -322,5 +338,60 @@ public class EditProfileFragment extends BaseFragment implements ImageSetter {
                 }
                 break;
         }
+    }
+
+    private void requestCameraPermission() {
+        Dexter.withActivity(getDockActivity())
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+
+                        if (report.areAllPermissionsGranted()) {
+                            CameraHelper.uploadPhotoDialog(getMainActivity());
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            requestCameraPermission();
+
+                        } else if (report.getDeniedPermissionResponses().size() > 0) {
+                            requestCameraPermission();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        UIHelper.showShortToastInCenter(getDockActivity(), "Grant Camera And Storage Permission to processed");
+                        openSettings();
+                    }
+                })
+
+                .onSameThread()
+                .check();
+
+
+    }
+
+
+    private void openSettings() {
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        Uri uri = Uri.fromParts("package", getDockActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 }

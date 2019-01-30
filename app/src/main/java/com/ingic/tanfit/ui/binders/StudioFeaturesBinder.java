@@ -32,8 +32,8 @@ public class StudioFeaturesBinder extends RecyclerViewBinder<StudioFeature> {
         super(R.layout.row_item_studio_features);
         imageLoader = ImageLoader.getInstance();
         this.recyclerViewItemListener = recyclerViewItemListener;
-        this.preferenceHelper=preferenceHelper;
-        this.dockActivity=dockActivity;
+        this.preferenceHelper = preferenceHelper;
+        this.dockActivity = dockActivity;
     }
 
     @Override
@@ -45,19 +45,22 @@ public class StudioFeaturesBinder extends RecyclerViewBinder<StudioFeature> {
     public void bindView(StudioFeature entity, int position, Object viewHolder, Context context) {
         ViewHolder holder = (ViewHolder) viewHolder;
 
-        if(preferenceHelper.isLanguagePersian()){
+        if (preferenceHelper.isLanguagePersian()) {
             holder.txtFeature.setText(entity.getFeatureNamePr());
-        }else{
+        } else {
             holder.txtFeature.setText(entity.getFeatureNameEn());
         }
 
-        Picasso.with((dockActivity))
-                .load(entity.getIcon())
-                .placeholder(R.drawable.placeholder3)
-                .into(holder.ivFeaturelogo);
+        /*if (entity.getIcon() != null && !entity.getIcon().equals(""))
+            imageLoader.displayImage(entity.getIcon(), holder.ivFeaturelogo);*/
+        if (entity.getIcon() != null && !entity.getIcon().equals("")) {
+            Picasso.with((dockActivity))
+                    .load(entity.getIcon())
+                    .placeholder(R.drawable.placeholder3)
+                    .into(holder.ivFeaturelogo);
+        }
 
-     //   imageLoader.displayImage(entity.getIcon(),holder.ivFeaturelogo);
-
+        //   imageLoader.displayImage(entity.getIcon(),holder.ivFeaturelogo);
 
 
     }

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.ingic.tanfit.R;
 import com.ingic.tanfit.entities.Studio;
@@ -13,6 +14,7 @@ import com.ingic.tanfit.fragments.abstracts.BaseFragment;
 import com.ingic.tanfit.interfaces.RecyclerViewItemListener;
 import com.ingic.tanfit.ui.adapters.ArrayListAdapter;
 import com.ingic.tanfit.ui.binders.HomeStudioBinder;
+import com.ingic.tanfit.ui.binders.HomeStudioListBinder;
 import com.ingic.tanfit.ui.views.AnyTextView;
 import com.ingic.tanfit.ui.views.CustomRecyclerView;
 import com.ingic.tanfit.ui.views.TitleBar;
@@ -31,12 +33,11 @@ public class HomeStudioFragment extends BaseFragment implements RecyclerViewItem
     @BindView(R.id.txt_noresult)
     AnyTextView txtNoresult;
     @BindView(R.id.lv_fitnessClasses)
-    CustomRecyclerView lvStudios;
+    ListView lvStudios;
     Unbinder unbinder;
     ArrayList<Studio> entity;
 
-    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getDockActivity(), LinearLayoutManager.VERTICAL, false);
-
+    ArrayListAdapter<Studio> adapter;
 
     public static HomeStudioFragment newInstance() {
         Bundle args = new Bundle();
@@ -49,6 +50,7 @@ public class HomeStudioFragment extends BaseFragment implements RecyclerViewItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adapter = new ArrayListAdapter<Studio>(getDockActivity(), new HomeStudioListBinder(getDockActivity(), prefHelper, this));
 
     }
 
@@ -90,24 +92,35 @@ public class HomeStudioFragment extends BaseFragment implements RecyclerViewItem
             if (prefHelper != null) {
                 prefHelper.setIsFromStudio(true);
             }
+
+            if (entity != null)
+                setStudiosData(entity);
         }
     }
 
 
     private void setStudiosData(ArrayList<Studio> entity) {
 
-        if (entity.size() <= 0) {
-            txtNoresult.setVisibility(View.VISIBLE);
-            lvStudios.setVisibility(View.GONE);
-        } else {
-            txtNoresult.setVisibility(View.GONE);
-            lvStudios.setVisibility(View.VISIBLE);
+        if (lvStudios != null && adapter != null && txtNoresult != null) {
+            if (entity.size() <= 0) {
+                txtNoresult.setVisibility(View.VISIBLE);
+                lvStudios.setVisibility(View.GONE);
+            } else {
+                txtNoresult.setVisibility(View.GONE);
+                lvStudios.setVisibility(View.VISIBLE);
+            }
+
+            adapter.clearList();
+            lvStudios.setAdapter(adapter);
+            adapter.addAll(entity);
         }
 
-        linearLayoutManager = new LinearLayoutManager(getDockActivity());
-        lvStudios.BindRecyclerView(new HomeStudioBinder(getDockActivity(), prefHelper, this), entity,
-                linearLayoutManager
-                , new DefaultItemAnimator());
+
+
+
+       /* lvStudios.BindRecyclerView(new HomeStudioBinder(getDockActivity(), prefHelper, this), entity,
+                new LinearLayoutManager(getDockActivity(), LinearLayoutManager.VERTICAL, false)
+                , new DefaultItemAnimator());*/
 
     }
 
@@ -124,6 +137,6 @@ public class HomeStudioFragment extends BaseFragment implements RecyclerViewItem
     public void onRecyclerItemClicked(Object ent, int position) {
 
         Studio studioData = (Studio) ent;
-        getDockActivity().replaceDockableFragment(GymDetailFragment.newInstance(studioData), "GymDetailFragment");
+        getDockActivity().addDockableFragment(GymDetailFragment.newInstance(studioData), "GymDetailFragment");
     }
 }
